@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.ResHeadendAlarmTabMapper">
+
+	<resultMap id="ResHeadendAlarmTab" type="com.hw.domain.po.ResHeadendAlarmTab">
+        <result property="alarmId" column="ALARM_ID"/>
+        <result property="headId" column="HEAD_ID"/>
+        <result property="isResumed" column="IS_RESUMED"/>
+        <result property="alarmTime" column="ALARM_TIME"/>
+        <result property="alarmType" column="ALARM_TYPE"/>
+        <result property="alarmContentType" column="ALARM_CONTENT_TYPE"/>
+        <result property="freq" column="FREQ"/>
+        <result property="levelValue" column="LEVEL_VALUE"/>
+        <result property="am" column="AM"/>
+        <result property="equSatus" column="EQU_SATUS"/>
+        <result property="equVersion" column="EQU_VERSION"/>
+        <result property="nrd1" column="NRD1"/>
+        <result property="nrd2" column="NRD2"/>
+        <result property="amCard1" column="AM_CARD1"/>
+        <result property="amCard2" column="AM_CARD2"/>
+        <result property="fmCard1" column="FM_CARD1"/>
+        <result property="fmCard2" column="FM_CARD2"/>
+        <result property="audioCard1" column="AUDIO_CARD1"/>
+        <result property="audioCard2" column="AUDIO_CARD2"/>
+        <result property="power" column="POWER"/>
+        <result property="power5v" column="POWER_5V"/>
+        <result property="power24v" column="POWER_24V"/>
+        <result property="upsIn" column="UPS_IN"/>
+        <result property="upsOut" column="UPS_OUT"/>
+        <result property="upsFreq" column="UPS_FREQ"/>
+        <result property="upsPowerPress" column="UPS_POWER_PRESS"/>
+        <result property="upsStatus" column="UPS_STATUS"/>
+        <result property="equHumidity" column="EQU_HUMIDITY"/>
+        <result property="equTemperature" column="EQU_TEMPERATURE"/>
+        <result property="envHumidity" column="ENV_HUMIDITY"/>
+        <result property="envTemperature" column="ENV_TEMPERATURE"/>
+        <result property="upsStautsId" column="UPS_STAUTS_ID"/>
+        <result property="isDelete" column="IS_DELETE"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		ALARM_ID,HEAD_ID,IS_RESUMED,ALARM_TIME,ALARM_TYPE,ALARM_CONTENT_TYPE,FREQ,LEVEL_VALUE,AM,EQU_SATUS,EQU_VERSION,NRD1,NRD2,AM_CARD1,AM_CARD2,FM_CARD1,FM_CARD2,AUDIO_CARD1,AUDIO_CARD2,POWER,POWER_5V,POWER_24V,UPS_IN,UPS_OUT,UPS_FREQ,UPS_POWER_PRESS,UPS_STATUS,EQU_HUMIDITY,EQU_TEMPERATURE,ENV_HUMIDITY,ENV_TEMPERATURE,UPS_STAUTS_ID,IS_DELETE
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="alarmId">
+    <![CDATA[
+        INSERT INTO RES_HEADEND_ALARM_TAB (
+        	ALARM_ID ,
+        	HEAD_ID ,
+        	IS_RESUMED ,
+        	ALARM_TIME ,
+        	ALARM_TYPE ,
+        	ALARM_CONTENT_TYPE ,
+        	FREQ ,
+        	LEVEL_VALUE ,
+        	AM ,
+        	EQU_SATUS ,
+        	EQU_VERSION ,
+        	NRD1 ,
+        	NRD2 ,
+        	AM_CARD1 ,
+        	AM_CARD2 ,
+        	FM_CARD1 ,
+        	FM_CARD2 ,
+        	AUDIO_CARD1 ,
+        	AUDIO_CARD2 ,
+        	POWER ,
+        	POWER_5V ,
+        	POWER_24V ,
+        	UPS_IN ,
+        	UPS_OUT ,
+        	UPS_FREQ ,
+        	UPS_POWER_PRESS ,
+        	UPS_STATUS ,
+        	EQU_HUMIDITY ,
+        	EQU_TEMPERATURE ,
+        	ENV_HUMIDITY ,
+        	ENV_TEMPERATURE ,
+        	UPS_STAUTS_ID ,
+        	IS_DELETE 
+        ) VALUES (
+        	#{alarmId} ,
+        	#{headId} ,
+        	#{isResumed} ,
+        	#{alarmTime} ,
+        	#{alarmType} ,
+        	#{alarmContentType} ,
+        	#{freq} ,
+        	#{levelValue} ,
+        	#{am} ,
+        	#{equSatus} ,
+        	#{equVersion} ,
+        	#{nrd1} ,
+        	#{nrd2} ,
+        	#{amCard1} ,
+        	#{amCard2} ,
+        	#{fmCard1} ,
+        	#{fmCard2} ,
+        	#{audioCard1} ,
+        	#{audioCard2} ,
+        	#{power} ,
+        	#{power5v} ,
+        	#{power24v} ,
+        	#{upsIn} ,
+        	#{upsOut} ,
+        	#{upsFreq} ,
+        	#{upsPowerPress} ,
+        	#{upsStatus} ,
+        	#{equHumidity} ,
+        	#{equTemperature} ,
+        	#{envHumidity} ,
+        	#{envTemperature} ,
+        	#{upsStautsId} ,
+        	#{isDelete} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE RES_HEADEND_ALARM_TAB SET
+	        HEAD_ID = #{headId} ,
+	        IS_RESUMED = #{isResumed} ,
+	        ALARM_TIME = #{alarmTime} ,
+	        ALARM_TYPE = #{alarmType} ,
+	        ALARM_CONTENT_TYPE = #{alarmContentType} ,
+	        FREQ = #{freq} ,
+	        LEVEL_VALUE = #{levelValue} ,
+	        AM = #{am} ,
+	        EQU_SATUS = #{equSatus} ,
+	        EQU_VERSION = #{equVersion} ,
+	        NRD1 = #{nrd1} ,
+	        NRD2 = #{nrd2} ,
+	        AM_CARD1 = #{amCard1} ,
+	        AM_CARD2 = #{amCard2} ,
+	        FM_CARD1 = #{fmCard1} ,
+	        FM_CARD2 = #{fmCard2} ,
+	        AUDIO_CARD1 = #{audioCard1} ,
+	        AUDIO_CARD2 = #{audioCard2} ,
+	        POWER = #{power} ,
+	        POWER_5V = #{power5v} ,
+	        POWER_24V = #{power24v} ,
+	        UPS_IN = #{upsIn} ,
+	        UPS_OUT = #{upsOut} ,
+	        UPS_FREQ = #{upsFreq} ,
+	        UPS_POWER_PRESS = #{upsPowerPress} ,
+	        UPS_STATUS = #{upsStatus} ,
+	        EQU_HUMIDITY = #{equHumidity} ,
+	        EQU_TEMPERATURE = #{equTemperature} ,
+	        ENV_HUMIDITY = #{envHumidity} ,
+	        ENV_TEMPERATURE = #{envTemperature} ,
+	        UPS_STAUTS_ID = #{upsStautsId} ,
+	        IS_DELETE = #{isDelete} 
+        WHERE 
+	        ALARM_ID = #{alarmId}
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM RES_HEADEND_ALARM_TAB WHERE
+        ALARM_ID = #{id}
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="ResHeadendAlarmTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM RES_HEADEND_ALARM_TAB
+	        WHERE 
+		        ALARM_ID = #{id}
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(alarmId)">
+				AND ALARM_ID = #{alarmId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headId)">
+				AND HEAD_ID = #{headId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isResumed)">
+				AND IS_RESUMED = #{isResumed}
+			</if>
+	       <if test="@Ognl@isNotEmpty(alarmTimeBegin)">
+				AND ALARM_TIME >= #{alarmTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(alarmTimeEnd)">
+				AND ALARM_TIME &lt;= #{alarmTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(alarmType)">
+				AND ALARM_TYPE = #{alarmType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(alarmContentType)">
+				AND ALARM_CONTENT_TYPE = #{alarmContentType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(freq)">
+				AND FREQ = #{freq}
+			</if>
+	       <if test="@Ognl@isNotEmpty(levelValue)">
+				AND LEVEL_VALUE = #{levelValue}
+			</if>
+	       <if test="@Ognl@isNotEmpty(am)">
+				AND AM = #{am}
+			</if>
+	       <if test="@Ognl@isNotEmpty(equSatus)">
+				AND EQU_SATUS = #{equSatus}
+			</if>
+	       <if test="@Ognl@isNotEmpty(equVersion)">
+				AND EQU_VERSION = #{equVersion}
+			</if>
+	       <if test="@Ognl@isNotEmpty(nrd1)">
+				AND NRD1 = #{nrd1}
+			</if>
+	       <if test="@Ognl@isNotEmpty(nrd2)">
+				AND NRD2 = #{nrd2}
+			</if>
+	       <if test="@Ognl@isNotEmpty(amCard1)">
+				AND AM_CARD1 = #{amCard1}
+			</if>
+	       <if test="@Ognl@isNotEmpty(amCard2)">
+				AND AM_CARD2 = #{amCard2}
+			</if>
+	       <if test="@Ognl@isNotEmpty(fmCard1)">
+				AND FM_CARD1 = #{fmCard1}
+			</if>
+	       <if test="@Ognl@isNotEmpty(fmCard2)">
+				AND FM_CARD2 = #{fmCard2}
+			</if>
+	       <if test="@Ognl@isNotEmpty(audioCard1)">
+				AND AUDIO_CARD1 = #{audioCard1}
+			</if>
+	       <if test="@Ognl@isNotEmpty(audioCard2)">
+				AND AUDIO_CARD2 = #{audioCard2}
+			</if>
+	       <if test="@Ognl@isNotEmpty(power)">
+				AND POWER = #{power}
+			</if>
+	       <if test="@Ognl@isNotEmpty(power5v)">
+				AND POWER_5V = #{power5v}
+			</if>
+	       <if test="@Ognl@isNotEmpty(power24v)">
+				AND POWER_24V = #{power24v}
+			</if>
+	       <if test="@Ognl@isNotEmpty(upsIn)">
+				AND UPS_IN = #{upsIn}
+			</if>
+	       <if test="@Ognl@isNotEmpty(upsOut)">
+				AND UPS_OUT = #{upsOut}
+			</if>
+	       <if test="@Ognl@isNotEmpty(upsFreq)">
+				AND UPS_FREQ = #{upsFreq}
+			</if>
+	       <if test="@Ognl@isNotEmpty(upsPowerPress)">
+				AND UPS_POWER_PRESS = #{upsPowerPress}
+			</if>
+	       <if test="@Ognl@isNotEmpty(upsStatus)">
+				AND UPS_STATUS = #{upsStatus}
+			</if>
+	       <if test="@Ognl@isNotEmpty(equHumidity)">
+				AND EQU_HUMIDITY = #{equHumidity}
+			</if>
+	       <if test="@Ognl@isNotEmpty(equTemperature)">
+				AND EQU_TEMPERATURE = #{equTemperature}
+			</if>
+	       <if test="@Ognl@isNotEmpty(envHumidity)">
+				AND ENV_HUMIDITY = #{envHumidity}
+			</if>
+	       <if test="@Ognl@isNotEmpty(envTemperature)">
+				AND ENV_TEMPERATURE = #{envTemperature}
+			</if>
+	       <if test="@Ognl@isNotEmpty(upsStautsId)">
+				AND UPS_STAUTS_ID = #{upsStautsId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isDelete)">
+				AND IS_DELETE = #{isDelete}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM RES_HEADEND_ALARM_TAB
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="ResHeadendAlarmTab">
+    	SELECT <include refid="columns" />
+	    FROM RES_HEADEND_ALARM_TAB
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

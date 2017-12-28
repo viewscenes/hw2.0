@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.RadioUnifyTaskTabMapper">
+
+	<resultMap id="RadioUnifyTaskTab" type="com.hw.domain.po.RadioUnifyTaskTab">
+        <result property="taskId" column="TASK_ID"/>
+        <result property="equCode" column="EQU_CODE"/>
+        <result property="headCode" column="HEAD_CODE"/>
+        <result property="isDelete" column="IS_DELETE"/>
+        <result property="validStartdatetime" column="VALID_STARTDATETIME"/>
+        <result property="validEnddatetime" column="VALID_ENDDATETIME"/>
+        <result property="checkLevel" column="CHECK_LEVEL"/>
+        <result property="checkFmModulation" column="CHECK_FM_MODULATION"/>
+        <result property="checkAmModulation" column="CHECK_AM_MODULATION"/>
+        <result property="checkFmModulationMax" column="CHECK_FM_MODULATION_MAX"/>
+        <result property="checkOffset" column="CHECK_OFFSET"/>
+        <result property="checkBandwidth" column="CHECK_BANDWIDTH"/>
+        <result property="unit" column="UNIT"/>
+        <result property="samplesNumber" column="SAMPLES_NUMBER"/>
+        <result property="isSend" column="IS_SEND"/>
+        <result property="isDelaysend" column="IS_DELAYSEND"/>
+        <result property="delaysendDatetime" column="DELAYSEND_DATETIME"/>
+        <result property="recordlength" column="RECORDLENGTH"/>
+        <result property="expiredays" column="EXPIREDAYS"/>
+        <result property="sleeptime" column="SLEEPTIME"/>
+        <result property="sendTimes" column="SEND_TIMES"/>
+        <result property="note" column="NOTE"/>
+        <result property="runplanId" column="RUNPLAN_ID"/>
+        <result property="batchNo" column="BATCH_NO"/>
+        <result property="isActive" column="IS_ACTIVE"/>
+        <result property="priority" column="PRIORITY"/>
+        <result property="isTemporary" column="IS_TEMPORARY"/>
+        <result property="sendDatetime" column="SEND_DATETIME"/>
+        <result property="bps" column="BPS"/>
+        <result property="taskType" column="TASK_TYPE"/>
+        <result property="createUser" column="CREATE_USER"/>
+        <result property="sendUser" column="SEND_USER"/>
+        <result property="authenticStatus" column="AUTHENTIC_STATUS"/>
+        <result property="authenticUser" column="AUTHENTIC_USER"/>
+        <result property="qualitySleeptime" column="QUALITY_SLEEPTIME"/>
+        <result property="streamSleeptime" column="STREAM_SLEEPTIME"/>
+        <result property="offsetSleeptime" column="OFFSET_SLEEPTIME"/>
+        <result property="spectrumSleeptime" column="SPECTRUM_SLEEPTIME"/>
+        <result property="checkQualityTask" column="CHECK_QUALITY_TASK"/>
+        <result property="checkOffsetTask" column="CHECK_OFFSET_TASK"/>
+        <result property="checkStreamTask" column="CHECK_STREAM_TASK"/>
+        <result property="checkAlarm" column="CHECK_ALARM"/>
+        <result property="headTypeId" column="HEAD_TYPE_ID"/>
+        <result property="recordType" column="RECORD_TYPE"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		TASK_ID,EQU_CODE,HEAD_CODE,IS_DELETE,VALID_STARTDATETIME,VALID_ENDDATETIME,CHECK_LEVEL,CHECK_FM_MODULATION,CHECK_AM_MODULATION,CHECK_FM_MODULATION_MAX,CHECK_OFFSET,CHECK_BANDWIDTH,UNIT,SAMPLES_NUMBER,IS_SEND,IS_DELAYSEND,DELAYSEND_DATETIME,RECORDLENGTH,EXPIREDAYS,SLEEPTIME,SEND_TIMES,NOTE,RUNPLAN_ID,BATCH_NO,IS_ACTIVE,PRIORITY,IS_TEMPORARY,SEND_DATETIME,BPS,TASK_TYPE,CREATE_USER,SEND_USER,AUTHENTIC_STATUS,AUTHENTIC_USER,QUALITY_SLEEPTIME,STREAM_SLEEPTIME,OFFSET_SLEEPTIME,SPECTRUM_SLEEPTIME,CHECK_QUALITY_TASK,CHECK_OFFSET_TASK,CHECK_STREAM_TASK,CHECK_ALARM,HEAD_TYPE_ID,RECORD_TYPE
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="taskId">
+    <![CDATA[
+        INSERT INTO RADIO_UNIFY_TASK_TAB (
+        	TASK_ID ,
+        	EQU_CODE ,
+        	HEAD_CODE ,
+        	IS_DELETE ,
+        	VALID_STARTDATETIME ,
+        	VALID_ENDDATETIME ,
+        	CHECK_LEVEL ,
+        	CHECK_FM_MODULATION ,
+        	CHECK_AM_MODULATION ,
+        	CHECK_FM_MODULATION_MAX ,
+        	CHECK_OFFSET ,
+        	CHECK_BANDWIDTH ,
+        	UNIT ,
+        	SAMPLES_NUMBER ,
+        	IS_SEND ,
+        	IS_DELAYSEND ,
+        	DELAYSEND_DATETIME ,
+        	RECORDLENGTH ,
+        	EXPIREDAYS ,
+        	SLEEPTIME ,
+        	SEND_TIMES ,
+        	NOTE ,
+        	RUNPLAN_ID ,
+        	BATCH_NO ,
+        	IS_ACTIVE ,
+        	PRIORITY ,
+        	IS_TEMPORARY ,
+        	SEND_DATETIME ,
+        	BPS ,
+        	TASK_TYPE ,
+        	CREATE_USER ,
+        	SEND_USER ,
+        	AUTHENTIC_STATUS ,
+        	AUTHENTIC_USER ,
+        	QUALITY_SLEEPTIME ,
+        	STREAM_SLEEPTIME ,
+        	OFFSET_SLEEPTIME ,
+        	SPECTRUM_SLEEPTIME ,
+        	CHECK_QUALITY_TASK ,
+        	CHECK_OFFSET_TASK ,
+        	CHECK_STREAM_TASK ,
+        	CHECK_ALARM ,
+        	HEAD_TYPE_ID ,
+        	RECORD_TYPE 
+        ) VALUES (
+        	#{taskId} ,
+        	#{equCode} ,
+        	#{headCode} ,
+        	#{isDelete} ,
+        	#{validStartdatetime} ,
+        	#{validEnddatetime} ,
+        	#{checkLevel} ,
+        	#{checkFmModulation} ,
+        	#{checkAmModulation} ,
+        	#{checkFmModulationMax} ,
+        	#{checkOffset} ,
+        	#{checkBandwidth} ,
+        	#{unit} ,
+        	#{samplesNumber} ,
+        	#{isSend} ,
+        	#{isDelaysend} ,
+        	#{delaysendDatetime} ,
+        	#{recordlength} ,
+        	#{expiredays} ,
+        	#{sleeptime} ,
+        	#{sendTimes} ,
+        	#{note} ,
+        	#{runplanId} ,
+        	#{batchNo} ,
+        	#{isActive} ,
+        	#{priority} ,
+        	#{isTemporary} ,
+        	#{sendDatetime} ,
+        	#{bps} ,
+        	#{taskType} ,
+        	#{createUser} ,
+        	#{sendUser} ,
+        	#{authenticStatus} ,
+        	#{authenticUser} ,
+        	#{qualitySleeptime} ,
+        	#{streamSleeptime} ,
+        	#{offsetSleeptime} ,
+        	#{spectrumSleeptime} ,
+        	#{checkQualityTask} ,
+        	#{checkOffsetTask} ,
+        	#{checkStreamTask} ,
+        	#{checkAlarm} ,
+        	#{headTypeId} ,
+        	#{recordType} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE RADIO_UNIFY_TASK_TAB SET
+	        EQU_CODE = #{equCode} ,
+	        HEAD_CODE = #{headCode} ,
+	        IS_DELETE = #{isDelete} ,
+	        VALID_STARTDATETIME = #{validStartdatetime} ,
+	        VALID_ENDDATETIME = #{validEnddatetime} ,
+	        CHECK_LEVEL = #{checkLevel} ,
+	        CHECK_FM_MODULATION = #{checkFmModulation} ,
+	        CHECK_AM_MODULATION = #{checkAmModulation} ,
+	        CHECK_FM_MODULATION_MAX = #{checkFmModulationMax} ,
+	        CHECK_OFFSET = #{checkOffset} ,
+	        CHECK_BANDWIDTH = #{checkBandwidth} ,
+	        UNIT = #{unit} ,
+	        SAMPLES_NUMBER = #{samplesNumber} ,
+	        IS_SEND = #{isSend} ,
+	        IS_DELAYSEND = #{isDelaysend} ,
+	        DELAYSEND_DATETIME = #{delaysendDatetime} ,
+	        RECORDLENGTH = #{recordlength} ,
+	        EXPIREDAYS = #{expiredays} ,
+	        SLEEPTIME = #{sleeptime} ,
+	        SEND_TIMES = #{sendTimes} ,
+	        NOTE = #{note} ,
+	        RUNPLAN_ID = #{runplanId} ,
+	        BATCH_NO = #{batchNo} ,
+	        IS_ACTIVE = #{isActive} ,
+	        PRIORITY = #{priority} ,
+	        IS_TEMPORARY = #{isTemporary} ,
+	        SEND_DATETIME = #{sendDatetime} ,
+	        BPS = #{bps} ,
+	        TASK_TYPE = #{taskType} ,
+	        CREATE_USER = #{createUser} ,
+	        SEND_USER = #{sendUser} ,
+	        AUTHENTIC_STATUS = #{authenticStatus} ,
+	        AUTHENTIC_USER = #{authenticUser} ,
+	        QUALITY_SLEEPTIME = #{qualitySleeptime} ,
+	        STREAM_SLEEPTIME = #{streamSleeptime} ,
+	        OFFSET_SLEEPTIME = #{offsetSleeptime} ,
+	        SPECTRUM_SLEEPTIME = #{spectrumSleeptime} ,
+	        CHECK_QUALITY_TASK = #{checkQualityTask} ,
+	        CHECK_OFFSET_TASK = #{checkOffsetTask} ,
+	        CHECK_STREAM_TASK = #{checkStreamTask} ,
+	        CHECK_ALARM = #{checkAlarm} ,
+	        HEAD_TYPE_ID = #{headTypeId} ,
+	        RECORD_TYPE = #{recordType} 
+        WHERE 
+	        TASK_ID = #{taskId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM RADIO_UNIFY_TASK_TAB WHERE
+        TASK_ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RadioUnifyTaskTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM RADIO_UNIFY_TASK_TAB 
+	        WHERE 
+		        TASK_ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(taskId)">
+				AND TASK_ID = #{taskId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(equCode)">
+				AND EQU_CODE = #{equCode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headCode)">
+				AND HEAD_CODE = #{headCode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isDelete)">
+				AND IS_DELETE = #{isDelete}
+			</if>
+	       <if test="@Ognl@isNotEmpty(validStartdatetimeBegin)">
+				AND VALID_STARTDATETIME >= #{validStartdatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(validStartdatetimeEnd)">
+				AND VALID_STARTDATETIME &lt;= #{validStartdatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(validEnddatetimeBegin)">
+				AND VALID_ENDDATETIME >= #{validEnddatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(validEnddatetimeEnd)">
+				AND VALID_ENDDATETIME &lt;= #{validEnddatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(checkLevel)">
+				AND CHECK_LEVEL = #{checkLevel}
+			</if>
+	       <if test="@Ognl@isNotEmpty(checkFmModulation)">
+				AND CHECK_FM_MODULATION = #{checkFmModulation}
+			</if>
+	       <if test="@Ognl@isNotEmpty(checkAmModulation)">
+				AND CHECK_AM_MODULATION = #{checkAmModulation}
+			</if>
+	       <if test="@Ognl@isNotEmpty(checkFmModulationMax)">
+				AND CHECK_FM_MODULATION_MAX = #{checkFmModulationMax}
+			</if>
+	       <if test="@Ognl@isNotEmpty(checkOffset)">
+				AND CHECK_OFFSET = #{checkOffset}
+			</if>
+	       <if test="@Ognl@isNotEmpty(checkBandwidth)">
+				AND CHECK_BANDWIDTH = #{checkBandwidth}
+			</if>
+	       <if test="@Ognl@isNotEmpty(unit)">
+				AND UNIT = #{unit}
+			</if>
+	       <if test="@Ognl@isNotEmpty(samplesNumber)">
+				AND SAMPLES_NUMBER = #{samplesNumber}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isSend)">
+				AND IS_SEND = #{isSend}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isDelaysend)">
+				AND IS_DELAYSEND = #{isDelaysend}
+			</if>
+	       <if test="@Ognl@isNotEmpty(delaysendDatetimeBegin)">
+				AND DELAYSEND_DATETIME >= #{delaysendDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(delaysendDatetimeEnd)">
+				AND DELAYSEND_DATETIME &lt;= #{delaysendDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(recordlength)">
+				AND RECORDLENGTH = #{recordlength}
+			</if>
+	       <if test="@Ognl@isNotEmpty(expiredays)">
+				AND EXPIREDAYS = #{expiredays}
+			</if>
+	       <if test="@Ognl@isNotEmpty(sleeptime)">
+				AND SLEEPTIME = #{sleeptime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(sendTimes)">
+				AND SEND_TIMES = #{sendTimes}
+			</if>
+	       <if test="@Ognl@isNotEmpty(note)">
+				AND NOTE = #{note}
+			</if>
+	       <if test="@Ognl@isNotEmpty(runplanId)">
+				AND RUNPLAN_ID = #{runplanId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(batchNo)">
+				AND BATCH_NO = #{batchNo}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isActive)">
+				AND IS_ACTIVE = #{isActive}
+			</if>
+	       <if test="@Ognl@isNotEmpty(priority)">
+				AND PRIORITY = #{priority}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isTemporary)">
+				AND IS_TEMPORARY = #{isTemporary}
+			</if>
+	       <if test="@Ognl@isNotEmpty(sendDatetimeBegin)">
+				AND SEND_DATETIME >= #{sendDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(sendDatetimeEnd)">
+				AND SEND_DATETIME &lt;= #{sendDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(bps)">
+				AND BPS = #{bps}
+			</if>
+	       <if test="@Ognl@isNotEmpty(taskType)">
+				AND TASK_TYPE = #{taskType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createUser)">
+				AND CREATE_USER = #{createUser}
+			</if>
+	       <if test="@Ognl@isNotEmpty(sendUser)">
+				AND SEND_USER = #{sendUser}
+			</if>
+	       <if test="@Ognl@isNotEmpty(authenticStatus)">
+				AND AUTHENTIC_STATUS = #{authenticStatus}
+			</if>
+	       <if test="@Ognl@isNotEmpty(authenticUser)">
+				AND AUTHENTIC_USER = #{authenticUser}
+			</if>
+	       <if test="@Ognl@isNotEmpty(qualitySleeptime)">
+				AND QUALITY_SLEEPTIME = #{qualitySleeptime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(streamSleeptime)">
+				AND STREAM_SLEEPTIME = #{streamSleeptime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(offsetSleeptime)">
+				AND OFFSET_SLEEPTIME = #{offsetSleeptime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(spectrumSleeptime)">
+				AND SPECTRUM_SLEEPTIME = #{spectrumSleeptime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(checkQualityTask)">
+				AND CHECK_QUALITY_TASK = #{checkQualityTask}
+			</if>
+	       <if test="@Ognl@isNotEmpty(checkOffsetTask)">
+				AND CHECK_OFFSET_TASK = #{checkOffsetTask}
+			</if>
+	       <if test="@Ognl@isNotEmpty(checkStreamTask)">
+				AND CHECK_STREAM_TASK = #{checkStreamTask}
+			</if>
+	       <if test="@Ognl@isNotEmpty(checkAlarm)">
+				AND CHECK_ALARM = #{checkAlarm}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headTypeId)">
+				AND HEAD_TYPE_ID = #{headTypeId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(recordType)">
+				AND RECORD_TYPE = #{recordType}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM RADIO_UNIFY_TASK_TAB 
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RadioUnifyTaskTab">
+    	SELECT <include refid="columns" />
+	    FROM RADIO_UNIFY_TASK_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

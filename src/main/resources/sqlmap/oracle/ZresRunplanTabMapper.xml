@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.ZresRunplanTabMapper">
+
+	<resultMap id="ZresRunplanTab" type="com.hw.domain.po.ZresRunplanTab">
+        <result property="runplanId" column="RUNPLAN_ID"/>
+        <result property="runplanTypeId" column="RUNPLAN_TYPE_ID"/>
+        <result property="stationId" column="STATION_ID"/>
+        <result property="transmiterNo" column="TRANSMITER_NO"/>
+        <result property="freq" column="FREQ"/>
+        <result property="validStartTime" column="VALID_START_TIME"/>
+        <result property="validEndTime" column="VALID_END_TIME"/>
+        <result property="direction" column="DIRECTION"/>
+        <result property="power" column="POWER"/>
+        <result property="serviceArea" column="SERVICE_AREA"/>
+        <result property="antennatype" column="ANTENNATYPE"/>
+        <result property="restDatetime" column="REST_DATETIME"/>
+        <result property="restTime" column="REST_TIME"/>
+        <result property="sentcityId" column="SENTCITY_ID"/>
+        <result property="startTime" column="START_TIME"/>
+        <result property="endTime" column="END_TIME"/>
+        <result property="satelliteChannel" column="SATELLITE_CHANNEL"/>
+        <result property="storeDatetime" column="STORE_DATETIME"/>
+        <result property="programTypeId" column="PROGRAM_TYPE_ID"/>
+        <result property="languageId" column="LANGUAGE_ID"/>
+        <result property="languageName" column="LANGUAGE_NAME"/>
+        <result property="weekday" column="WEEKDAY"/>
+        <result property="inputPerson" column="INPUT_PERSON"/>
+        <result property="revisePerson" column="REVISE_PERSON"/>
+        <result property="remark" column="REMARK"/>
+        <result property="programId" column="PROGRAM_ID"/>
+        <result property="monArea" column="MON_AREA"/>
+        <result property="isDelete" column="IS_DELETE"/>
+        <result property="band" column="BAND"/>
+        <result property="programType" column="PROGRAM_TYPE"/>
+        <result property="redisseminators" column="REDISSEMINATORS"/>
+        <result property="localStartTime" column="LOCAL_START_TIME"/>
+        <result property="summer" column="SUMMER"/>
+        <result property="summerStarttime" column="SUMMER_STARTTIME"/>
+        <result property="summerEndtime" column="SUMMER_ENDTIME"/>
+        <result property="seasonId" column="SEASON_ID"/>
+        <result property="antenna" column="ANTENNA"/>
+        <result property="stationName" column="STATION_NAME"/>
+        <result property="ciraf" column="CIRAF"/>
+        <result property="launchCountry" column="LAUNCH_COUNTRY"/>
+        <result property="broadcastCountry" column="BROADCAST_COUNTRY"/>
+        <result property="broadcastStation" column="BROADCAST_STATION"/>
+        <result property="xgMonArea" column="XG_MON_AREA"/>
+        <result property="disturb" column="DISTURB"/>
+        <result property="localEndTime" column="LOCAL_END_TIME"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		zrt.RUNPLAN_ID,zrt.RUNPLAN_TYPE_ID,zrt.STATION_ID,zrt.TRANSMITER_NO,zrt.FREQ,zrt.VALID_START_TIME,zrt.VALID_END_TIME,
+		zrt.DIRECTION,zrt.POWER,zrt.SERVICE_AREA,zrt.ANTENNATYPE,zrt.REST_DATETIME,zrt.REST_TIME,zrt.SENTCITY_ID,
+		zrt.START_TIME,zrt.END_TIME,zrt.SATELLITE_CHANNEL,zrt.STORE_DATETIME,zrt.PROGRAM_TYPE_ID,
+		zrt.LANGUAGE_ID,zrt.WEEKDAY,zrt.INPUT_PERSON,zrt.REVISE_PERSON,zrt.REMARK,zrt.PROGRAM_ID,
+		zrt.MON_AREA,zrt.IS_DELETE,zrt.BAND,zrt.PROGRAM_TYPE,zrt.REDISSEMINATORS,zrt.LOCAL_START_TIME,
+		zrt.SUMMER,zrt.SUMMER_STARTTIME,zrt.SUMMER_ENDTIME,zrt.SEASON_ID,zrt.ANTENNA,zrt.STATION_NAME,
+		zrt.CIRAF,zrt.LAUNCH_COUNTRY,zrt.BROADCAST_COUNTRY,zrt.BROADCAST_STATION,zrt.XG_MON_AREA,zrt.DISTURB,zrt.LOCAL_END_TIME,
+		zlt.LANGUAGE_NAME
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="runplanId">
+    <![CDATA[
+        INSERT INTO ZRES_RUNPLAN_TAB (
+        	RUNPLAN_ID ,
+        	RUNPLAN_TYPE_ID ,
+        	STATION_ID ,
+        	TRANSMITER_NO ,
+        	FREQ ,
+        	VALID_START_TIME ,
+        	VALID_END_TIME ,
+        	DIRECTION ,
+        	POWER ,
+        	SERVICE_AREA ,
+        	ANTENNATYPE ,
+        	REST_DATETIME ,
+        	REST_TIME ,
+        	SENTCITY_ID ,
+        	START_TIME ,
+        	END_TIME ,
+        	SATELLITE_CHANNEL ,
+        	STORE_DATETIME ,
+        	PROGRAM_TYPE_ID ,
+        	LANGUAGE_ID ,
+        	WEEKDAY ,
+        	INPUT_PERSON ,
+        	REVISE_PERSON ,
+        	REMARK ,
+        	PROGRAM_ID ,
+        	MON_AREA ,
+        	IS_DELETE ,
+        	BAND ,
+        	PROGRAM_TYPE ,
+        	REDISSEMINATORS ,
+        	LOCAL_START_TIME ,
+        	SUMMER ,
+        	SUMMER_STARTTIME ,
+        	SUMMER_ENDTIME ,
+        	SEASON_ID ,
+        	ANTENNA ,
+        	STATION_NAME ,
+        	CIRAF ,
+        	LAUNCH_COUNTRY ,
+        	BROADCAST_COUNTRY ,
+        	BROADCAST_STATION ,
+        	XG_MON_AREA ,
+        	DISTURB ,
+        	LOCAL_END_TIME 
+        ) VALUES (
+        	#{runplanId} ,
+        	#{runplanTypeId} ,
+        	#{stationId} ,
+        	#{transmiterNo} ,
+        	#{freq} ,
+        	#{validStartTime} ,
+        	#{validEndTime} ,
+        	#{direction} ,
+        	#{power} ,
+        	#{serviceArea} ,
+        	#{antennatype} ,
+        	#{restDatetime} ,
+        	#{restTime} ,
+        	#{sentcityId} ,
+        	#{startTime} ,
+        	#{endTime} ,
+        	#{satelliteChannel} ,
+        	#{storeDatetime} ,
+        	#{programTypeId} ,
+        	#{languageId} ,
+        	#{weekday} ,
+        	#{inputPerson} ,
+        	#{revisePerson} ,
+        	#{remark} ,
+        	#{programId} ,
+        	#{monArea} ,
+        	#{isDelete} ,
+        	#{band} ,
+        	#{programType} ,
+        	#{redisseminators} ,
+        	#{localStartTime} ,
+        	#{summer} ,
+        	#{summerStarttime} ,
+        	#{summerEndtime} ,
+        	#{seasonId} ,
+        	#{antenna} ,
+        	#{stationName} ,
+        	#{ciraf} ,
+        	#{launchCountry} ,
+        	#{broadcastCountry} ,
+        	#{broadcastStation} ,
+        	#{xgMonArea} ,
+        	#{disturb} ,
+        	#{localEndTime} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE ZRES_RUNPLAN_TAB SET
+	        RUNPLAN_TYPE_ID = #{runplanTypeId} ,
+	        STATION_ID = #{stationId} ,
+	        TRANSMITER_NO = #{transmiterNo} ,
+	        FREQ = #{freq} ,
+	        VALID_START_TIME = #{validStartTime} ,
+	        VALID_END_TIME = #{validEndTime} ,
+	        DIRECTION = #{direction} ,
+	        POWER = #{power} ,
+	        SERVICE_AREA = #{serviceArea} ,
+	        ANTENNATYPE = #{antennatype} ,
+	        REST_DATETIME = #{restDatetime} ,
+	        REST_TIME = #{restTime} ,
+	        SENTCITY_ID = #{sentcityId} ,
+	        START_TIME = #{startTime} ,
+	        END_TIME = #{endTime} ,
+	        SATELLITE_CHANNEL = #{satelliteChannel} ,
+	        STORE_DATETIME = #{storeDatetime} ,
+	        PROGRAM_TYPE_ID = #{programTypeId} ,
+	        LANGUAGE_ID = #{languageId} ,
+	        WEEKDAY = #{weekday} ,
+	        INPUT_PERSON = #{inputPerson} ,
+	        REVISE_PERSON = #{revisePerson} ,
+	        REMARK = #{remark} ,
+	        PROGRAM_ID = #{programId} ,
+	        MON_AREA = #{monArea} ,
+	        IS_DELETE = #{isDelete} ,
+	        BAND = #{band} ,
+	        PROGRAM_TYPE = #{programType} ,
+	        REDISSEMINATORS = #{redisseminators} ,
+	        LOCAL_START_TIME = #{localStartTime} ,
+	        SUMMER = #{summer} ,
+	        SUMMER_STARTTIME = #{summerStarttime} ,
+	        SUMMER_ENDTIME = #{summerEndtime} ,
+	        SEASON_ID = #{seasonId} ,
+	        ANTENNA = #{antenna} ,
+	        STATION_NAME = #{stationName} ,
+	        CIRAF = #{ciraf} ,
+	        LAUNCH_COUNTRY = #{launchCountry} ,
+	        BROADCAST_COUNTRY = #{broadcastCountry} ,
+	        BROADCAST_STATION = #{broadcastStation} ,
+	        XG_MON_AREA = #{xgMonArea} ,
+	        DISTURB = #{disturb} ,
+	        LOCAL_END_TIME = #{localEndTime} 
+        WHERE 
+	        RUNPLAN_ID = #{runplanId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+        update  ZRES_RUNPLAN_TAB set IS_DELETE =1  WHERE
+        RUNPLAN_ID in
+	    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+              #{item}
+        </foreach>
+    </delete>
+    
+    <select id="getById" resultMap="ZresRunplanTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		     FROM ZRES_RUNPLAN_TAB  zrt,zdic_language_tab zlt
+	        WHERE 
+		      zrt.is_delete =0 and zrt.language_id =zlt.language_id and    RUNPLAN_ID = #{id}
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>
+            zrt.is_delete =0 and zrt.language_id =zlt.language_id
+
+	       <if test="@Ognl@isNotEmpty(runplanId)">
+				AND zrt.RUNPLAN_ID = #{runplanId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(runplanTypeId)">
+				AND zrt.RUNPLAN_TYPE_ID = #{runplanTypeId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stationId)">
+				AND zrt.STATION_ID = #{stationId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(transmiterNo)">
+				AND zrt.TRANSMITER_NO = #{transmiterNo}
+			</if>
+	       <if test="@Ognl@isNotEmpty(freq)">
+				AND zrt.FREQ = #{freq}
+			</if>
+	       <if test="@Ognl@isNotEmpty(validStartTimeBegin)">
+				AND zrt.VALID_START_TIME >= #{validStartTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(validStartTimeEnd)">
+				AND zrt.VALID_START_TIME &lt;= #{validStartTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(validEndTimeBegin)">
+				AND zrt.VALID_END_TIME >= #{validEndTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(validEndTimeEnd)">
+				AND zrt.VALID_END_TIME &lt;= #{validEndTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(direction)">
+				AND zrt.DIRECTION = #{direction}
+			</if>
+	       <if test="@Ognl@isNotEmpty(power)">
+				AND zrt.POWER = #{power}
+			</if>
+	       <if test="@Ognl@isNotEmpty(serviceArea)">
+				AND zrt.SERVICE_AREA = #{serviceArea}
+			</if>
+	       <if test="@Ognl@isNotEmpty(antennatype)">
+				AND zrt.ANTENNATYPE = #{antennatype}
+			</if>
+	       <if test="@Ognl@isNotEmpty(restDatetime)">
+				AND zrt.REST_DATETIME = #{restDatetime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(restTime)">
+				AND zrt.REST_TIME = #{restTime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(sentcityId)">
+				AND zrt.SENTCITY_ID = #{sentcityId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(startTime)">
+				AND zrt.START_TIME = #{startTime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(endTime)">
+				AND zrt.END_TIME = #{endTime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(satelliteChannel)">
+				AND zrt.SATELLITE_CHANNEL = #{satelliteChannel}
+			</if>
+	       <if test="@Ognl@isNotEmpty(storeDatetimeBegin)">
+				AND zrt.STORE_DATETIME >= #{storeDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(storeDatetimeEnd)">
+				AND zrt.STORE_DATETIME &lt;= #{storeDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(programTypeId)">
+				AND zrt.PROGRAM_TYPE_ID = #{programTypeId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(languageId)">
+				AND zrt.LANGUAGE_ID = #{languageId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(weekday)">
+				AND zrt.WEEKDAY = #{weekday}
+			</if>
+	       <if test="@Ognl@isNotEmpty(inputPerson)">
+				AND zrt.INPUT_PERSON = #{inputPerson}
+			</if>
+	       <if test="@Ognl@isNotEmpty(revisePerson)">
+				AND zrt.REVISE_PERSON = #{revisePerson}
+			</if>
+	       <if test="@Ognl@isNotEmpty(remark)">
+				AND zrt.REMARK = #{remark}
+			</if>
+	       <if test="@Ognl@isNotEmpty(programId)">
+				AND zrt.PROGRAM_ID = #{programId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(monArea)">
+				AND zrt.MON_AREA = #{monArea}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isDelete)">
+				AND zrt.IS_DELETE = #{isDelete}
+			</if>
+
+	       <if test="@Ognl@isNotEmpty(programType)">
+				AND zrt.PROGRAM_TYPE = #{programType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(redisseminators)">
+				AND zrt.REDISSEMINATORS = #{redisseminators}
+			</if>
+	       <if test="@Ognl@isNotEmpty(localStartTime)">
+				AND zrt.LOCAL_START_TIME = #{localStartTime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(summer)">
+				AND zrt.SUMMER = #{summer}
+			</if>
+	       <if test="@Ognl@isNotEmpty(summerStarttimeBegin)">
+				AND zrt.SUMMER_STARTTIME >= #{summerStarttimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(summerStarttimeEnd)">
+				AND zrt.SUMMER_STARTTIME &lt;= #{summerStarttimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(summerEndtimeBegin)">
+				AND zrt.SUMMER_ENDTIME >= #{summerEndtimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(summerEndtimeEnd)">
+				AND zrt.SUMMER_ENDTIME &lt;= #{summerEndtimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(seasonId)">
+				AND zrt.SEASON_ID = #{seasonId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(antenna)">
+				AND zrt.ANTENNA = #{antenna}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stationName)">
+				AND zrt.STATION_NAME = #{stationName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(ciraf)">
+				AND zrt.CIRAF = #{ciraf}
+			</if>
+	       <if test="@Ognl@isNotEmpty(launchCountry)">
+				AND zrt.LAUNCH_COUNTRY = #{launchCountry}
+			</if>
+	       <if test="@Ognl@isNotEmpty(broadcastCountry)">
+				AND zrt.BROADCAST_COUNTRY = #{broadcastCountry}
+			</if>
+	       <if test="@Ognl@isNotEmpty(broadcastStation)">
+				AND zrt.BROADCAST_STATION = #{broadcastStation}
+			</if>
+	       <if test="@Ognl@isNotEmpty(xgMonArea)">
+				AND zrt.XG_MON_AREA = #{xgMonArea}
+			</if>
+	       <if test="@Ognl@isNotEmpty(disturb)">
+				AND zrt.DISTURB = #{disturb}
+			</if>
+	       <if test="@Ognl@isNotEmpty(localEndTime)">
+				AND zrt.LOCAL_END_TIME = #{localEndTime}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*)    FROM ZRES_RUNPLAN_TAB  zrt,zdic_language_tab zlt
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="ZresRunplanTab">
+    	SELECT <include refid="columns" />
+	    FROM ZRES_RUNPLAN_TAB  zrt,zdic_language_tab zlt
+		<include refid="findPage_where"/>
+
+			ORDER BY  zrt.station_name asc
+
+    </select>
+
+	
+</mapper>
+

@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.RadioStreamMarkResultTabMapper">
+
+	<resultMap id="RadioStreamMarkResultTab" type="com.hw.domain.po.RadioStreamMarkResultTab">
+        <result property="id" column="ID"/>
+        <result property="streamId" column="STREAM_ID"/>
+        <result property="streamStartDatetime" column="STREAM_START_DATETIME"/>
+        <result property="streamEndDatetime" column="STREAM_END_DATETIME"/>
+        <result property="frequency" column="FREQUENCY"/>
+        <result property="filename" column="FILENAME"/>
+        <result property="playUrl" column="PLAY_URL"/>
+        <result property="reportType" column="REPORT_TYPE"/>
+        <result property="fmModulation" column="FM_MODULATION"/>
+        <result property="amModulation" column="AM_MODULATION"/>
+        <result property="offset" column="OFFSET"/>
+        <result property="levelValue" column="LEVEL_VALUE"/>
+        <result property="headId" column="HEAD_ID"/>
+        <result property="headTypeId" column="HEAD_TYPE_ID"/>
+        <result property="headCode" column="HEAD_CODE"/>
+        <result property="headName" column="HEAD_NAME"/>
+        <result property="markId" column="MARK_ID"/>
+        <result property="counti" column="COUNTI"/>
+        <result property="counto" column="COUNTO"/>
+        <result property="counts" column="COUNTS"/>
+        <result property="description" column="DESCRIPTION"/>
+        <result property="markUnit" column="MARK_UNIT"/>
+        <result property="recordStartTime" column="RECORD_START_TIME"/>
+        <result property="recordEndTime" column="RECORD_END_TIME"/>
+        <result property="runplanId" column="RUNPLAN_ID"/>
+        <result property="runplanTypeId" column="RUNPLAN_TYPE_ID"/>
+        <result property="stationId" column="STATION_ID"/>
+        <result property="stationName" column="STATION_NAME"/>
+        <result property="transmiterNo" column="TRANSMITER_NO"/>
+        <result property="validStartTime" column="VALID_START_TIME"/>
+        <result property="validEndTime" column="VALID_END_TIME"/>
+        <result property="direction" column="DIRECTION"/>
+        <result property="power" column="POWER"/>
+        <result property="serviceArea" column="SERVICE_AREA"/>
+        <result property="serviceName" column="SERVICE_NAME"/>
+        <result property="runplanStartTime" column="RUNPLAN_START_TIME"/>
+        <result property="runplanEndTime" column="RUNPLAN_END_TIME"/>
+        <result property="playTime" column="PLAY_TIME"/>
+        <result property="programTypeId" column="PROGRAM_TYPE_ID"/>
+        <result property="programType" column="PROGRAM_TYPE"/>
+        <result property="languageId" column="LANGUAGE_ID"/>
+        <result property="languageName" column="LANGUAGE_NAME"/>
+        <result property="programId" column="PROGRAM_ID"/>
+        <result property="monArea" column="MON_AREA"/>
+        <result property="redisseminators" column="REDISSEMINATORS"/>
+        <result property="seasonId" column="SEASON_ID"/>
+        <result property="xgMonArea" column="XG_MON_AREA"/>
+        <result property="disRunplanId" column="DIS_RUNPLAN_ID"/>
+        <result property="disturb" column="DISTURB"/>
+        <result property="stateName" column="STATE_NAME"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		ID,STREAM_ID,STREAM_START_DATETIME,STREAM_END_DATETIME,FREQUENCY,FILENAME,PLAY_URL,REPORT_TYPE,
+		FM_MODULATION,AM_MODULATION,OFFSET,LEVEL_VALUE,HEAD_ID,HEAD_TYPE_ID,HEAD_CODE,HEAD_NAME,MARK_ID
+		,COUNTI,COUNTO,COUNTS,DESCRIPTION,MARK_UNIT,RECORD_START_TIME,RECORD_END_TIME,RUNPLAN_ID,RUNPLAN_TYPE_ID,
+		STATION_ID,STATION_NAME,TRANSMITER_NO,VALID_START_TIME,VALID_END_TIME,DIRECTION,POWER,SERVICE_AREA,
+		SERVICE_NAME,RUNPLAN_START_TIME,RUNPLAN_END_TIME,PLAY_TIME,PROGRAM_TYPE_ID,PROGRAM_TYPE,
+		LANGUAGE_ID,LANGUAGE_NAME,PROGRAM_ID,MON_AREA,REDISSEMINATORS,SEASON_ID,XG_MON_AREA,
+		DIS_RUNPLAN_ID,DISTURB,STATE_NAME
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" >
+     <selectKey resultType="INTEGER" order="BEFORE" keyProperty="id">
+           SELECT RADIO_stream_mark_SEQ.Nextval as id from DUAL
+       </selectKey>
+        INSERT INTO RADIO_STREAM_MARK_RESULT_TAB (
+        	ID ,
+        	STREAM_ID ,
+        	STREAM_START_DATETIME  ,
+        	STREAM_END_DATETIME ,
+        	FREQUENCY ,
+        	FILENAME ,
+        	PLAY_URL ,
+        	REPORT_TYPE ,
+        	FM_MODULATION ,
+        	AM_MODULATION ,
+        	OFFSET ,
+        	LEVEL_VALUE ,
+        	HEAD_ID ,
+        	HEAD_TYPE_ID ,
+        	HEAD_CODE ,
+        	HEAD_NAME ,
+        	MARK_ID ,
+        	COUNTI ,
+        	COUNTO ,
+        	COUNTS ,
+        	DESCRIPTION ,
+        	MARK_UNIT ,
+        	RECORD_START_TIME ,
+        	RECORD_END_TIME ,
+        	RUNPLAN_ID ,
+        	RUNPLAN_TYPE_ID ,
+        	STATION_ID ,
+        	STATION_NAME ,
+        	TRANSMITER_NO ,
+        	VALID_START_TIME ,
+        	VALID_END_TIME ,
+        	DIRECTION ,
+        	POWER ,
+        	SERVICE_AREA ,
+        	SERVICE_NAME ,
+        	RUNPLAN_START_TIME ,
+        	RUNPLAN_END_TIME ,
+        	PLAY_TIME ,
+        	PROGRAM_TYPE_ID ,
+        	PROGRAM_TYPE ,
+        	LANGUAGE_ID ,
+        	LANGUAGE_NAME ,
+        	PROGRAM_ID ,
+        	MON_AREA ,
+        	REDISSEMINATORS ,
+        	SEASON_ID ,
+        	XG_MON_AREA ,
+        	DIS_RUNPLAN_ID ,
+        	DISTURB ,
+        	STATE_NAME 
+        ) VALUES (
+            #{id,jdbcType=INTEGER} ,
+        	#{streamId,jdbcType=INTEGER} ,
+        	#{streamStartDatetime,jdbcType=TIMESTAMP} ,
+        	#{streamEndDatetime,jdbcType=TIMESTAMP} ,
+        	#{frequency,jdbcType=INTEGER} ,
+        	#{filename,jdbcType=VARCHAR} ,
+        	#{playUrl,jdbcType=VARCHAR} ,
+        	#{reportType,jdbcType=INTEGER} ,
+        	#{fmModulation,jdbcType=VARCHAR} ,
+        	#{amModulation,jdbcType=VARCHAR} ,
+        	#{offset,jdbcType=VARCHAR} ,
+        	#{levelValue,jdbcType=VARCHAR} ,
+        	#{headId,jdbcType=INTEGER} ,
+        	#{headTypeId,jdbcType=INTEGER} ,
+        	#{headCode,jdbcType=VARCHAR} ,
+        	#{headName,jdbcType=VARCHAR} ,
+        	#{markId,jdbcType=INTEGER} ,
+        	#{counti,jdbcType=INTEGER} ,
+        	#{counto,jdbcType=INTEGER} ,
+        	#{counts,jdbcType=INTEGER} ,
+        	#{description,jdbcType=VARCHAR} ,
+        	#{markUnit,jdbcType=VARCHAR} ,
+        	#{recordStartTime,jdbcType=VARCHAR} ,
+        	#{recordEndTime,jdbcType=VARCHAR} ,
+        	#{runplanId,jdbcType=INTEGER} ,
+        	#{runplanTypeId,jdbcType=INTEGER} ,
+        	#{stationId,jdbcType=INTEGER} ,
+        	#{stationName,jdbcType=VARCHAR} ,
+        	#{transmiterNo,jdbcType=VARCHAR} ,
+        	#{validStartTime,jdbcType=TIMESTAMP} ,
+        	#{validEndTime,jdbcType=TIMESTAMP} ,
+        	#{direction,jdbcType=VARCHAR} ,
+        	#{power,jdbcType=VARCHAR} ,
+        	#{serviceArea,jdbcType=VARCHAR} ,
+        	#{serviceName,jdbcType=VARCHAR} ,
+        	#{runplanStartTime,jdbcType=VARCHAR} ,
+        	#{runplanEndTime,jdbcType=VARCHAR} ,
+        	#{playTime,jdbcType=VARCHAR} ,
+        	#{programTypeId,jdbcType=INTEGER} ,
+        	#{programType,jdbcType=VARCHAR} ,
+        	#{languageId,jdbcType=INTEGER} ,
+        	#{languageName,jdbcType=VARCHAR} ,
+        	#{programId,jdbcType=INTEGER} ,
+        	#{monArea,jdbcType=VARCHAR} ,
+        	#{redisseminators,jdbcType=VARCHAR} ,
+        	#{seasonId,jdbcType=VARCHAR} ,
+        	#{xgMonArea,jdbcType=VARCHAR} ,
+        	#{disRunplanId,jdbcType=INTEGER} ,
+        	#{disturb,jdbcType=VARCHAR} ,
+        	#{stateName,jdbcType=VARCHAR}
+        )
+		<!--
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    <insert id="batchInsert">
+        <selectKey resultType="INTEGER" order="BEFORE" keyProperty="id">
+            SELECT RADIO_stream_mark_SEQ.Nextval as id from DUAL
+        </selectKey>
+        INSERT INTO RADIO_STREAM_MARK_RESULT_TAB (
+        ID ,
+        STREAM_ID ,
+        STREAM_START_DATETIME  ,
+        STREAM_END_DATETIME ,
+        FREQUENCY ,
+        FILENAME ,
+        PLAY_URL ,
+        REPORT_TYPE ,
+        FM_MODULATION ,
+        AM_MODULATION ,
+        OFFSET ,
+        LEVEL_VALUE ,
+        HEAD_ID ,
+        HEAD_TYPE_ID ,
+        HEAD_CODE ,
+        HEAD_NAME ,
+        MARK_ID ,
+        COUNTI ,
+        COUNTO ,
+        COUNTS ,
+        DESCRIPTION ,
+        MARK_UNIT ,
+        RECORD_START_TIME ,
+        RECORD_END_TIME ,
+        RUNPLAN_ID ,
+        RUNPLAN_TYPE_ID ,
+        STATION_ID ,
+        STATION_NAME ,
+        TRANSMITER_NO ,
+        VALID_START_TIME ,
+        VALID_END_TIME ,
+        DIRECTION ,
+        POWER ,
+        SERVICE_AREA ,
+        SERVICE_NAME ,
+        RUNPLAN_START_TIME ,
+        RUNPLAN_END_TIME ,
+        PLAY_TIME ,
+        PROGRAM_TYPE_ID ,
+        PROGRAM_TYPE ,
+        LANGUAGE_ID ,
+        LANGUAGE_NAME ,
+        PROGRAM_ID ,
+        MON_AREA ,
+        REDISSEMINATORS ,
+        SEASON_ID ,
+        XG_MON_AREA ,
+        DIS_RUNPLAN_ID ,
+        DISTURB ,
+        STATE_NAME
+        )
+        SELECT RADIO_stream_mark_SEQ.NEXTVAL , A.* FROM (
+
+        <foreach collection="list" item="item" index="index" separator="UNION ALL">
+        select
+        #{item.streamId,jdbcType=INTEGER} ,
+        #{item.streamStartDatetime,jdbcType=TIMESTAMP} ,
+        #{item.item.streamEndDatetime,jdbcType=TIMESTAMP} ,
+        #{item.frequency,jdbcType=INTEGER} ,
+        #{item.filename,jdbcType=VARCHAR} ,
+        #{item.playUrl,jdbcType=VARCHAR} ,
+        #{item.reportType,jdbcType=INTEGER} ,
+        #{item.fmModulation,jdbcType=VARCHAR} ,
+        #{item.amModulation,jdbcType=VARCHAR} ,
+        #{item.offset,jdbcType=VARCHAR} ,
+        #{item.levelValue,jdbcType=VARCHAR} ,
+        #{item.headId,jdbcType=INTEGER} ,
+        #{item.headTypeId,jdbcType=INTEGER} ,
+        #{item.headCode,jdbcType=VARCHAR} ,
+        #{item.headName,jdbcType=VARCHAR} ,
+        #{item.markId,jdbcType=INTEGER} ,
+        #{item.counti,jdbcType=INTEGER} ,
+        #{item.counto,jdbcType=INTEGER} ,
+        #{item.counts,jdbcType=INTEGER} ,
+        #{item.description,jdbcType=VARCHAR} ,
+        #{item.markUnit,jdbcType=VARCHAR} ,
+        #{item.recordStartTime,jdbcType=VARCHAR} ,
+        #{item.recordEndTime,jdbcType=VARCHAR} ,
+        #{item.runplanId,jdbcType=INTEGER} ,
+        #{item.runplanTypeId,jdbcType=INTEGER} ,
+        #{item.stationId,jdbcType=INTEGER} ,
+        #{item.stationName,jdbcType=VARCHAR} ,
+        #{item.transmiterNo,jdbcType=VARCHAR} ,
+        #{item.validStartTime,jdbcType=TIMESTAMP} ,
+        #{item.validEndTime,jdbcType=TIMESTAMP} ,
+        #{item.direction,jdbcType=VARCHAR} ,
+        #{item.power,jdbcType=VARCHAR} ,
+        #{item.serviceArea,jdbcType=VARCHAR} ,
+        #{item.serviceName,jdbcType=VARCHAR} ,
+        #{item.runplanStartTime,jdbcType=VARCHAR} ,
+        #{item.runplanEndTime,jdbcType=VARCHAR} ,
+        #{item.playTime,jdbcType=VARCHAR} ,
+        #{item.programTypeId,jdbcType=INTEGER} ,
+        #{item.programType,jdbcType=VARCHAR} ,
+        #{item.languageId,jdbcType=INTEGER} ,
+        #{item.languageName,jdbcType=VARCHAR} ,
+        #{item.programId,jdbcType=INTEGER} ,
+        #{item.monArea,jdbcType=VARCHAR} ,
+        #{item.redisseminators,jdbcType=VARCHAR} ,
+        #{item.seasonId,jdbcType=VARCHAR} ,
+        #{item.xgMonArea,jdbcType=VARCHAR} ,
+        #{item.disRunplanId,jdbcType=INTEGER} ,
+        #{item.disturb,jdbcType=VARCHAR} ,
+        #{item.stateName,jdbcType=VARCHAR}
+            from dual
+        </foreach>
+        )A
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE RADIO_STREAM_MARK_RESULT_TAB SET
+	        STREAM_ID = #{streamId} ,
+	        STREAM_START_DATETIME = #{streamStartDatetime} ,
+	        STREAM_END_DATETIME = #{streamEndDatetime} ,
+	        FREQUENCY = #{frequency} ,
+	        FILENAME = #{filename} ,
+	        PLAY_URL = #{playUrl} ,
+	        REPORT_TYPE = #{reportType} ,
+	        FM_MODULATION = #{fmModulation} ,
+	        AM_MODULATION = #{amModulation} ,
+	        OFFSET = #{offset} ,
+	        LEVEL_VALUE = #{levelValue} ,
+	        HEAD_ID = #{headId} ,
+	        HEAD_TYPE_ID = #{headTypeId} ,
+	        HEAD_CODE = #{headCode} ,
+	        HEAD_NAME = #{headName} ,
+	        MARK_ID = #{markId} ,
+	        COUNTI = #{counti} ,
+	        COUNTO = #{counto} ,
+	        COUNTS = #{counts} ,
+	        DESCRIPTION = #{description} ,
+	        MARK_UNIT = #{markUnit} ,
+	        RECORD_START_TIME = #{recordStartTime} ,
+	        RECORD_END_TIME = #{recordEndTime} ,
+	        RUNPLAN_ID = #{runplanId} ,
+	        RUNPLAN_TYPE_ID = #{runplanTypeId} ,
+	        STATION_ID = #{stationId} ,
+	        STATION_NAME = #{stationName} ,
+	        TRANSMITER_NO = #{transmiterNo} ,
+	        VALID_START_TIME = #{validStartTime} ,
+	        VALID_END_TIME = #{validEndTime} ,
+	        DIRECTION = #{direction} ,
+	        POWER = #{power} ,
+	        SERVICE_AREA = #{serviceArea} ,
+	        SERVICE_NAME = #{serviceName} ,
+	        RUNPLAN_START_TIME = #{runplanStartTime} ,
+	        RUNPLAN_END_TIME = #{runplanEndTime} ,
+	        PLAY_TIME = #{playTime} ,
+	        PROGRAM_TYPE_ID = #{programTypeId} ,
+	        PROGRAM_TYPE = #{programType} ,
+	        LANGUAGE_ID = #{languageId} ,
+	        LANGUAGE_NAME = #{languageName} ,
+	        PROGRAM_ID = #{programId} ,
+	        MON_AREA = #{monArea} ,
+	        REDISSEMINATORS = #{redisseminators} ,
+	        SEASON_ID = #{seasonId} ,
+	        XG_MON_AREA = #{xgMonArea} ,
+	        DIS_RUNPLAN_ID = #{disRunplanId} ,
+	        DISTURB = #{disturb} ,
+	        STATE_NAME = #{stateName} 
+        WHERE 
+	        ID = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM RADIO_STREAM_MARK_RESULT_TAB WHERE
+        ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RadioStreamMarkResultTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM RADIO_STREAM_MARK_RESULT_TAB 
+	        WHERE 
+		        ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND ID = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(streamId)">
+				AND STREAM_ID = #{streamId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(streamStartDatetimeBegin)">
+				AND STREAM_START_DATETIME >= #{streamStartDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(streamStartDatetimeEnd)">
+				AND STREAM_START_DATETIME &lt;= #{streamStartDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(streamEndDatetimeBegin)">
+				AND STREAM_END_DATETIME >= #{streamEndDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(streamEndDatetimeEnd)">
+				AND STREAM_END_DATETIME &lt;= #{streamEndDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(frequency)">
+				AND FREQUENCY = #{frequency}
+			</if>
+	       <if test="@Ognl@isNotEmpty(filename)">
+				AND FILENAME = #{filename}
+			</if>
+	       <if test="@Ognl@isNotEmpty(playUrl)">
+				AND PLAY_URL = #{playUrl}
+			</if>
+	       <if test="@Ognl@isNotEmpty(reportType)">
+				AND REPORT_TYPE = #{reportType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(fmModulation)">
+				AND FM_MODULATION = #{fmModulation}
+			</if>
+	       <if test="@Ognl@isNotEmpty(amModulation)">
+				AND AM_MODULATION = #{amModulation}
+			</if>
+	       <if test="@Ognl@isNotEmpty(offset)">
+				AND OFFSET = #{offset}
+			</if>
+	       <if test="@Ognl@isNotEmpty(levelValue)">
+				AND LEVEL_VALUE = #{levelValue}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headId)">
+				AND HEAD_ID = #{headId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headTypeId)">
+				AND HEAD_TYPE_ID = #{headTypeId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headCode)">
+				AND HEAD_CODE = #{headCode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headName)">
+				AND HEAD_NAME = #{headName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(markId)">
+				AND MARK_ID = #{markId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(counti)">
+				AND COUNTI = #{counti}
+			</if>
+	       <if test="@Ognl@isNotEmpty(counto)">
+				AND COUNTO = #{counto}
+			</if>
+	       <if test="@Ognl@isNotEmpty(counts)">
+				AND COUNTS = #{counts}
+			</if>
+	       <if test="@Ognl@isNotEmpty(description)">
+				AND DESCRIPTION = #{description}
+			</if>
+	       <if test="@Ognl@isNotEmpty(markUnit)">
+				AND MARK_UNIT = #{markUnit}
+			</if>
+	       <if test="@Ognl@isNotEmpty(recordStartTime)">
+				AND RECORD_START_TIME = #{recordStartTime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(recordEndTime)">
+				AND RECORD_END_TIME = #{recordEndTime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(runplanId)">
+				AND RUNPLAN_ID = #{runplanId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(runplanTypeId)">
+				AND RUNPLAN_TYPE_ID = #{runplanTypeId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stationId)">
+				AND STATION_ID = #{stationId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stationName)">
+				AND STATION_NAME = #{stationName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(transmiterNo)">
+				AND TRANSMITER_NO = #{transmiterNo}
+			</if>
+
+	       <if test="@Ognl@isNotEmpty(validStartTimeBegin)">
+				AND VALID_START_TIME >= #{validStartTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(validStartTimeEnd)">
+				AND VALID_START_TIME &lt;= #{validStartTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(validEndTimeBegin)">
+				AND VALID_END_TIME >= #{validEndTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(validEndTimeEnd)">
+				AND VALID_END_TIME &lt;= #{validEndTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(direction)">
+				AND DIRECTION = #{direction}
+			</if>
+	       <if test="@Ognl@isNotEmpty(power)">
+				AND POWER = #{power}
+			</if>
+	       <if test="@Ognl@isNotEmpty(serviceArea)">
+				AND SERVICE_AREA = #{serviceArea}
+			</if>
+	       <if test="@Ognl@isNotEmpty(serviceName)">
+				AND SERVICE_NAME = #{serviceName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(runplanStartTime)">
+				AND RUNPLAN_START_TIME = #{runplanStartTime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(runplanEndTime)">
+				AND RUNPLAN_END_TIME = #{runplanEndTime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(playTime)">
+				AND PLAY_TIME = #{playTime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(programTypeId)">
+				AND PROGRAM_TYPE_ID = #{programTypeId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(programType)">
+				AND PROGRAM_TYPE = #{programType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(languageId)">
+				AND LANGUAGE_ID = #{languageId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(languageName)">
+				AND LANGUAGE_NAME = #{languageName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(programId)">
+				AND PROGRAM_ID = #{programId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(monArea)">
+				AND MON_AREA = #{monArea}
+			</if>
+	       <if test="@Ognl@isNotEmpty(redisseminators)">
+				AND REDISSEMINATORS = #{redisseminators}
+			</if>
+	       <if test="@Ognl@isNotEmpty(seasonId)">
+				AND SEASON_ID = #{seasonId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(xgMonArea)">
+				AND XG_MON_AREA = #{xgMonArea}
+			</if>
+	       <if test="@Ognl@isNotEmpty(disRunplanId)">
+				AND DIS_RUNPLAN_ID = #{disRunplanId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(disturb)">
+				AND DISTURB = #{disturb}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stateName)">
+				AND STATE_NAME = #{stateName}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM RADIO_STREAM_MARK_RESULT_TAB 
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RadioStreamMarkResultTab">
+    	SELECT <include refid="columns" />
+	    FROM RADIO_STREAM_MARK_RESULT_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

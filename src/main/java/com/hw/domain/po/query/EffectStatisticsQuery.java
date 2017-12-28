@@ -1,0 +1,345 @@
+
+package com.hw.domain.po.query;
+
+
+
+import java.io.Serializable;
+
+
+/**
+ * @author badqiu email:badqiu(a)gmail.com
+ * @version 1.0
+ * @since 1.0
+ */
+
+
+public class EffectStatisticsQuery implements Serializable {
+    private static final long serialVersionUID = 3148176768559230877L;
+    
+
+	/** dataId */
+	private Integer dataId;
+	/** 报表ID */
+	private Integer reportId;
+	/** 播音时间 */
+	private String playTime;
+	/** 语言 */
+	private String languageName;
+	/** 频率 */
+	private Integer freq;
+	/** 发射台 */
+	private String transmitStation;
+	/** 发射方向 */
+	private Integer transmitDirection;
+	/** 发射功率 */
+	private Integer transmitPower;
+	/** 服务区 */
+	private String serviceArea;
+	/** 收测地点 */
+	private String receiveCode;
+	/** 收测次数 */
+	private Integer receiveCount;
+	/** 0分的 */
+	private Integer fen0;
+	/** 1分的 */
+	private Integer fen1;
+	/** 2分的 */
+	private Integer fen2;
+	/** 3分的 */
+	private Integer fen3;
+	/** 4分的 */
+	private Integer fen4;
+	/** 5分的 */
+	private Integer fen5;
+	/** 可听率% */
+	private Integer listen;
+	/** 可听度中值 */
+	private Integer listenMiddle;
+	/** 备注 */
+	private String bak;
+	/** 遥控站名 */
+	private String receiveName;
+	/** 发射台_>=3分_总次数_可听率%  例如：2022_88_123_78,2032_23_423_28 */
+	private String transmitStationListens;
+	/** 遥控站名_总频时  例如：大阪_96,吉隆坡_34 */
+	private String receiveNameTotalHours;
+	/** 保证收听频时 _基本可收听频时 _有时可收听频时_ 无法收听频时_总频时 */
+	private String receiveListens;
+	/** 语言_>=3分_总次数_可听率%  例如：德 _88_123_78,2032_23_423_28 */
+	private String languageNameListens;
+	/** 地区 如：欧洲 */
+	private String stateName;
+	/** 各月可听率 一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月 如：1_2_3_4_5_7_8_8_2_10_33_44 */
+	private String monthListens;
+	/** 平均可听率% */
+	private String averageListens;
+	/** 子报表类型  11：国际台广播效果统计；21：发射台总体播出效果统计1；22：发射台总体播出效果统计2；23：发射台总体播出效果统计3；31：语言总体播出效果统计1；32：语言总体播出效果统计2；41：各遥控站、各地区、各大洲、可听率统计；51：各遥控站、各地区、各大洲、可保证收听频时统计；61：各月可听率对比；71：频率平均可听率统计表 */
+	private String subReportType;
+	/** 报表类型  1：国际台效果报告统计  2：海外落地效果报告统计 */
+	private String reportType;
+	/** 地区或大洲_>=3分_总次数_可听率%  */
+	private String allListens;
+	/** 运行图id, 为了变频时统计频时数后加的字段 */
+	private Integer runplanId;
+
+	public Integer getDataId() {
+		return this.dataId;
+	}
+	
+	public void setDataId(Integer value) {
+		this.dataId = value;
+	}
+	
+	public Integer getReportId() {
+		return this.reportId;
+	}
+	
+	public void setReportId(Integer value) {
+		this.reportId = value;
+	}
+	
+	public String getPlayTime() {
+		return this.playTime;
+	}
+	
+	public void setPlayTime(String value) {
+		this.playTime = value;
+	}
+	
+	public String getLanguageName() {
+		return this.languageName;
+	}
+	
+	public void setLanguageName(String value) {
+		this.languageName = value;
+	}
+	
+	public Integer getFreq() {
+		return this.freq;
+	}
+	
+	public void setFreq(Integer value) {
+		this.freq = value;
+	}
+	
+	public String getTransmitStation() {
+		return this.transmitStation;
+	}
+	
+	public void setTransmitStation(String value) {
+		this.transmitStation = value;
+	}
+	
+	public Integer getTransmitDirection() {
+		return this.transmitDirection;
+	}
+	
+	public void setTransmitDirection(Integer value) {
+		this.transmitDirection = value;
+	}
+	
+	public Integer getTransmitPower() {
+		return this.transmitPower;
+	}
+	
+	public void setTransmitPower(Integer value) {
+		this.transmitPower = value;
+	}
+	
+	public String getServiceArea() {
+		return this.serviceArea;
+	}
+	
+	public void setServiceArea(String value) {
+		this.serviceArea = value;
+	}
+	
+	public String getReceiveCode() {
+		return this.receiveCode;
+	}
+	
+	public void setReceiveCode(String value) {
+		this.receiveCode = value;
+	}
+	
+	public Integer getReceiveCount() {
+		return this.receiveCount;
+	}
+	
+	public void setReceiveCount(Integer value) {
+		this.receiveCount = value;
+	}
+	
+	public Integer getFen0() {
+		return this.fen0;
+	}
+	
+	public void setFen0(Integer value) {
+		this.fen0 = value;
+	}
+	
+	public Integer getFen1() {
+		return this.fen1;
+	}
+	
+	public void setFen1(Integer value) {
+		this.fen1 = value;
+	}
+	
+	public Integer getFen2() {
+		return this.fen2;
+	}
+	
+	public void setFen2(Integer value) {
+		this.fen2 = value;
+	}
+	
+	public Integer getFen3() {
+		return this.fen3;
+	}
+	
+	public void setFen3(Integer value) {
+		this.fen3 = value;
+	}
+	
+	public Integer getFen4() {
+		return this.fen4;
+	}
+	
+	public void setFen4(Integer value) {
+		this.fen4 = value;
+	}
+	
+	public Integer getFen5() {
+		return this.fen5;
+	}
+	
+	public void setFen5(Integer value) {
+		this.fen5 = value;
+	}
+	
+	public Integer getListen() {
+		return this.listen;
+	}
+	
+	public void setListen(Integer value) {
+		this.listen = value;
+	}
+	
+	public Integer getListenMiddle() {
+		return this.listenMiddle;
+	}
+	
+	public void setListenMiddle(Integer value) {
+		this.listenMiddle = value;
+	}
+	
+	public String getBak() {
+		return this.bak;
+	}
+	
+	public void setBak(String value) {
+		this.bak = value;
+	}
+	
+	public String getReceiveName() {
+		return this.receiveName;
+	}
+	
+	public void setReceiveName(String value) {
+		this.receiveName = value;
+	}
+	
+	public String getTransmitStationListens() {
+		return this.transmitStationListens;
+	}
+	
+	public void setTransmitStationListens(String value) {
+		this.transmitStationListens = value;
+	}
+	
+	public String getReceiveNameTotalHours() {
+		return this.receiveNameTotalHours;
+	}
+	
+	public void setReceiveNameTotalHours(String value) {
+		this.receiveNameTotalHours = value;
+	}
+	
+	public String getReceiveListens() {
+		return this.receiveListens;
+	}
+	
+	public void setReceiveListens(String value) {
+		this.receiveListens = value;
+	}
+	
+	public String getLanguageNameListens() {
+		return this.languageNameListens;
+	}
+	
+	public void setLanguageNameListens(String value) {
+		this.languageNameListens = value;
+	}
+	
+	public String getStateName() {
+		return this.stateName;
+	}
+	
+	public void setStateName(String value) {
+		this.stateName = value;
+	}
+	
+	public String getMonthListens() {
+		return this.monthListens;
+	}
+	
+	public void setMonthListens(String value) {
+		this.monthListens = value;
+	}
+	
+	public String getAverageListens() {
+		return this.averageListens;
+	}
+	
+	public void setAverageListens(String value) {
+		this.averageListens = value;
+	}
+	
+	public String getSubReportType() {
+		return this.subReportType;
+	}
+	
+	public void setSubReportType(String value) {
+		this.subReportType = value;
+	}
+	
+	public String getReportType() {
+		return this.reportType;
+	}
+	
+	public void setReportType(String value) {
+		this.reportType = value;
+	}
+	
+	public String getAllListens() {
+		return this.allListens;
+	}
+	
+	public void setAllListens(String value) {
+		this.allListens = value;
+	}
+	
+	public Integer getRunplanId() {
+		return this.runplanId;
+	}
+	
+	public void setRunplanId(Integer value) {
+		this.runplanId = value;
+	}
+	
+
+
+	
+}
+

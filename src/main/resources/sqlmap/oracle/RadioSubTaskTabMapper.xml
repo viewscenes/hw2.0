@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.RadioSubTaskTabMapper">
+
+	<resultMap id="RadioSubTaskTab" type="com.hw.domain.po.RadioSubTaskTab">
+        <result property="subTaskId" column="SUB_TASK_ID"/>
+        <result property="band" column="BAND"/>
+        <result property="startfreq" column="STARTFREQ"/>
+        <result property="endfreq" column="ENDFREQ"/>
+        <result property="stepfreq" column="STEPFREQ"/>
+        <result property="taskId" column="TASK_ID"/>
+        <result property="fromRunplan" column="FROM_RUNPLAN"/>
+        <result property="isDelete" column="IS_DELETE"/>
+        <result property="equCode" column="EQU_CODE"/>
+        <result property="freq" column="FREQ"/>
+        <result property="bps" column="BPS"/>
+        <result property="stationName" column="STATION_NAME"/>
+        <result property="language" column="LANGUAGE"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		SUB_TASK_ID,BAND,STARTFREQ,ENDFREQ,STEPFREQ,TASK_ID,FROM_RUNPLAN,IS_DELETE,EQU_CODE,FREQ,BPS,STATION_NAME,LANGUAGE
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="subTaskId">
+    <![CDATA[
+        INSERT INTO RADIO_SUB_TASK_TAB (
+        	SUB_TASK_ID ,
+        	BAND ,
+        	STARTFREQ ,
+        	ENDFREQ ,
+        	STEPFREQ ,
+        	TASK_ID ,
+        	FROM_RUNPLAN ,
+        	IS_DELETE ,
+        	EQU_CODE ,
+        	FREQ ,
+        	BPS ,
+        	STATION_NAME ,
+        	LANGUAGE 
+        ) VALUES (
+        	#{subTaskId} ,
+        	#{band} ,
+        	#{startfreq} ,
+        	#{endfreq} ,
+        	#{stepfreq} ,
+        	#{taskId} ,
+        	#{fromRunplan} ,
+        	#{isDelete} ,
+        	#{equCode} ,
+        	#{freq} ,
+        	#{bps} ,
+        	#{stationName} ,
+        	#{language} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE RADIO_SUB_TASK_TAB SET
+	        BAND = #{band} ,
+	        STARTFREQ = #{startfreq} ,
+	        ENDFREQ = #{endfreq} ,
+	        STEPFREQ = #{stepfreq} ,
+	        TASK_ID = #{taskId} ,
+	        FROM_RUNPLAN = #{fromRunplan} ,
+	        IS_DELETE = #{isDelete} ,
+	        EQU_CODE = #{equCode} ,
+	        FREQ = #{freq} ,
+	        BPS = #{bps} ,
+	        STATION_NAME = #{stationName} ,
+	        LANGUAGE = #{language} 
+        WHERE 
+	        SUB_TASK_ID = #{subTaskId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM RADIO_SUB_TASK_TAB WHERE
+        SUB_TASK_ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RadioSubTaskTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM RADIO_SUB_TASK_TAB 
+	        WHERE 
+		        SUB_TASK_ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(subTaskId)">
+				AND SUB_TASK_ID = #{subTaskId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(band)">
+				AND BAND = #{band}
+			</if>
+	       <if test="@Ognl@isNotEmpty(startfreq)">
+				AND STARTFREQ = #{startfreq}
+			</if>
+	       <if test="@Ognl@isNotEmpty(endfreq)">
+				AND ENDFREQ = #{endfreq}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stepfreq)">
+				AND STEPFREQ = #{stepfreq}
+			</if>
+	       <if test="@Ognl@isNotEmpty(taskId)">
+				AND TASK_ID = #{taskId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(fromRunplan)">
+				AND FROM_RUNPLAN = #{fromRunplan}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isDelete)">
+				AND IS_DELETE = #{isDelete}
+			</if>
+	       <if test="@Ognl@isNotEmpty(equCode)">
+				AND EQU_CODE = #{equCode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(freq)">
+				AND FREQ = #{freq}
+			</if>
+	       <if test="@Ognl@isNotEmpty(bps)">
+				AND BPS = #{bps}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stationName)">
+				AND STATION_NAME = #{stationName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(language)">
+				AND LANGUAGE = #{language}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM RADIO_SUB_TASK_TAB 
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RadioSubTaskTab">
+    	SELECT <include refid="columns" />
+	    FROM RADIO_SUB_TASK_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

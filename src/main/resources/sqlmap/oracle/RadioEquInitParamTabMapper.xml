@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.RadioEquInitParamTabMapper">
+
+	<resultMap id="RadioEquInitParamTab" type="com.hw.domain.po.RadioEquInitParamTab">
+        <result property="paramId" column="PARAM_ID"/>
+        <result property="headId" column="HEAD_ID"/>
+        <result property="headCode" column="HEAD_CODE"/>
+        <result property="typeId" column="TYPE_ID"/>
+        <result property="srccode" column="SRCCODE"/>
+        <result property="upurl" column="UPURL"/>
+        <result property="ftp" column="FTP"/>
+        <result property="ftpport" column="FTPPORT"/>
+        <result property="ftpuser" column="FTPUSER"/>
+        <result property="ftppassword" column="FTPPASSWORD"/>
+        <result property="ftppath" column="FTPPATH"/>
+        <result property="phonemain" column="PHONEMAIN"/>
+        <result property="lognamemain" column="LOGNAMEMAIN"/>
+        <result property="logpasswordmain" column="LOGPASSWORDMAIN"/>
+        <result property="phoneslave" column="PHONESLAVE"/>
+        <result property="lognameslave" column="LOGNAMESLAVE"/>
+        <result property="logpasswordslave" column="LOGPASSWORDSLAVE"/>
+        <result property="nativelogpassword" column="NATIVELOGPASSWORD"/>
+        <result property="timeserver" column="TIMESERVER"/>
+        <result property="batteryleveldownthreshold" column="BATTERYLEVELDOWNTHRESHOLD"/>
+        <result property="shutdowndelaytime" column="SHUTDOWNDELAYTIME"/>
+        <result property="checkups" column="CHECKUPS"/>
+        <result property="offlinetime" column="OFFLINETIME"/>
+        <result property="spectrumscansamplelength" column="SPECTRUMSCANSAMPLELENGTH"/>
+        <result property="r1" column="R1"/>
+        <result property="r2" column="R2"/>
+        <result property="r3" column="R3"/>
+        <result property="r4" column="R4"/>
+        <result property="r5" column="R5"/>
+        <result property="r6" column="R6"/>
+        <result property="r7" column="R7"/>
+        <result property="r8" column="R8"/>
+        <result property="r9" column="R9"/>
+        <result property="compresssize" column="COMPRESSSIZE"/>
+        <result property="logexpiredays" column="LOGEXPIREDAYS"/>
+        <result property="stationstatusreportinterval" column="STATIONSTATUSREPORTINTERVAL"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		PARAM_ID,HEAD_ID,HEAD_CODE,TYPE_ID,SRCCODE,UPURL,FTP,FTPPORT,FTPUSER,FTPPASSWORD,FTPPATH,PHONEMAIN,LOGNAMEMAIN,LOGPASSWORDMAIN,PHONESLAVE,LOGNAMESLAVE,LOGPASSWORDSLAVE,NATIVELOGPASSWORD,TIMESERVER,BATTERYLEVELDOWNTHRESHOLD,SHUTDOWNDELAYTIME,CHECKUPS,OFFLINETIME,SPECTRUMSCANSAMPLELENGTH,R1,R2,R3,R4,R5,R6,R7,R8,R9,COMPRESSSIZE,LOGEXPIREDAYS,STATIONSTATUSREPORTINTERVAL
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="paramId">
+    <![CDATA[
+        INSERT INTO RADIO_EQU_INIT_PARAM_TAB (
+        	PARAM_ID ,
+        	HEAD_ID ,
+        	HEAD_CODE ,
+        	TYPE_ID ,
+        	SRCCODE ,
+        	UPURL ,
+        	FTP ,
+        	FTPPORT ,
+        	FTPUSER ,
+        	FTPPASSWORD ,
+        	FTPPATH ,
+        	PHONEMAIN ,
+        	LOGNAMEMAIN ,
+        	LOGPASSWORDMAIN ,
+        	PHONESLAVE ,
+        	LOGNAMESLAVE ,
+        	LOGPASSWORDSLAVE ,
+        	NATIVELOGPASSWORD ,
+        	TIMESERVER ,
+        	BATTERYLEVELDOWNTHRESHOLD ,
+        	SHUTDOWNDELAYTIME ,
+        	CHECKUPS ,
+        	OFFLINETIME ,
+        	SPECTRUMSCANSAMPLELENGTH ,
+        	R1 ,
+        	R2 ,
+        	R3 ,
+        	R4 ,
+        	R5 ,
+        	R6 ,
+        	R7 ,
+        	R8 ,
+        	R9 ,
+        	COMPRESSSIZE ,
+        	LOGEXPIREDAYS ,
+        	STATIONSTATUSREPORTINTERVAL 
+        ) VALUES (
+        	#{paramId} ,
+        	#{headId} ,
+        	#{headCode} ,
+        	#{typeId} ,
+        	#{srccode} ,
+        	#{upurl} ,
+        	#{ftp} ,
+        	#{ftpport} ,
+        	#{ftpuser} ,
+        	#{ftppassword} ,
+        	#{ftppath} ,
+        	#{phonemain} ,
+        	#{lognamemain} ,
+        	#{logpasswordmain} ,
+        	#{phoneslave} ,
+        	#{lognameslave} ,
+        	#{logpasswordslave} ,
+        	#{nativelogpassword} ,
+        	#{timeserver} ,
+        	#{batteryleveldownthreshold} ,
+        	#{shutdowndelaytime} ,
+        	#{checkups} ,
+        	#{offlinetime} ,
+        	#{spectrumscansamplelength} ,
+        	#{r1} ,
+        	#{r2} ,
+        	#{r3} ,
+        	#{r4} ,
+        	#{r5} ,
+        	#{r6} ,
+        	#{r7} ,
+        	#{r8} ,
+        	#{r9} ,
+        	#{compresssize} ,
+        	#{logexpiredays} ,
+        	#{stationstatusreportinterval} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE RADIO_EQU_INIT_PARAM_TAB SET
+	        HEAD_ID = #{headId} ,
+	        HEAD_CODE = #{headCode} ,
+	        TYPE_ID = #{typeId} ,
+	        SRCCODE = #{srccode} ,
+	        UPURL = #{upurl} ,
+	        FTP = #{ftp} ,
+	        FTPPORT = #{ftpport} ,
+	        FTPUSER = #{ftpuser} ,
+	        FTPPASSWORD = #{ftppassword} ,
+	        FTPPATH = #{ftppath} ,
+	        PHONEMAIN = #{phonemain} ,
+	        LOGNAMEMAIN = #{lognamemain} ,
+	        LOGPASSWORDMAIN = #{logpasswordmain} ,
+	        PHONESLAVE = #{phoneslave} ,
+	        LOGNAMESLAVE = #{lognameslave} ,
+	        LOGPASSWORDSLAVE = #{logpasswordslave} ,
+	        NATIVELOGPASSWORD = #{nativelogpassword} ,
+	        TIMESERVER = #{timeserver} ,
+	        BATTERYLEVELDOWNTHRESHOLD = #{batteryleveldownthreshold} ,
+	        SHUTDOWNDELAYTIME = #{shutdowndelaytime} ,
+	        CHECKUPS = #{checkups} ,
+	        OFFLINETIME = #{offlinetime} ,
+	        SPECTRUMSCANSAMPLELENGTH = #{spectrumscansamplelength} ,
+	        R1 = #{r1} ,
+	        R2 = #{r2} ,
+	        R3 = #{r3} ,
+	        R4 = #{r4} ,
+	        R5 = #{r5} ,
+	        R6 = #{r6} ,
+	        R7 = #{r7} ,
+	        R8 = #{r8} ,
+	        R9 = #{r9} ,
+	        COMPRESSSIZE = #{compresssize} ,
+	        LOGEXPIREDAYS = #{logexpiredays} ,
+	        STATIONSTATUSREPORTINTERVAL = #{stationstatusreportinterval} 
+        WHERE 
+	        PARAM_ID = #{paramId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM RADIO_EQU_INIT_PARAM_TAB WHERE
+        PARAM_ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RadioEquInitParamTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM RADIO_EQU_INIT_PARAM_TAB 
+	        WHERE 
+		        PARAM_ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(paramId)">
+				AND PARAM_ID = #{paramId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headId)">
+				AND HEAD_ID = #{headId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headCode)">
+				AND HEAD_CODE = #{headCode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(typeId)">
+				AND TYPE_ID = #{typeId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(srccode)">
+				AND SRCCODE = #{srccode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(upurl)">
+				AND UPURL = #{upurl}
+			</if>
+	       <if test="@Ognl@isNotEmpty(ftp)">
+				AND FTP = #{ftp}
+			</if>
+	       <if test="@Ognl@isNotEmpty(ftpport)">
+				AND FTPPORT = #{ftpport}
+			</if>
+	       <if test="@Ognl@isNotEmpty(ftpuser)">
+				AND FTPUSER = #{ftpuser}
+			</if>
+	       <if test="@Ognl@isNotEmpty(ftppassword)">
+				AND FTPPASSWORD = #{ftppassword}
+			</if>
+	       <if test="@Ognl@isNotEmpty(ftppath)">
+				AND FTPPATH = #{ftppath}
+			</if>
+	       <if test="@Ognl@isNotEmpty(phonemain)">
+				AND PHONEMAIN = #{phonemain}
+			</if>
+	       <if test="@Ognl@isNotEmpty(lognamemain)">
+				AND LOGNAMEMAIN = #{lognamemain}
+			</if>
+	       <if test="@Ognl@isNotEmpty(logpasswordmain)">
+				AND LOGPASSWORDMAIN = #{logpasswordmain}
+			</if>
+	       <if test="@Ognl@isNotEmpty(phoneslave)">
+				AND PHONESLAVE = #{phoneslave}
+			</if>
+	       <if test="@Ognl@isNotEmpty(lognameslave)">
+				AND LOGNAMESLAVE = #{lognameslave}
+			</if>
+	       <if test="@Ognl@isNotEmpty(logpasswordslave)">
+				AND LOGPASSWORDSLAVE = #{logpasswordslave}
+			</if>
+	       <if test="@Ognl@isNotEmpty(nativelogpassword)">
+				AND NATIVELOGPASSWORD = #{nativelogpassword}
+			</if>
+	       <if test="@Ognl@isNotEmpty(timeserver)">
+				AND TIMESERVER = #{timeserver}
+			</if>
+	       <if test="@Ognl@isNotEmpty(batteryleveldownthreshold)">
+				AND BATTERYLEVELDOWNTHRESHOLD = #{batteryleveldownthreshold}
+			</if>
+	       <if test="@Ognl@isNotEmpty(shutdowndelaytime)">
+				AND SHUTDOWNDELAYTIME = #{shutdowndelaytime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(checkups)">
+				AND CHECKUPS = #{checkups}
+			</if>
+	       <if test="@Ognl@isNotEmpty(offlinetime)">
+				AND OFFLINETIME = #{offlinetime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(spectrumscansamplelength)">
+				AND SPECTRUMSCANSAMPLELENGTH = #{spectrumscansamplelength}
+			</if>
+	       <if test="@Ognl@isNotEmpty(r1)">
+				AND R1 = #{r1}
+			</if>
+	       <if test="@Ognl@isNotEmpty(r2)">
+				AND R2 = #{r2}
+			</if>
+	       <if test="@Ognl@isNotEmpty(r3)">
+				AND R3 = #{r3}
+			</if>
+	       <if test="@Ognl@isNotEmpty(r4)">
+				AND R4 = #{r4}
+			</if>
+	       <if test="@Ognl@isNotEmpty(r5)">
+				AND R5 = #{r5}
+			</if>
+	       <if test="@Ognl@isNotEmpty(r6)">
+				AND R6 = #{r6}
+			</if>
+	       <if test="@Ognl@isNotEmpty(r7)">
+				AND R7 = #{r7}
+			</if>
+	       <if test="@Ognl@isNotEmpty(r8)">
+				AND R8 = #{r8}
+			</if>
+	       <if test="@Ognl@isNotEmpty(r9)">
+				AND R9 = #{r9}
+			</if>
+	       <if test="@Ognl@isNotEmpty(compresssize)">
+				AND COMPRESSSIZE = #{compresssize}
+			</if>
+	       <if test="@Ognl@isNotEmpty(logexpiredays)">
+				AND LOGEXPIREDAYS = #{logexpiredays}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stationstatusreportinterval)">
+				AND STATIONSTATUSREPORTINTERVAL = #{stationstatusreportinterval}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM RADIO_EQU_INIT_PARAM_TAB 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RadioEquInitParamTab">
+    	SELECT <include refid="columns" />
+	    FROM RADIO_EQU_INIT_PARAM_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

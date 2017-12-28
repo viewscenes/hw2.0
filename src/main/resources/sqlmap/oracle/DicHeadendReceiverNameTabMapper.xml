@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.DicHeadendReceiverNameTabMapper">
+
+	<resultMap id="DicHeadendReceiverNameTab" type="com.hw.domain.po.DicHeadendReceiverNameTab">
+        <result property="nameId" column="NAME_ID"/>
+        <result property="name" column="NAME"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		NAME_ID,NAME
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="nameId">
+    <![CDATA[
+        INSERT INTO DIC_HEADEND_RECEIVER_NAME_TAB (
+        	NAME_ID ,
+        	NAME 
+        ) VALUES (
+        	#{nameId} ,
+        	#{name} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE DIC_HEADEND_RECEIVER_NAME_TAB SET
+	        NAME = #{name} 
+        WHERE 
+	        NAME_ID = #{nameId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM DIC_HEADEND_RECEIVER_NAME_TAB WHERE
+        NAME_ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="DicHeadendReceiverNameTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM DIC_HEADEND_RECEIVER_NAME_TAB 
+	        WHERE 
+		        NAME_ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(nameId)">
+				AND NAME_ID = #{nameId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(name)">
+				AND NAME = #{name}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM DIC_HEADEND_RECEIVER_NAME_TAB 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="DicHeadendReceiverNameTab">
+    	SELECT <include refid="columns" />
+	    FROM DIC_HEADEND_RECEIVER_NAME_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

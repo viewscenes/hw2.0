@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.RadioSpectrumRealtimeTabMapper">
+
+	<resultMap id="RadioSpectrumRealtimeTab" type="com.hw.domain.po.RadioSpectrumRealtimeTab">
+        <result property="realtimeId" column="REALTIME_ID"/>
+        <result property="equCode" column="EQU_CODE"/>
+        <result property="band" column="BAND"/>
+        <result property="checkDatetime" column="CHECK_DATETIME"/>
+        <result property="frequency" column="FREQUENCY"/>
+        <result property="elevel" column="E_LEVEL"/>
+        <result property="headId" column="HEAD_ID"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		REALTIME_ID,EQU_CODE,BAND,CHECK_DATETIME,FREQUENCY,E_LEVEL,HEAD_ID
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="realtimeId">
+    <![CDATA[
+        INSERT INTO RADIO_SPECTRUM_REALTIME_TAB (
+        	REALTIME_ID ,
+        	EQU_CODE ,
+        	BAND ,
+        	CHECK_DATETIME ,
+        	FREQUENCY ,
+        	E_LEVEL ,
+        	HEAD_ID 
+        ) VALUES (
+        	#{realtimeId} ,
+        	#{equCode} ,
+        	#{band} ,
+        	#{checkDatetime} ,
+        	#{frequency} ,
+        	#{elevel} ,
+        	#{headId} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE RADIO_SPECTRUM_REALTIME_TAB SET
+	        EQU_CODE = #{equCode} ,
+	        BAND = #{band} ,
+	        CHECK_DATETIME = #{checkDatetime} ,
+	        FREQUENCY = #{frequency} ,
+	        E_LEVEL = #{elevel} ,
+	        HEAD_ID = #{headId} 
+        WHERE 
+	        REALTIME_ID = #{realtimeId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM RADIO_SPECTRUM_REALTIME_TAB WHERE
+        REALTIME_ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RadioSpectrumRealtimeTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM RADIO_SPECTRUM_REALTIME_TAB 
+	        WHERE 
+		        REALTIME_ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(realtimeId)">
+				AND REALTIME_ID = #{realtimeId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(equCode)">
+				AND EQU_CODE = #{equCode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(band)">
+				AND BAND = #{band}
+			</if>
+	       <if test="@Ognl@isNotEmpty(checkDatetimeBegin)">
+				AND CHECK_DATETIME >= #{checkDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(checkDatetimeEnd)">
+				AND CHECK_DATETIME &lt;= #{checkDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(frequency)">
+				AND FREQUENCY = #{frequency}
+			</if>
+	       <if test="@Ognl@isNotEmpty(elevel)">
+				AND E_LEVEL = #{elevel}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headId)">
+				AND HEAD_ID = #{headId}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM RADIO_SPECTRUM_REALTIME_TAB 
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RadioSpectrumRealtimeTab">
+    	SELECT <include refid="columns" />
+	    FROM RADIO_SPECTRUM_REALTIME_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

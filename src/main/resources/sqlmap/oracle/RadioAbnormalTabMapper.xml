@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.RadioAbnormalTabMapper">
+
+	<resultMap id="RadioAbnormalTab" type="com.hw.domain.po.RadioAbnormalTab">
+        <result property="id" column="ID"/>
+        <result property="sendCounty" column="SEND_COUNTY"/>
+        <result property="sendCity" column="SEND_CITY"/>
+        <result property="broadcastingOrganizations" column="BROADCASTING_ORGANIZATIONS"/>
+        <result property="remoteStation" column="REMOTE_STATION"/>
+        <result property="collectionPoint" column="COLLECTION_POINT"/>
+        <result property="frequency" column="FREQUENCY"/>
+        <result property="languageId" column="LANGUAGE_ID"/>
+        <result property="languageName" column="LANGUAGE_NAME"/>
+        <result property="stationId" column="STATION_ID"/>
+        <result property="stationName" column="STATION_NAME"/>
+        <result property="tranNo" column="TRAN_NO"/>
+        <result property="power" column="POWER"/>
+        <result property="getType" column="GET_TYPE"/>
+        <result property="abnormalType" column="ABNORMAL_TYPE"/>
+        <result property="abnormalDate" column="ABNORMAL_DATE"/>
+        <result property="starttime" column="STARTTIME"/>
+        <result property="endtime" column="ENDTIME"/>
+        <result property="type" column="TYPE"/>
+        <result property="remark" column="REMARK"/>
+        <result property="playTime" column="PLAY_TIME"/>
+        <result property="isProofread" column="IS_PROOFREAD"/>
+        <result property="isAudit" column="IS_AUDIT"/>
+        <result property="oraAlarmId" column="ORA_ALARM_ID"/>
+        <result property="insertPerson" column="INSERT_PERSON"/>
+        <result property="proofPerson" column="PROOF_PERSON"/>
+        <result property="auditPerson" column="AUDIT_PERSON"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		ID,SEND_COUNTY,SEND_CITY,BROADCASTING_ORGANIZATIONS,REMOTE_STATION,COLLECTION_POINT,FREQUENCY,LANGUAGE_ID,LANGUAGE_NAME,STATION_ID,STATION_NAME,TRAN_NO,POWER,GET_TYPE,ABNORMAL_TYPE,ABNORMAL_DATE,STARTTIME,ENDTIME,TYPE,REMARK,PLAY_TIME,IS_PROOFREAD,IS_AUDIT,ORA_ALARM_ID,INSERT_PERSON,PROOF_PERSON,AUDIT_PERSON
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO RADIO_ABNORMAL_TAB (
+        	ID ,
+        	SEND_COUNTY ,
+        	SEND_CITY ,
+        	BROADCASTING_ORGANIZATIONS ,
+        	REMOTE_STATION ,
+        	COLLECTION_POINT ,
+        	FREQUENCY ,
+        	LANGUAGE_ID ,
+        	LANGUAGE_NAME ,
+        	STATION_ID ,
+        	STATION_NAME ,
+        	TRAN_NO ,
+        	POWER ,
+        	GET_TYPE ,
+        	ABNORMAL_TYPE ,
+        	ABNORMAL_DATE ,
+        	STARTTIME ,
+        	ENDTIME ,
+        	TYPE ,
+        	REMARK ,
+        	PLAY_TIME ,
+        	IS_PROOFREAD ,
+        	IS_AUDIT ,
+        	ORA_ALARM_ID ,
+        	INSERT_PERSON ,
+        	PROOF_PERSON ,
+        	AUDIT_PERSON 
+        ) VALUES (
+        	#{id} ,
+        	#{sendCounty} ,
+        	#{sendCity} ,
+        	#{broadcastingOrganizations} ,
+        	#{remoteStation} ,
+        	#{collectionPoint} ,
+        	#{frequency} ,
+        	#{languageId} ,
+        	#{languageName} ,
+        	#{stationId} ,
+        	#{stationName} ,
+        	#{tranNo} ,
+        	#{power} ,
+        	#{getType} ,
+        	#{abnormalType} ,
+        	#{abnormalDate} ,
+        	#{starttime} ,
+        	#{endtime} ,
+        	#{type} ,
+        	#{remark} ,
+        	#{playTime} ,
+        	#{isProofread} ,
+        	#{isAudit} ,
+        	#{oraAlarmId} ,
+        	#{insertPerson} ,
+        	#{proofPerson} ,
+        	#{auditPerson} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE RADIO_ABNORMAL_TAB SET
+	        SEND_COUNTY = #{sendCounty} ,
+	        SEND_CITY = #{sendCity} ,
+	        BROADCASTING_ORGANIZATIONS = #{broadcastingOrganizations} ,
+	        REMOTE_STATION = #{remoteStation} ,
+	        COLLECTION_POINT = #{collectionPoint} ,
+	        FREQUENCY = #{frequency} ,
+	        LANGUAGE_ID = #{languageId} ,
+	        LANGUAGE_NAME = #{languageName} ,
+	        STATION_ID = #{stationId} ,
+	        STATION_NAME = #{stationName} ,
+	        TRAN_NO = #{tranNo} ,
+	        POWER = #{power} ,
+	        GET_TYPE = #{getType} ,
+	        ABNORMAL_TYPE = #{abnormalType} ,
+	        ABNORMAL_DATE = #{abnormalDate} ,
+	        STARTTIME = #{starttime} ,
+	        ENDTIME = #{endtime} ,
+	        TYPE = #{type} ,
+	        REMARK = #{remark} ,
+	        PLAY_TIME = #{playTime} ,
+	        IS_PROOFREAD = #{isProofread} ,
+	        IS_AUDIT = #{isAudit} ,
+	        ORA_ALARM_ID = #{oraAlarmId} ,
+	        INSERT_PERSON = #{insertPerson} ,
+	        PROOF_PERSON = #{proofPerson} ,
+	        AUDIT_PERSON = #{auditPerson} 
+        WHERE 
+	        ID = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM RADIO_ABNORMAL_TAB WHERE
+        ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RadioAbnormalTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM RADIO_ABNORMAL_TAB
+	        WHERE 
+		        ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND ID = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(sendCounty)">
+				AND SEND_COUNTY = #{sendCounty}
+			</if>
+	       <if test="@Ognl@isNotEmpty(sendCity)">
+				AND SEND_CITY = #{sendCity}
+			</if>
+	       <if test="@Ognl@isNotEmpty(broadcastingOrganizations)">
+				AND BROADCASTING_ORGANIZATIONS = #{broadcastingOrganizations}
+			</if>
+	       <if test="@Ognl@isNotEmpty(remoteStation)">
+				AND REMOTE_STATION = #{remoteStation}
+			</if>
+	       <if test="@Ognl@isNotEmpty(collectionPoint)">
+				AND COLLECTION_POINT = #{collectionPoint}
+			</if>
+	       <if test="@Ognl@isNotEmpty(frequency)">
+				AND FREQUENCY = #{frequency}
+			</if>
+	       <if test="@Ognl@isNotEmpty(languageId)">
+				AND LANGUAGE_ID = #{languageId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(languageName)">
+				AND LANGUAGE_NAME = #{languageName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stationId)">
+				AND STATION_ID = #{stationId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stationName)">
+				AND STATION_NAME = #{stationName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(tranNo)">
+				AND TRAN_NO = #{tranNo}
+			</if>
+	       <if test="@Ognl@isNotEmpty(power)">
+				AND POWER = #{power}
+			</if>
+	       <if test="@Ognl@isNotEmpty(getType)">
+				AND GET_TYPE = #{getType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(abnormalType)">
+				AND ABNORMAL_TYPE = #{abnormalType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(abnormalDateBegin)">
+				AND ABNORMAL_DATE >= #{abnormalDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(abnormalDateEnd)">
+				AND ABNORMAL_DATE &lt;= #{abnormalDateEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(starttimeBegin)">
+				AND STARTTIME >= #{starttimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(starttimeEnd)">
+				AND STARTTIME &lt;= #{starttimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(endtimeBegin)">
+				AND ENDTIME >= #{endtimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endtimeEnd)">
+				AND ENDTIME &lt;= #{endtimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(type)">
+				AND TYPE = #{type}
+			</if>
+	       <if test="@Ognl@isNotEmpty(remark)">
+				AND REMARK = #{remark}
+			</if>
+	       <if test="@Ognl@isNotEmpty(playTime)">
+				AND PLAY_TIME = #{playTime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isProofread)">
+				AND IS_PROOFREAD = #{isProofread}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isAudit)">
+				AND IS_AUDIT = #{isAudit}
+			</if>
+	       <if test="@Ognl@isNotEmpty(oraAlarmId)">
+				AND ORA_ALARM_ID = #{oraAlarmId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(insertPerson)">
+				AND INSERT_PERSON = #{insertPerson}
+			</if>
+	       <if test="@Ognl@isNotEmpty(proofPerson)">
+				AND PROOF_PERSON = #{proofPerson}
+			</if>
+	       <if test="@Ognl@isNotEmpty(auditPerson)">
+				AND AUDIT_PERSON = #{auditPerson}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM RADIO_ABNORMAL_TAB
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RadioAbnormalTab">
+    	SELECT <include refid="columns" />
+	    FROM RADIO_ABNORMAL_TAB
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

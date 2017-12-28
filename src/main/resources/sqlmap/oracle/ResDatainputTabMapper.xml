@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.ResDatainputTabMapper">
+
+	<resultMap id="ResDatainputTab" type="com.hw.domain.po.ResDatainputTab">
+        <result property="dataId" column="DATA_ID"/>
+        <result property="dataType" column="DATA_TYPE"/>
+        <result property="freq" column="FREQ"/>
+        <result property="languageId" column="LANGUAGE_ID"/>
+        <result property="languageName" column="LANGUAGE_NAME"/>
+        <result property="stationId" column="STATION_ID"/>
+        <result property="stationName" column="STATION_NAME"/>
+        <result property="power" column="POWER"/>
+        <result property="direction" column="DIRECTION"/>
+        <result property="serviceArea" column="SERVICE_AREA"/>
+        <result property="ciraf" column="CIRAF"/>
+        <result property="receiveCountry" column="RECEIVE_COUNTRY"/>
+        <result property="receiveCity" column="RECEIVE_CITY"/>
+        <result property="datasource" column="DATASOURCE"/>
+        <result property="startTime" column="START_TIME"/>
+        <result property="endTime" column="END_TIME"/>
+        <result property="receiveDate" column="RECEIVE_DATE"/>
+        <result property="receiveTime" column="RECEIVE_TIME"/>
+        <result property="programType" column="PROGRAM_TYPE"/>
+        <result property="fieldStrength" column="FIELD_STRENGTH"/>
+        <result property="s" column="S"/>
+        <result property="i" column="I"/>
+        <result property="o" column="O"/>
+        <result property="levelValue" column="LEVEL_VALUE"/>
+        <result property="remark" column="REMARK"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		DATA_ID,DATA_TYPE,FREQ,LANGUAGE_ID,LANGUAGE_NAME,STATION_ID,STATION_NAME,POWER,DIRECTION,SERVICE_AREA,CIRAF,RECEIVE_COUNTRY,RECEIVE_CITY,DATASOURCE,START_TIME,END_TIME,RECEIVE_DATE,RECEIVE_TIME,PROGRAM_TYPE,FIELD_STRENGTH,S,I,O,LEVEL_VALUE,REMARK
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="dataId">
+    <![CDATA[
+        INSERT INTO RES_DATAINPUT_TAB (
+        	DATA_ID ,
+        	DATA_TYPE ,
+        	FREQ ,
+        	LANGUAGE_ID ,
+        	LANGUAGE_NAME ,
+        	STATION_ID ,
+        	STATION_NAME ,
+        	POWER ,
+        	DIRECTION ,
+        	SERVICE_AREA ,
+        	CIRAF ,
+        	RECEIVE_COUNTRY ,
+        	RECEIVE_CITY ,
+        	DATASOURCE ,
+        	START_TIME ,
+        	END_TIME ,
+        	RECEIVE_DATE ,
+        	RECEIVE_TIME ,
+        	PROGRAM_TYPE ,
+        	FIELD_STRENGTH ,
+        	S ,
+        	I ,
+        	O ,
+        	LEVEL_VALUE ,
+        	REMARK 
+        ) VALUES (
+        	#{dataId} ,
+        	#{dataType} ,
+        	#{freq} ,
+        	#{languageId} ,
+        	#{languageName} ,
+        	#{stationId} ,
+        	#{stationName} ,
+        	#{power} ,
+        	#{direction} ,
+        	#{serviceArea} ,
+        	#{ciraf} ,
+        	#{receiveCountry} ,
+        	#{receiveCity} ,
+        	#{datasource} ,
+        	#{startTime} ,
+        	#{endTime} ,
+        	#{receiveDate} ,
+        	#{receiveTime} ,
+        	#{programType} ,
+        	#{fieldStrength} ,
+        	#{s} ,
+        	#{i} ,
+        	#{o} ,
+        	#{levelValue} ,
+        	#{remark} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE RES_DATAINPUT_TAB SET
+	        DATA_TYPE = #{dataType} ,
+	        FREQ = #{freq} ,
+	        LANGUAGE_ID = #{languageId} ,
+	        LANGUAGE_NAME = #{languageName} ,
+	        STATION_ID = #{stationId} ,
+	        STATION_NAME = #{stationName} ,
+	        POWER = #{power} ,
+	        DIRECTION = #{direction} ,
+	        SERVICE_AREA = #{serviceArea} ,
+	        CIRAF = #{ciraf} ,
+	        RECEIVE_COUNTRY = #{receiveCountry} ,
+	        RECEIVE_CITY = #{receiveCity} ,
+	        DATASOURCE = #{datasource} ,
+	        START_TIME = #{startTime} ,
+	        END_TIME = #{endTime} ,
+	        RECEIVE_DATE = #{receiveDate} ,
+	        RECEIVE_TIME = #{receiveTime} ,
+	        PROGRAM_TYPE = #{programType} ,
+	        FIELD_STRENGTH = #{fieldStrength} ,
+	        S = #{s} ,
+	        I = #{i} ,
+	        O = #{o} ,
+	        LEVEL_VALUE = #{levelValue} ,
+	        REMARK = #{remark} 
+        WHERE 
+	        DATA_ID = #{dataId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM RES_DATAINPUT_TAB WHERE
+        DATA_ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="ResDatainputTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM RES_DATAINPUT_TAB 
+	        WHERE 
+		        DATA_ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(dataId)">
+				AND DATA_ID = #{dataId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(dataType)">
+				AND DATA_TYPE = #{dataType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(freq)">
+				AND FREQ = #{freq}
+			</if>
+	       <if test="@Ognl@isNotEmpty(languageId)">
+				AND LANGUAGE_ID = #{languageId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(languageName)">
+				AND LANGUAGE_NAME = #{languageName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stationId)">
+				AND STATION_ID = #{stationId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stationName)">
+				AND STATION_NAME = #{stationName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(power)">
+				AND POWER = #{power}
+			</if>
+	       <if test="@Ognl@isNotEmpty(direction)">
+				AND DIRECTION = #{direction}
+			</if>
+	       <if test="@Ognl@isNotEmpty(serviceArea)">
+				AND SERVICE_AREA = #{serviceArea}
+			</if>
+	       <if test="@Ognl@isNotEmpty(ciraf)">
+				AND CIRAF = #{ciraf}
+			</if>
+	       <if test="@Ognl@isNotEmpty(receiveCountry)">
+				AND RECEIVE_COUNTRY = #{receiveCountry}
+			</if>
+	       <if test="@Ognl@isNotEmpty(receiveCity)">
+				AND RECEIVE_CITY = #{receiveCity}
+			</if>
+	       <if test="@Ognl@isNotEmpty(datasource)">
+				AND DATASOURCE = #{datasource}
+			</if>
+	       <if test="@Ognl@isNotEmpty(startTimeBegin)">
+				AND START_TIME >= #{startTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(startTimeEnd)">
+				AND START_TIME &lt;= #{startTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(endTimeBegin)">
+				AND END_TIME >= #{endTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endTimeEnd)">
+				AND END_TIME &lt;= #{endTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(receiveDateBegin)">
+				AND RECEIVE_DATE >= #{receiveDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(receiveDateEnd)">
+				AND RECEIVE_DATE &lt;= #{receiveDateEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(receiveTime)">
+				AND RECEIVE_TIME = #{receiveTime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(programType)">
+				AND PROGRAM_TYPE = #{programType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(fieldStrength)">
+				AND FIELD_STRENGTH = #{fieldStrength}
+			</if>
+	       <if test="@Ognl@isNotEmpty(s)">
+				AND S = #{s}
+			</if>
+	       <if test="@Ognl@isNotEmpty(i)">
+				AND I = #{i}
+			</if>
+	       <if test="@Ognl@isNotEmpty(o)">
+				AND O = #{o}
+			</if>
+	       <if test="@Ognl@isNotEmpty(levelValue)">
+				AND LEVEL_VALUE = #{levelValue}
+			</if>
+	       <if test="@Ognl@isNotEmpty(remark)">
+				AND REMARK = #{remark}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM RES_DATAINPUT_TAB 
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="ResDatainputTab">
+    	SELECT <include refid="columns" />
+	    FROM RES_DATAINPUT_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

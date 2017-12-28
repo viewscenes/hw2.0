@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.SmsSendstateTabMapper">
+
+	<resultMap id="SmsSendstateTab" type="com.hw.domain.po.SmsSendstateTab">
+        <result property="id" column="ID"/>
+        <result property="userid" column="USERID"/>
+        <result property="sms" column="SMS"/>
+        <result property="state" column="STATE"/>
+        <result property="mobilephone" column="MOBILEPHONE"/>
+        <result property="msgTime" column="MSG_TIME"/>
+        <result property="sendTime" column="SEND_TIME"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		ID,USERID,SMS,STATE,MOBILEPHONE,MSG_TIME,SEND_TIME
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO SMS_SENDSTATE_TAB (
+        	ID ,
+        	USERID ,
+        	SMS ,
+        	STATE ,
+        	MOBILEPHONE ,
+        	MSG_TIME ,
+        	SEND_TIME 
+        ) VALUES (
+        	#{id} ,
+        	#{userid} ,
+        	#{sms} ,
+        	#{state} ,
+        	#{mobilephone} ,
+        	#{msgTime} ,
+        	#{sendTime} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE SMS_SENDSTATE_TAB SET
+	        USERID = #{userid} ,
+	        SMS = #{sms} ,
+	        STATE = #{state} ,
+	        MOBILEPHONE = #{mobilephone} ,
+	        MSG_TIME = #{msgTime} ,
+	        SEND_TIME = #{sendTime} 
+        WHERE 
+	        ID = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM SMS_SENDSTATE_TAB WHERE
+        ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="SmsSendstateTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM SMS_SENDSTATE_TAB 
+	        WHERE 
+		        ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND ID = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(userid)">
+				AND USERID = #{userid}
+			</if>
+	       <if test="@Ognl@isNotEmpty(sms)">
+				AND SMS = #{sms}
+			</if>
+	       <if test="@Ognl@isNotEmpty(state)">
+				AND STATE = #{state}
+			</if>
+	       <if test="@Ognl@isNotEmpty(mobilephone)">
+				AND MOBILEPHONE = #{mobilephone}
+			</if>
+	       <if test="@Ognl@isNotEmpty(msgTimeBegin)">
+				AND MSG_TIME >= #{msgTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(msgTimeEnd)">
+				AND MSG_TIME &lt;= #{msgTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(sendTimeBegin)">
+				AND SEND_TIME >= #{sendTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(sendTimeEnd)">
+				AND SEND_TIME &lt;= #{sendTimeEnd}
+		   </if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM SMS_SENDSTATE_TAB 
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="SmsSendstateTab">
+    	SELECT <include refid="columns" />
+	    FROM SMS_SENDSTATE_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

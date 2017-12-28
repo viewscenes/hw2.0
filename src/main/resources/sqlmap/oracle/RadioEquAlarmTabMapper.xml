@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.RadioEquAlarmTabMapper">
+
+	<resultMap id="RadioEquAlarmTab" type="com.hw.domain.po.RadioEquAlarmTab">
+        <result property="alarmId" column="ALARM_ID"/>
+        <result property="headId" column="HEAD_ID"/>
+        <result property="equCode" column="EQU_CODE"/>
+        <result property="originAlarmid" column="ORIGIN_ALARMID"/>
+        <result property="alarmDatetime" column="ALARM_DATETIME"/>
+        <result property="resumeDatetime" column="RESUME_DATETIME"/>
+        <result property="isResume" column="IS_RESUME"/>
+        <result property="type" column="TYPE"/>
+        <result property="description" column="DESCRIPTION"/>
+        <result property="reason" column="REASON"/>
+        <result property="outputlinelevel" column="OUTPUTLINELEVEL"/>
+        <result property="inputlinelevel" column="INPUTLINELEVEL"/>
+        <result property="linefrequency" column="LINEFREQUENCY"/>
+        <result property="batterylevel" column="BATTERYLEVEL"/>
+        <result property="upsstatus" column="UPSSTATUS"/>
+        <result property="reportType" column="REPORT_TYPE"/>
+        <result property="isHandle" column="IS_HANDLE"/>
+        <result property="handleDatetime" column="HANDLE_DATETIME"/>
+        <result property="operator" column="OPERATOR"/>
+        <result property="remark" column="REMARK"/>
+        <result property="isDelete" column="IS_DELETE"/>
+        <result property="headCode" column="HEAD_CODE"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		ALARM_ID,HEAD_ID,EQU_CODE,ORIGIN_ALARMID,ALARM_DATETIME,RESUME_DATETIME,IS_RESUME,TYPE,DESCRIPTION,REASON,OUTPUTLINELEVEL,INPUTLINELEVEL,LINEFREQUENCY,BATTERYLEVEL,UPSSTATUS,REPORT_TYPE,IS_HANDLE,HANDLE_DATETIME,OPERATOR,REMARK,IS_DELETE,HEAD_CODE
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="alarmId">
+    <![CDATA[
+        INSERT INTO RADIO_EQU_ALARM_TAB (
+        	ALARM_ID ,
+        	HEAD_ID ,
+        	EQU_CODE ,
+        	ORIGIN_ALARMID ,
+        	ALARM_DATETIME ,
+        	RESUME_DATETIME ,
+        	IS_RESUME ,
+        	TYPE ,
+        	DESCRIPTION ,
+        	REASON ,
+        	OUTPUTLINELEVEL ,
+        	INPUTLINELEVEL ,
+        	LINEFREQUENCY ,
+        	BATTERYLEVEL ,
+        	UPSSTATUS ,
+        	REPORT_TYPE ,
+        	IS_HANDLE ,
+        	HANDLE_DATETIME ,
+        	OPERATOR ,
+        	REMARK ,
+        	IS_DELETE ,
+        	HEAD_CODE 
+        ) VALUES (
+        	#{alarmId} ,
+        	#{headId} ,
+        	#{equCode} ,
+        	#{originAlarmid} ,
+        	#{alarmDatetime} ,
+        	#{resumeDatetime} ,
+        	#{isResume} ,
+        	#{type} ,
+        	#{description} ,
+        	#{reason} ,
+        	#{outputlinelevel} ,
+        	#{inputlinelevel} ,
+        	#{linefrequency} ,
+        	#{batterylevel} ,
+        	#{upsstatus} ,
+        	#{reportType} ,
+        	#{isHandle} ,
+        	#{handleDatetime} ,
+        	#{operator} ,
+        	#{remark} ,
+        	#{isDelete} ,
+        	#{headCode} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE RADIO_EQU_ALARM_TAB SET
+	        HEAD_ID = #{headId} ,
+	        EQU_CODE = #{equCode} ,
+	        ORIGIN_ALARMID = #{originAlarmid} ,
+	        ALARM_DATETIME = #{alarmDatetime} ,
+	        RESUME_DATETIME = #{resumeDatetime} ,
+	        IS_RESUME = #{isResume} ,
+	        TYPE = #{type} ,
+	        DESCRIPTION = #{description} ,
+	        REASON = #{reason} ,
+	        OUTPUTLINELEVEL = #{outputlinelevel} ,
+	        INPUTLINELEVEL = #{inputlinelevel} ,
+	        LINEFREQUENCY = #{linefrequency} ,
+	        BATTERYLEVEL = #{batterylevel} ,
+	        UPSSTATUS = #{upsstatus} ,
+	        REPORT_TYPE = #{reportType} ,
+	        IS_HANDLE = #{isHandle} ,
+	        HANDLE_DATETIME = #{handleDatetime} ,
+	        OPERATOR = #{operator} ,
+	        REMARK = #{remark} ,
+	        IS_DELETE = #{isDelete} ,
+	        HEAD_CODE = #{headCode} 
+        WHERE 
+	        ALARM_ID = #{alarmId}
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM RADIO_EQU_ALARM_TAB WHERE
+        ALARM_ID = #{id}
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RadioEquAlarmTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM RADIO_EQU_ALARM_TAB
+	        WHERE 
+		        ALARM_ID = #{id}
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(alarmId)">
+				AND ALARM_ID = #{alarmId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headId)">
+				AND HEAD_ID = #{headId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(equCode)">
+				AND EQU_CODE = #{equCode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(originAlarmid)">
+				AND ORIGIN_ALARMID = #{originAlarmid}
+			</if>
+	       <if test="@Ognl@isNotEmpty(alarmDatetimeBegin)">
+				AND ALARM_DATETIME >= #{alarmDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(alarmDatetimeEnd)">
+				AND ALARM_DATETIME &lt;= #{alarmDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(resumeDatetimeBegin)">
+				AND RESUME_DATETIME >= #{resumeDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(resumeDatetimeEnd)">
+				AND RESUME_DATETIME &lt;= #{resumeDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(isResume)">
+				AND IS_RESUME = #{isResume}
+			</if>
+	       <if test="@Ognl@isNotEmpty(type)">
+				AND TYPE = #{type}
+			</if>
+	       <if test="@Ognl@isNotEmpty(description)">
+				AND DESCRIPTION = #{description}
+			</if>
+	       <if test="@Ognl@isNotEmpty(reason)">
+				AND REASON = #{reason}
+			</if>
+	       <if test="@Ognl@isNotEmpty(outputlinelevel)">
+				AND OUTPUTLINELEVEL = #{outputlinelevel}
+			</if>
+	       <if test="@Ognl@isNotEmpty(inputlinelevel)">
+				AND INPUTLINELEVEL = #{inputlinelevel}
+			</if>
+	       <if test="@Ognl@isNotEmpty(linefrequency)">
+				AND LINEFREQUENCY = #{linefrequency}
+			</if>
+	       <if test="@Ognl@isNotEmpty(batterylevel)">
+				AND BATTERYLEVEL = #{batterylevel}
+			</if>
+	       <if test="@Ognl@isNotEmpty(upsstatus)">
+				AND UPSSTATUS = #{upsstatus}
+			</if>
+	       <if test="@Ognl@isNotEmpty(reportType)">
+				AND REPORT_TYPE = #{reportType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isHandle)">
+				AND IS_HANDLE = #{isHandle}
+			</if>
+	       <if test="@Ognl@isNotEmpty(handleDatetimeBegin)">
+				AND HANDLE_DATETIME >= #{handleDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(handleDatetimeEnd)">
+				AND HANDLE_DATETIME &lt;= #{handleDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(operator)">
+				AND OPERATOR = #{operator}
+			</if>
+	       <if test="@Ognl@isNotEmpty(remark)">
+				AND REMARK = #{remark}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isDelete)">
+				AND IS_DELETE = #{isDelete}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headCode)">
+				AND HEAD_CODE = #{headCode}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM RADIO_EQU_ALARM_TAB
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RadioEquAlarmTab">
+    	SELECT <include refid="columns" />
+	    FROM RADIO_EQU_ALARM_TAB
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

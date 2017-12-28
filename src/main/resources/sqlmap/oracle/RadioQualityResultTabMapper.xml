@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.RadioQualityResultTabMapper">
+
+	<resultMap id="RadioQualityResultTab" type="com.hw.domain.po.RadioQualityResultTab">
+        <result property="resultId" column="RESULT_ID"/>
+        <result property="equCode" column="EQU_CODE"/>
+        <result property="taskId" column="TASK_ID"/>
+        <result property="frequency" column="FREQUENCY"/>
+        <result property="checkDatetime" column="CHECK_DATETIME"/>
+        <result property="type" column="TYPE"/>
+        <result property="value1" column="VALUE1"/>
+        <result property="value2" column="VALUE2"/>
+        <result property="reportType" column="REPORT_TYPE"/>
+        <result property="headId" column="HEAD_ID"/>
+        <result property="isDelete" column="IS_DELETE"/>
+        <result property="storeDatetime" column="STORE_DATETIME"/>
+        <result property="description" column="DESCRIPTION"/>
+        <result property="band" column="BAND"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		RESULT_ID,EQU_CODE,TASK_ID,FREQUENCY,CHECK_DATETIME,TYPE,VALUE1,VALUE2,REPORT_TYPE,HEAD_ID,IS_DELETE,STORE_DATETIME,DESCRIPTION,BAND
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="resultId">
+    <![CDATA[
+        INSERT INTO RADIO_QUALITY_RESULT_TAB (
+        	RESULT_ID ,
+        	EQU_CODE ,
+        	TASK_ID ,
+        	FREQUENCY ,
+        	CHECK_DATETIME ,
+        	TYPE ,
+        	VALUE1 ,
+        	VALUE2 ,
+        	REPORT_TYPE ,
+        	HEAD_ID ,
+        	IS_DELETE ,
+        	STORE_DATETIME ,
+        	DESCRIPTION ,
+        	BAND 
+        ) VALUES (
+        	#{resultId} ,
+        	#{equCode} ,
+        	#{taskId} ,
+        	#{frequency} ,
+        	#{checkDatetime} ,
+        	#{type} ,
+        	#{value1} ,
+        	#{value2} ,
+        	#{reportType} ,
+        	#{headId} ,
+        	#{isDelete} ,
+        	#{storeDatetime} ,
+        	#{description} ,
+        	#{band} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE RADIO_QUALITY_RESULT_TAB SET
+	        EQU_CODE = #{equCode} ,
+	        TASK_ID = #{taskId} ,
+	        FREQUENCY = #{frequency} ,
+	        CHECK_DATETIME = #{checkDatetime} ,
+	        TYPE = #{type} ,
+	        VALUE1 = #{value1} ,
+	        VALUE2 = #{value2} ,
+	        REPORT_TYPE = #{reportType} ,
+	        HEAD_ID = #{headId} ,
+	        IS_DELETE = #{isDelete} ,
+	        STORE_DATETIME = #{storeDatetime} ,
+	        DESCRIPTION = #{description} ,
+	        BAND = #{band} 
+        WHERE 
+	        RESULT_ID = #{resultId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM RADIO_QUALITY_RESULT_TAB WHERE
+        RESULT_ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RadioQualityResultTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM RADIO_QUALITY_RESULT_TAB 
+	        WHERE 
+		        RESULT_ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(resultId)">
+				AND RESULT_ID = #{resultId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(equCode)">
+				AND EQU_CODE = #{equCode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(taskId)">
+				AND TASK_ID = #{taskId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(frequency)">
+				AND FREQUENCY = #{frequency}
+			</if>
+	       <if test="@Ognl@isNotEmpty(checkDatetimeBegin)">
+				AND CHECK_DATETIME >= #{checkDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(checkDatetimeEnd)">
+				AND CHECK_DATETIME &lt;= #{checkDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(type)">
+				AND TYPE = #{type}
+			</if>
+	       <if test="@Ognl@isNotEmpty(value1)">
+				AND VALUE1 = #{value1}
+			</if>
+	       <if test="@Ognl@isNotEmpty(value2)">
+				AND VALUE2 = #{value2}
+			</if>
+	       <if test="@Ognl@isNotEmpty(reportType)">
+				AND REPORT_TYPE = #{reportType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headId)">
+				AND HEAD_ID = #{headId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isDelete)">
+				AND IS_DELETE = #{isDelete}
+			</if>
+	       <if test="@Ognl@isNotEmpty(storeDatetimeBegin)">
+				AND STORE_DATETIME >= #{storeDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(storeDatetimeEnd)">
+				AND STORE_DATETIME &lt;= #{storeDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(description)">
+				AND DESCRIPTION = #{description}
+			</if>
+	       <if test="@Ognl@isNotEmpty(band)">
+				AND BAND = #{band}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM RADIO_QUALITY_RESULT_TAB 
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RadioQualityResultTab">
+    	SELECT <include refid="columns" />
+	    FROM RADIO_QUALITY_RESULT_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.RadioSpectrumStatTabMapper">
+
+	<resultMap id="RadioSpectrumStatTab" type="com.hw.domain.po.RadioSpectrumStatTab">
+        <result property="id" column="ID"/>
+        <result property="headCode" column="HEAD_CODE"/>
+        <result property="stationId" column="STATION_ID"/>
+        <result property="stationName" column="STATION_NAME"/>
+        <result property="languageId" column="LANGUAGE_ID"/>
+        <result property="languageName" column="LANGUAGE_NAME"/>
+        <result property="country" column="COUNTRY"/>
+        <result property="effect" column="EFFECT"/>
+        <result property="mark" column="MARK"/>
+        <result property="freq" column="FREQ"/>
+        <result property="playtime" column="PLAYTIME"/>
+        <result property="headtype" column="HEADTYPE"/>
+        <result property="isPlay" column="IS_PLAY"/>
+        <result property="inputDatetime" column="INPUT_DATETIME"/>
+        <result property="shortname" column="SHORTNAME"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		ID,HEAD_CODE,STATION_ID,STATION_NAME,LANGUAGE_ID,LANGUAGE_NAME,COUNTRY,EFFECT,MARK,FREQ,PLAYTIME,HEADTYPE,IS_PLAY,INPUT_DATETIME,SHORTNAME
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO RADIO_SPECTRUM_STAT_TAB (
+        	ID ,
+        	HEAD_CODE ,
+        	STATION_ID ,
+        	STATION_NAME ,
+        	LANGUAGE_ID ,
+        	LANGUAGE_NAME ,
+        	COUNTRY ,
+        	EFFECT ,
+        	MARK ,
+        	FREQ ,
+        	PLAYTIME ,
+        	HEADTYPE ,
+        	IS_PLAY ,
+        	INPUT_DATETIME ,
+        	SHORTNAME 
+        ) VALUES (
+        	#{id} ,
+        	#{headCode} ,
+        	#{stationId} ,
+        	#{stationName} ,
+        	#{languageId} ,
+        	#{languageName} ,
+        	#{country} ,
+        	#{effect} ,
+        	#{mark} ,
+        	#{freq} ,
+        	#{playtime} ,
+        	#{headtype} ,
+        	#{isPlay} ,
+        	#{inputDatetime} ,
+        	#{shortname} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE RADIO_SPECTRUM_STAT_TAB SET
+	        HEAD_CODE = #{headCode} ,
+	        STATION_ID = #{stationId} ,
+	        STATION_NAME = #{stationName} ,
+	        LANGUAGE_ID = #{languageId} ,
+	        LANGUAGE_NAME = #{languageName} ,
+	        COUNTRY = #{country} ,
+	        EFFECT = #{effect} ,
+	        MARK = #{mark} ,
+	        FREQ = #{freq} ,
+	        PLAYTIME = #{playtime} ,
+	        HEADTYPE = #{headtype} ,
+	        IS_PLAY = #{isPlay} ,
+	        INPUT_DATETIME = #{inputDatetime} ,
+	        SHORTNAME = #{shortname} 
+        WHERE 
+	        ID = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM RADIO_SPECTRUM_STAT_TAB WHERE
+        ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RadioSpectrumStatTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM RADIO_SPECTRUM_STAT_TAB 
+	        WHERE 
+		        ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND ID = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headCode)">
+				AND HEAD_CODE = #{headCode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stationId)">
+				AND STATION_ID = #{stationId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stationName)">
+				AND STATION_NAME = #{stationName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(languageId)">
+				AND LANGUAGE_ID = #{languageId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(languageName)">
+				AND LANGUAGE_NAME = #{languageName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(country)">
+				AND COUNTRY = #{country}
+			</if>
+	       <if test="@Ognl@isNotEmpty(effect)">
+				AND EFFECT = #{effect}
+			</if>
+	       <if test="@Ognl@isNotEmpty(mark)">
+				AND MARK = #{mark}
+			</if>
+	       <if test="@Ognl@isNotEmpty(freq)">
+				AND FREQ = #{freq}
+			</if>
+	       <if test="@Ognl@isNotEmpty(playtime)">
+				AND PLAYTIME = #{playtime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headtype)">
+				AND HEADTYPE = #{headtype}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isPlay)">
+				AND IS_PLAY = #{isPlay}
+			</if>
+	       <if test="@Ognl@isNotEmpty(inputDatetimeBegin)">
+				AND INPUT_DATETIME >= #{inputDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(inputDatetimeEnd)">
+				AND INPUT_DATETIME &lt;= #{inputDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(shortname)">
+				AND SHORTNAME = #{shortname}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM RADIO_SPECTRUM_STAT_TAB 
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RadioSpectrumStatTab">
+    	SELECT <include refid="columns" />
+	    FROM RADIO_SPECTRUM_STAT_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

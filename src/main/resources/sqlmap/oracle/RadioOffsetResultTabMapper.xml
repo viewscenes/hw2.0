@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.RadioOffsetResultTabMapper">
+
+	<resultMap id="RadioOffsetResultTab" type="com.hw.domain.po.RadioOffsetResultTab">
+        <result property="resultId" column="RESULT_ID"/>
+        <result property="equCode" column="EQU_CODE"/>
+        <result property="taskId" column="TASK_ID"/>
+        <result property="checkDatetime" column="CHECK_DATETIME"/>
+        <result property="frequency" column="FREQUENCY"/>
+        <result property="offset" column="OFFSET"/>
+        <result property="reportType" column="REPORT_TYPE"/>
+        <result property="headId" column="HEAD_ID"/>
+        <result property="isDelete" column="IS_DELETE"/>
+        <result property="storeDatetime" column="STORE_DATETIME"/>
+        <result property="band" column="BAND"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		RESULT_ID,EQU_CODE,TASK_ID,CHECK_DATETIME,FREQUENCY,OFFSET,REPORT_TYPE,HEAD_ID,IS_DELETE,STORE_DATETIME,BAND
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="resultId">
+    <![CDATA[
+        INSERT INTO RADIO_OFFSET_RESULT_TAB (
+        	RESULT_ID ,
+        	EQU_CODE ,
+        	TASK_ID ,
+        	CHECK_DATETIME ,
+        	FREQUENCY ,
+        	OFFSET ,
+        	REPORT_TYPE ,
+        	HEAD_ID ,
+        	IS_DELETE ,
+        	STORE_DATETIME ,
+        	BAND 
+        ) VALUES (
+        	#{resultId} ,
+        	#{equCode} ,
+        	#{taskId} ,
+        	#{checkDatetime} ,
+        	#{frequency} ,
+        	#{offset} ,
+        	#{reportType} ,
+        	#{headId} ,
+        	#{isDelete} ,
+        	#{storeDatetime} ,
+        	#{band} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE RADIO_OFFSET_RESULT_TAB SET
+	        EQU_CODE = #{equCode} ,
+	        TASK_ID = #{taskId} ,
+	        CHECK_DATETIME = #{checkDatetime} ,
+	        FREQUENCY = #{frequency} ,
+	        OFFSET = #{offset} ,
+	        REPORT_TYPE = #{reportType} ,
+	        HEAD_ID = #{headId} ,
+	        IS_DELETE = #{isDelete} ,
+	        STORE_DATETIME = #{storeDatetime} ,
+	        BAND = #{band} 
+        WHERE 
+	        RESULT_ID = #{resultId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM RADIO_OFFSET_RESULT_TAB WHERE
+        RESULT_ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RadioOffsetResultTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM RADIO_OFFSET_RESULT_TAB 
+	        WHERE 
+		        RESULT_ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(resultId)">
+				AND RESULT_ID = #{resultId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(equCode)">
+				AND EQU_CODE = #{equCode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(taskId)">
+				AND TASK_ID = #{taskId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(checkDatetimeBegin)">
+				AND CHECK_DATETIME >= #{checkDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(checkDatetimeEnd)">
+				AND CHECK_DATETIME &lt;= #{checkDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(frequency)">
+				AND FREQUENCY = #{frequency}
+			</if>
+	       <if test="@Ognl@isNotEmpty(offset)">
+				AND OFFSET = #{offset}
+			</if>
+	       <if test="@Ognl@isNotEmpty(reportType)">
+				AND REPORT_TYPE = #{reportType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headId)">
+				AND HEAD_ID = #{headId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isDelete)">
+				AND IS_DELETE = #{isDelete}
+			</if>
+	       <if test="@Ognl@isNotEmpty(storeDatetimeBegin)">
+				AND STORE_DATETIME >= #{storeDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(storeDatetimeEnd)">
+				AND STORE_DATETIME &lt;= #{storeDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(band)">
+				AND BAND = #{band}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM RADIO_OFFSET_RESULT_TAB 
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RadioOffsetResultTab">
+    	SELECT <include refid="columns" />
+	    FROM RADIO_OFFSET_RESULT_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

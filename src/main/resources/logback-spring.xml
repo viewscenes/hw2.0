@@ -1,0 +1,112 @@
+<configuration>
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
+    <property name="LOG_HOME" value="D:/Logs/hw"/>
+    <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+    <property name="logPatternLayout" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"/>
+    <property name="logUntreatedLayout" value="%msg%n"/>
+    <!-- 日志级别 -->
+    <property name="logLevel" value="info"/>
+    <!-- 日志保留天数 -->
+    <property name="MaxHistory" value="30"/>
+    <!--日志文件最大的大小-->
+    <property name="MaxFileSize" value="50"/>
+
+    <!-- 控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${logPatternLayout}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 默认日志 -->
+    <appender name="defaultAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_HOME}/default.log</File>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_HOME}/default.log.%d{yyyy-MM-dd-HH}.log</FileNamePattern>
+            <MaxHistory>${MaxHistory}</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${logPatternLayout}</pattern>
+        </encoder>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>${MaxFileSize}</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+
+    <!-- 实时接口交互日志 -->
+    <appender name="deviceInfoAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_HOME}/deviceInfo.log</File>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/deviceInfo.log.%d{yyyy-MM-dd-HH}.log</FileNamePattern>
+            <MaxHistory>${MaxHistory}</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${logPatternLayout}</pattern>
+        </encoder>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>${MaxFileSize}</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+
+    <!-- 设备自动上报日志 -->
+    <appender name="autoReportAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_HOME}/autoReport.log</File>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/autoReport.log.%d{yyyy-MM-dd-HH}.log</FileNamePattern>
+            <MaxHistory>${MaxHistory}</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${logPatternLayout}</pattern>
+        </encoder>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>${MaxFileSize}</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+
+    <!-- 设备未处理上报日志 -->
+    <appender name="deviceUntreatedAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_HOME}/untreatedReport.log</File>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/untreatedReport.log.%d{yyyy-MM-dd-HH}.log</FileNamePattern>
+            <MaxHistory>${MaxHistory}</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${logUntreatedLayout}</pattern>
+        </encoder>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>${MaxFileSize}</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+
+    <logger name="DEFAULT-LOG" level="${logLevel}" additivity="false">
+        <appender-ref ref="defaultAppender"/>
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <logger name="DEVICE-LOG" level="${logLevel}"  additivity="false">
+        <appender-ref ref="deviceInfoAppender"/>
+    </logger>
+
+    <logger name="AUTOREPORT-LOG" level="${logLevel}" additivity="false">
+        <appender-ref ref="autoReportAppender"/>
+    </logger>
+
+    <logger name="DEVICE-UNTREATED-LOG" level="${logLevel}" additivity="false">
+        <appender-ref ref="deviceUntreatedAppender"/>
+    </logger>
+
+    <springProfile name="dev">
+        <logger name="org.apache.http" level="WARN" />
+    </springProfile>
+
+
+    <root  additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="defaultAppender"/>
+    </root>
+</configuration>

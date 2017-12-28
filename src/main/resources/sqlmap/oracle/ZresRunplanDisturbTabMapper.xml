@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.ZresRunplanDisturbTabMapper">
+
+	<resultMap id="ZresRunplanDisturbTab" type="com.hw.domain.po.ZresRunplanDisturbTab">
+        <result property="disrunId" column="DISRUN_ID"/>
+        <result property="stationId" column="STATION_ID"/>
+        <result property="sencityId" column="SENCITY_ID"/>
+        <result property="transmiterNo" column="TRANSMITER_NO"/>
+        <result property="freq" column="FREQ"/>
+        <result property="language" column="LANGUAGE"/>
+        <result property="startTime" column="START_TIME"/>
+        <result property="endTime" column="END_TIME"/>
+        <result property="validStartTime" column="VALID_START_TIME"/>
+        <result property="validEndTime" column="VALID_END_TIME"/>
+        <result property="disturb" column="DISTURB"/>
+        <result property="isDelete" column="IS_DELETE"/>
+        <result property="power" column="POWER"/>
+        <result property="redisseminators" column="REDISSEMINATORS"/>
+        <result property="receiveCountry" column="RECEIVE_COUNTRY"/>
+        <result property="receiveCity" column="RECEIVE_CITY"/>
+        <result property="stationName" column="STATION_NAME"/>
+        <result property="type" column="TYPE"/>
+        <result property="runplanId" column="RUNPLAN_ID"/>
+        <result property="receiveStation" column="RECEIVE_STATION"/>
+        <result property="insertTime" column="INSERT_TIME"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		DISRUN_ID,STATION_ID,SENCITY_ID,TRANSMITER_NO,FREQ,LANGUAGE,START_TIME,END_TIME,VALID_START_TIME,VALID_END_TIME,DISTURB,IS_DELETE,POWER,REDISSEMINATORS,RECEIVE_COUNTRY,RECEIVE_CITY,STATION_NAME,TYPE,RUNPLAN_ID,RECEIVE_STATION,INSERT_TIME
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="disrunId">
+    <![CDATA[
+        INSERT INTO ZRES_RUNPLAN_DISTURB_TAB (
+        	DISRUN_ID ,
+        	STATION_ID ,
+        	SENCITY_ID ,
+        	TRANSMITER_NO ,
+        	FREQ ,
+        	LANGUAGE ,
+        	START_TIME ,
+        	END_TIME ,
+        	VALID_START_TIME ,
+        	VALID_END_TIME ,
+        	DISTURB ,
+        	IS_DELETE ,
+        	POWER ,
+        	REDISSEMINATORS ,
+        	RECEIVE_COUNTRY ,
+        	RECEIVE_CITY ,
+        	STATION_NAME ,
+        	TYPE ,
+        	RUNPLAN_ID ,
+        	RECEIVE_STATION ,
+        	INSERT_TIME 
+        ) VALUES (
+        	#{disrunId} ,
+        	#{stationId} ,
+        	#{sencityId} ,
+        	#{transmiterNo} ,
+        	#{freq} ,
+        	#{language} ,
+        	#{startTime} ,
+        	#{endTime} ,
+        	#{validStartTime} ,
+        	#{validEndTime} ,
+        	#{disturb} ,
+        	#{isDelete} ,
+        	#{power} ,
+        	#{redisseminators} ,
+        	#{receiveCountry} ,
+        	#{receiveCity} ,
+        	#{stationName} ,
+        	#{type} ,
+        	#{runplanId} ,
+        	#{receiveStation} ,
+        	#{insertTime} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE ZRES_RUNPLAN_DISTURB_TAB SET
+	        STATION_ID = #{stationId} ,
+	        SENCITY_ID = #{sencityId} ,
+	        TRANSMITER_NO = #{transmiterNo} ,
+	        FREQ = #{freq} ,
+	        LANGUAGE = #{language} ,
+	        START_TIME = #{startTime} ,
+	        END_TIME = #{endTime} ,
+	        VALID_START_TIME = #{validStartTime} ,
+	        VALID_END_TIME = #{validEndTime} ,
+	        DISTURB = #{disturb} ,
+	        IS_DELETE = #{isDelete} ,
+	        POWER = #{power} ,
+	        REDISSEMINATORS = #{redisseminators} ,
+	        RECEIVE_COUNTRY = #{receiveCountry} ,
+	        RECEIVE_CITY = #{receiveCity} ,
+	        STATION_NAME = #{stationName} ,
+	        TYPE = #{type} ,
+	        RUNPLAN_ID = #{runplanId} ,
+	        RECEIVE_STATION = #{receiveStation} ,
+	        INSERT_TIME = #{insertTime} 
+        WHERE 
+	        DISRUN_ID = #{disrunId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM ZRES_RUNPLAN_DISTURB_TAB WHERE
+        DISRUN_ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="ZresRunplanDisturbTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM ZRES_RUNPLAN_DISTURB_TAB 
+	        WHERE 
+		        DISRUN_ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(disrunId)">
+				AND DISRUN_ID = #{disrunId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stationId)">
+				AND STATION_ID = #{stationId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(sencityId)">
+				AND SENCITY_ID = #{sencityId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(transmiterNo)">
+				AND TRANSMITER_NO = #{transmiterNo}
+			</if>
+	       <if test="@Ognl@isNotEmpty(freq)">
+				AND FREQ = #{freq}
+			</if>
+	       <if test="@Ognl@isNotEmpty(language)">
+				AND LANGUAGE = #{language}
+			</if>
+	       <if test="@Ognl@isNotEmpty(startTime)">
+				AND START_TIME = #{startTime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(endTime)">
+				AND END_TIME = #{endTime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(validStartTimeBegin)">
+				AND VALID_START_TIME >= #{validStartTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(validStartTimeEnd)">
+				AND VALID_START_TIME &lt;= #{validStartTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(validEndTimeBegin)">
+				AND VALID_END_TIME >= #{validEndTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(validEndTimeEnd)">
+				AND VALID_END_TIME &lt;= #{validEndTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(disturb)">
+				AND DISTURB = #{disturb}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isDelete)">
+				AND IS_DELETE = #{isDelete}
+			</if>
+	       <if test="@Ognl@isNotEmpty(power)">
+				AND POWER = #{power}
+			</if>
+	       <if test="@Ognl@isNotEmpty(redisseminators)">
+				AND REDISSEMINATORS = #{redisseminators}
+			</if>
+	       <if test="@Ognl@isNotEmpty(receiveCountry)">
+				AND RECEIVE_COUNTRY = #{receiveCountry}
+			</if>
+	       <if test="@Ognl@isNotEmpty(receiveCity)">
+				AND RECEIVE_CITY = #{receiveCity}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stationName)">
+				AND STATION_NAME = #{stationName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(type)">
+				AND TYPE = #{type}
+			</if>
+	       <if test="@Ognl@isNotEmpty(runplanId)">
+				AND RUNPLAN_ID = #{runplanId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(receiveStation)">
+				AND RECEIVE_STATION = #{receiveStation}
+			</if>
+	       <if test="@Ognl@isNotEmpty(insertTimeBegin)">
+				AND INSERT_TIME >= #{insertTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(insertTimeEnd)">
+				AND INSERT_TIME &lt;= #{insertTimeEnd}
+		   </if>
+            <if test="@Ognl@isNotEmpty(recoodTimeBegin)">
+                AND VALID_END_TIME >= #{recoodTimeBegin}
+                AND VALID_START_TIME &lt;= #{recoodTimeBegin}
+            </if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM ZRES_RUNPLAN_DISTURB_TAB 
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="ZresRunplanDisturbTab">
+    	SELECT <include refid="columns" />
+	    FROM ZRES_RUNPLAN_DISTURB_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.RadioEquAlarmParamTabMapper">
+
+	<resultMap id="RadioEquAlarmParamTab" type="com.hw.domain.po.RadioEquAlarmParamTab">
+        <result property="paramId" column="PARAM_ID"/>
+        <result property="abnormitylength1gd" column="ABNORMITYLENGTH1GD"/>
+        <result property="inputlineleveldownthreshold1gd" column="INPUTLINELEVELDOWNTHRESHOLD1GD"/>
+        <result property="abnormitylength2jsh" column="ABNORMITYLENGTH2JSH"/>
+        <result property="abnormitylength3tzh" column="ABNORMITYLENGTH3TZH"/>
+        <result property="abnormitylength4tf" column="ABNORMITYLENGTH4TF"/>
+        <result property="abnormitylength5yy" column="ABNORMITYLENGTH5YY"/>
+        <result property="abnormitylength6pp" column="ABNORMITYLENGTH6PP"/>
+        <result property="headId" column="HEAD_ID"/>
+        <result property="inputlinelevelupthreshold1gd" column="INPUTLINELEVELUPTHRESHOLD1GD"/>
+        <result property="headTypeId" column="HEAD_TYPE_ID"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		PARAM_ID,ABNORMITYLENGTH1GD,INPUTLINELEVELDOWNTHRESHOLD1GD,ABNORMITYLENGTH2JSH,ABNORMITYLENGTH3TZH,ABNORMITYLENGTH4TF,ABNORMITYLENGTH5YY,ABNORMITYLENGTH6PP,HEAD_ID,INPUTLINELEVELUPTHRESHOLD1GD,HEAD_TYPE_ID
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="paramId">
+    <![CDATA[
+        INSERT INTO RADIO_EQU_ALARM_PARAM_TAB (
+        	PARAM_ID ,
+        	ABNORMITYLENGTH1GD ,
+        	INPUTLINELEVELDOWNTHRESHOLD1GD ,
+        	ABNORMITYLENGTH2JSH ,
+        	ABNORMITYLENGTH3TZH ,
+        	ABNORMITYLENGTH4TF ,
+        	ABNORMITYLENGTH5YY ,
+        	ABNORMITYLENGTH6PP ,
+        	HEAD_ID ,
+        	INPUTLINELEVELUPTHRESHOLD1GD ,
+        	HEAD_TYPE_ID 
+        ) VALUES (
+        	#{paramId} ,
+        	#{abnormitylength1gd} ,
+        	#{inputlineleveldownthreshold1gd} ,
+        	#{abnormitylength2jsh} ,
+        	#{abnormitylength3tzh} ,
+        	#{abnormitylength4tf} ,
+        	#{abnormitylength5yy} ,
+        	#{abnormitylength6pp} ,
+        	#{headId} ,
+        	#{inputlinelevelupthreshold1gd} ,
+        	#{headTypeId} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE RADIO_EQU_ALARM_PARAM_TAB SET
+	        ABNORMITYLENGTH1GD = #{abnormitylength1gd} ,
+	        INPUTLINELEVELDOWNTHRESHOLD1GD = #{inputlineleveldownthreshold1gd} ,
+	        ABNORMITYLENGTH2JSH = #{abnormitylength2jsh} ,
+	        ABNORMITYLENGTH3TZH = #{abnormitylength3tzh} ,
+	        ABNORMITYLENGTH4TF = #{abnormitylength4tf} ,
+	        ABNORMITYLENGTH5YY = #{abnormitylength5yy} ,
+	        ABNORMITYLENGTH6PP = #{abnormitylength6pp} ,
+	        HEAD_ID = #{headId} ,
+	        INPUTLINELEVELUPTHRESHOLD1GD = #{inputlinelevelupthreshold1gd} ,
+	        HEAD_TYPE_ID = #{headTypeId} 
+        WHERE 
+	        PARAM_ID = #{paramId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM RADIO_EQU_ALARM_PARAM_TAB WHERE
+        PARAM_ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RadioEquAlarmParamTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM RADIO_EQU_ALARM_PARAM_TAB
+	        WHERE 
+		        PARAM_ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(paramId)">
+				AND PARAM_ID = #{paramId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(abnormitylength1gd)">
+				AND ABNORMITYLENGTH1GD = #{abnormitylength1gd}
+			</if>
+	       <if test="@Ognl@isNotEmpty(inputlineleveldownthreshold1gd)">
+				AND INPUTLINELEVELDOWNTHRESHOLD1GD = #{inputlineleveldownthreshold1gd}
+			</if>
+	       <if test="@Ognl@isNotEmpty(abnormitylength2jsh)">
+				AND ABNORMITYLENGTH2JSH = #{abnormitylength2jsh}
+			</if>
+	       <if test="@Ognl@isNotEmpty(abnormitylength3tzh)">
+				AND ABNORMITYLENGTH3TZH = #{abnormitylength3tzh}
+			</if>
+	       <if test="@Ognl@isNotEmpty(abnormitylength4tf)">
+				AND ABNORMITYLENGTH4TF = #{abnormitylength4tf}
+			</if>
+	       <if test="@Ognl@isNotEmpty(abnormitylength5yy)">
+				AND ABNORMITYLENGTH5YY = #{abnormitylength5yy}
+			</if>
+	       <if test="@Ognl@isNotEmpty(abnormitylength6pp)">
+				AND ABNORMITYLENGTH6PP = #{abnormitylength6pp}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headId)">
+				AND HEAD_ID = #{headId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(inputlinelevelupthreshold1gd)">
+				AND INPUTLINELEVELUPTHRESHOLD1GD = #{inputlinelevelupthreshold1gd}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headTypeId)">
+				AND HEAD_TYPE_ID = #{headTypeId}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM RADIO_EQU_ALARM_PARAM_TAB
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RadioEquAlarmParamTab">
+    	SELECT <include refid="columns" />
+	    FROM RADIO_EQU_ALARM_PARAM_TAB
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

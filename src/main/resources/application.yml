@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url:  jdbc:oracle:thin:@localhost:1521:orcl
+    username:  hw
+    password:  u3nfltd2
+#字符集和json格式工具
+  http:
+    encoding:
+      charset: utf-8
+    converters:
+      preferred-json-mapper: jackson
+    multipart:
+      max-file-size: 10MB
+  application:
+    name: hw
+#mynatis配置
+mybatis:
+    type-aliases-package: com.hw.mapper
+    mapper-locations: classpath:sqlmap/oracle/*Mapper.xml
+#logging
+logging:
+  level:
+    root: info
+server:
+  session-timeout : 3600
+  port: 8080
+

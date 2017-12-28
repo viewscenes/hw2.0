@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.RadioQualityAlarmTabMapper">
+
+	<resultMap id="RadioQualityAlarmTab" type="com.hw.domain.po.RadioQualityAlarmTab">
+        <result property="alarmId" column="ALARM_ID"/>
+        <result property="equCode" column="EQU_CODE"/>
+        <result property="originAlarmid" column="ORIGIN_ALARMID"/>
+        <result property="alarmDatetime" column="ALARM_DATETIME"/>
+        <result property="resumeDatetime" column="RESUME_DATETIME"/>
+        <result property="isResume" column="IS_RESUME"/>
+        <result property="frequency" column="FREQUENCY"/>
+        <result property="type" column="TYPE"/>
+        <result property="description" column="DESCRIPTION"/>
+        <result property="reason" column="REASON"/>
+        <result property="elevel" column="E_LEVEL"/>
+        <result property="amModulation" column="AM_MODULATION"/>
+        <result property="fmModulation" column="FM_MODULATION"/>
+        <result property="attenuation" column="ATTENUATION"/>
+        <result property="headId" column="HEAD_ID"/>
+        <result property="reportType" column="REPORT_TYPE"/>
+        <result property="isHandle" column="IS_HANDLE"/>
+        <result property="remark" column="REMARK"/>
+        <result property="operator" column="OPERATOR"/>
+        <result property="handleDatetime" column="HANDLE_DATETIME"/>
+        <result property="band" column="BAND"/>
+        <result property="headCode" column="HEAD_CODE"/>
+        <result property="auditor" column="AUDITOR"/>
+        <result property="errorindb" column="ERRORINDB"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		ALARM_ID,EQU_CODE,ORIGIN_ALARMID,ALARM_DATETIME,RESUME_DATETIME,IS_RESUME,FREQUENCY,TYPE,DESCRIPTION,REASON,E_LEVEL,AM_MODULATION,FM_MODULATION,ATTENUATION,HEAD_ID,REPORT_TYPE,IS_HANDLE,REMARK,OPERATOR,HANDLE_DATETIME,BAND,HEAD_CODE,AUDITOR,ERRORINDB
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="alarmId">
+    <![CDATA[
+        INSERT INTO RADIO_QUALITY_ALARM_TAB (
+        	ALARM_ID ,
+        	EQU_CODE ,
+        	ORIGIN_ALARMID ,
+        	ALARM_DATETIME ,
+        	RESUME_DATETIME ,
+        	IS_RESUME ,
+        	FREQUENCY ,
+        	TYPE ,
+        	DESCRIPTION ,
+        	REASON ,
+        	E_LEVEL ,
+        	AM_MODULATION ,
+        	FM_MODULATION ,
+        	ATTENUATION ,
+        	HEAD_ID ,
+        	REPORT_TYPE ,
+        	IS_HANDLE ,
+        	REMARK ,
+        	OPERATOR ,
+        	HANDLE_DATETIME ,
+        	BAND ,
+        	HEAD_CODE ,
+        	AUDITOR ,
+        	ERRORINDB 
+        ) VALUES (
+        	#{alarmId} ,
+        	#{equCode} ,
+        	#{originAlarmid} ,
+        	#{alarmDatetime} ,
+        	#{resumeDatetime} ,
+        	#{isResume} ,
+        	#{frequency} ,
+        	#{type} ,
+        	#{description} ,
+        	#{reason} ,
+        	#{elevel} ,
+        	#{amModulation} ,
+        	#{fmModulation} ,
+        	#{attenuation} ,
+        	#{headId} ,
+        	#{reportType} ,
+        	#{isHandle} ,
+        	#{remark} ,
+        	#{operator} ,
+        	#{handleDatetime} ,
+        	#{band} ,
+        	#{headCode} ,
+        	#{auditor} ,
+        	#{errorindb} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE RADIO_QUALITY_ALARM_TAB SET
+	        EQU_CODE = #{equCode} ,
+	        ORIGIN_ALARMID = #{originAlarmid} ,
+	        ALARM_DATETIME = #{alarmDatetime} ,
+	        RESUME_DATETIME = #{resumeDatetime} ,
+	        IS_RESUME = #{isResume} ,
+	        FREQUENCY = #{frequency} ,
+	        TYPE = #{type} ,
+	        DESCRIPTION = #{description} ,
+	        REASON = #{reason} ,
+	        E_LEVEL = #{elevel} ,
+	        AM_MODULATION = #{amModulation} ,
+	        FM_MODULATION = #{fmModulation} ,
+	        ATTENUATION = #{attenuation} ,
+	        HEAD_ID = #{headId} ,
+	        REPORT_TYPE = #{reportType} ,
+	        IS_HANDLE = #{isHandle} ,
+	        REMARK = #{remark} ,
+	        OPERATOR = #{operator} ,
+	        HANDLE_DATETIME = #{handleDatetime} ,
+	        BAND = #{band} ,
+	        HEAD_CODE = #{headCode} ,
+	        AUDITOR = #{auditor} ,
+	        ERRORINDB = #{errorindb} 
+        WHERE 
+	        ALARM_ID = #{alarmId}
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM RADIO_QUALITY_ALARM_TAB WHERE
+        ALARM_ID = #{id}
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RadioQualityAlarmTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM RADIO_QUALITY_ALARM_TAB
+	        WHERE 
+		        ALARM_ID = #{id}
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(alarmId)">
+				AND ALARM_ID = #{alarmId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(equCode)">
+				AND EQU_CODE = #{equCode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(originAlarmid)">
+				AND ORIGIN_ALARMID = #{originAlarmid}
+			</if>
+	       <if test="@Ognl@isNotEmpty(alarmDatetimeBegin)">
+				AND ALARM_DATETIME >= #{alarmDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(alarmDatetimeEnd)">
+				AND ALARM_DATETIME &lt;= #{alarmDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(resumeDatetimeBegin)">
+				AND RESUME_DATETIME >= #{resumeDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(resumeDatetimeEnd)">
+				AND RESUME_DATETIME &lt;= #{resumeDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(isResume)">
+				AND IS_RESUME = #{isResume}
+			</if>
+	       <if test="@Ognl@isNotEmpty(frequency)">
+				AND FREQUENCY = #{frequency}
+			</if>
+	       <if test="@Ognl@isNotEmpty(type)">
+				AND TYPE = #{type}
+			</if>
+	       <if test="@Ognl@isNotEmpty(description)">
+				AND DESCRIPTION = #{description}
+			</if>
+	       <if test="@Ognl@isNotEmpty(reason)">
+				AND REASON = #{reason}
+			</if>
+	       <if test="@Ognl@isNotEmpty(elevel)">
+				AND E_LEVEL = #{elevel}
+			</if>
+	       <if test="@Ognl@isNotEmpty(amModulation)">
+				AND AM_MODULATION = #{amModulation}
+			</if>
+	       <if test="@Ognl@isNotEmpty(fmModulation)">
+				AND FM_MODULATION = #{fmModulation}
+			</if>
+	       <if test="@Ognl@isNotEmpty(attenuation)">
+				AND ATTENUATION = #{attenuation}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headId)">
+				AND HEAD_ID = #{headId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(reportType)">
+				AND REPORT_TYPE = #{reportType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isHandle)">
+				AND IS_HANDLE = #{isHandle}
+			</if>
+	       <if test="@Ognl@isNotEmpty(remark)">
+				AND REMARK = #{remark}
+			</if>
+	       <if test="@Ognl@isNotEmpty(operator)">
+				AND OPERATOR = #{operator}
+			</if>
+	       <if test="@Ognl@isNotEmpty(handleDatetimeBegin)">
+				AND HANDLE_DATETIME >= #{handleDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(handleDatetimeEnd)">
+				AND HANDLE_DATETIME &lt;= #{handleDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(band)">
+				AND BAND = #{band}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headCode)">
+				AND HEAD_CODE = #{headCode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(auditor)">
+				AND AUDITOR = #{auditor}
+			</if>
+	       <if test="@Ognl@isNotEmpty(errorindb)">
+				AND ERRORINDB = #{errorindb}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM RADIO_QUALITY_ALARM_TAB
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RadioQualityAlarmTab">
+    	SELECT <include refid="columns" />
+	    FROM RADIO_QUALITY_ALARM_TAB
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.ResAntennaTabMapper">
+
+	<resultMap id="ResAntennaTab" type="com.hw.domain.po.ResAntennaTab">
+        <result property="id" column="ID"/>
+        <result property="stationName" column="STATION_NAME"/>
+        <result property="antennaNo" column="ANTENNA_NO"/>
+        <result property="antennaMode" column="ANTENNA_MODE"/>
+        <result property="itu" column="ITU"/>
+        <result property="direction" column="DIRECTION"/>
+        <result property="serviceArea" column="SERVICE_AREA"/>
+        <result property="address" column="ADDRESS"/>
+        <result property="ciraf" column="CIRAF"/>
+        <result property="shiypd" column="SHIYPD"/>
+        <result property="remark" column="REMARK"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		ID,STATION_NAME,ANTENNA_NO,ANTENNA_MODE,ITU,DIRECTION,SERVICE_AREA,ADDRESS,CIRAF,SHIYPD,REMARK
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO RES_ANTENNA_TAB (
+        	ID ,
+        	STATION_NAME ,
+        	ANTENNA_NO ,
+        	ANTENNA_MODE ,
+        	ITU ,
+        	DIRECTION ,
+        	SERVICE_AREA ,
+        	ADDRESS ,
+        	CIRAF ,
+        	SHIYPD ,
+        	REMARK 
+        ) VALUES (
+        	#{id} ,
+        	#{stationName} ,
+        	#{antennaNo} ,
+        	#{antennaMode} ,
+        	#{itu} ,
+        	#{direction} ,
+        	#{serviceArea} ,
+        	#{address} ,
+        	#{ciraf} ,
+        	#{shiypd} ,
+        	#{remark} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE RES_ANTENNA_TAB SET
+	        STATION_NAME = #{stationName} ,
+	        ANTENNA_NO = #{antennaNo} ,
+	        ANTENNA_MODE = #{antennaMode} ,
+	        ITU = #{itu} ,
+	        DIRECTION = #{direction} ,
+	        SERVICE_AREA = #{serviceArea} ,
+	        ADDRESS = #{address} ,
+	        CIRAF = #{ciraf} ,
+	        SHIYPD = #{shiypd} ,
+	        REMARK = #{remark} 
+        WHERE 
+	        ID = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM RES_ANTENNA_TAB WHERE
+        ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="ResAntennaTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM RES_ANTENNA_TAB 
+	        WHERE 
+		        ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND ID = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stationName)">
+				AND STATION_NAME = #{stationName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(antennaNo)">
+				AND ANTENNA_NO = #{antennaNo}
+			</if>
+	       <if test="@Ognl@isNotEmpty(antennaMode)">
+				AND ANTENNA_MODE = #{antennaMode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(itu)">
+				AND ITU = #{itu}
+			</if>
+	       <if test="@Ognl@isNotEmpty(direction)">
+				AND DIRECTION = #{direction}
+			</if>
+	       <if test="@Ognl@isNotEmpty(serviceArea)">
+				AND SERVICE_AREA = #{serviceArea}
+			</if>
+	       <if test="@Ognl@isNotEmpty(address)">
+				AND ADDRESS = #{address}
+			</if>
+	       <if test="@Ognl@isNotEmpty(ciraf)">
+				AND CIRAF = #{ciraf}
+			</if>
+	       <if test="@Ognl@isNotEmpty(shiypd)">
+				AND SHIYPD = #{shiypd}
+			</if>
+	       <if test="@Ognl@isNotEmpty(remark)">
+				AND REMARK = #{remark}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM RES_ANTENNA_TAB 
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="ResAntennaTab">
+    	SELECT <include refid="columns" />
+	    FROM RES_ANTENNA_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

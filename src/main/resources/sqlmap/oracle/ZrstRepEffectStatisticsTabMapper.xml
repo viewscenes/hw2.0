@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.ZrstRepEffectStatisticsTabMapper">
+
+	<resultMap id="ZrstRepEffectStatisticsTab" type="com.hw.domain.po.ZrstRepEffectStatisticsTab">
+        <result property="dataId" column="DATA_ID"/>
+        <result property="reportId" column="REPORT_ID"/>
+        <result property="playTime" column="PLAY_TIME"/>
+        <result property="languageName" column="LANGUAGE_NAME"/>
+        <result property="freq" column="FREQ"/>
+        <result property="transmitStation" column="TRANSMIT_STATION"/>
+        <result property="transmitDirection" column="TRANSMIT_DIRECTION"/>
+        <result property="transmitPower" column="TRANSMIT_POWER"/>
+        <result property="serviceArea" column="SERVICE_AREA"/>
+        <result property="receiveCode" column="RECEIVE_CODE"/>
+        <result property="receiveCount" column="RECEIVE_COUNT"/>
+        <result property="fen0" column="FEN0"/>
+        <result property="fen1" column="FEN1"/>
+        <result property="fen2" column="FEN2"/>
+        <result property="fen3" column="FEN3"/>
+        <result property="fen4" column="FEN4"/>
+        <result property="fen5" column="FEN5"/>
+        <result property="listen" column="LISTEN"/>
+        <result property="listenMiddle" column="LISTEN_MIDDLE"/>
+        <result property="bak" column="BAK"/>
+        <result property="receiveName" column="RECEIVE_NAME"/>
+        <result property="transmitStationListens" column="TRANSMIT_STATION_LISTENS"/>
+        <result property="receiveNameTotalHours" column="RECEIVE_NAME_TOTAL_HOURS"/>
+        <result property="receiveListens" column="RECEIVE_LISTENS"/>
+        <result property="languageNameListens" column="LANGUAGE_NAME_LISTENS"/>
+        <result property="stateName" column="STATE_NAME"/>
+        <result property="monthListens" column="MONTH_LISTENS"/>
+        <result property="averageListens" column="AVERAGE_LISTENS"/>
+        <result property="subReportType" column="SUB_REPORT_TYPE"/>
+        <result property="reportType" column="REPORT_TYPE"/>
+        <result property="allListens" column="ALL_LISTENS"/>
+        <result property="runplanId" column="RUNPLAN_ID"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		DATA_ID,REPORT_ID,PLAY_TIME,LANGUAGE_NAME,FREQ,TRANSMIT_STATION,TRANSMIT_DIRECTION,TRANSMIT_POWER,SERVICE_AREA,RECEIVE_CODE,RECEIVE_COUNT,FEN0,FEN1,FEN2,FEN3,FEN4,FEN5,LISTEN,LISTEN_MIDDLE,BAK,RECEIVE_NAME,TRANSMIT_STATION_LISTENS,RECEIVE_NAME_TOTAL_HOURS,RECEIVE_LISTENS,LANGUAGE_NAME_LISTENS,STATE_NAME,MONTH_LISTENS,AVERAGE_LISTENS,SUB_REPORT_TYPE,REPORT_TYPE,ALL_LISTENS,RUNPLAN_ID
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="dataId">
+    <![CDATA[
+        INSERT INTO ZRST_REP_EFFECT_STATISTICS_TAB (
+        	DATA_ID ,
+        	REPORT_ID ,
+        	PLAY_TIME ,
+        	LANGUAGE_NAME ,
+        	FREQ ,
+        	TRANSMIT_STATION ,
+        	TRANSMIT_DIRECTION ,
+        	TRANSMIT_POWER ,
+        	SERVICE_AREA ,
+        	RECEIVE_CODE ,
+        	RECEIVE_COUNT ,
+        	FEN0 ,
+        	FEN1 ,
+        	FEN2 ,
+        	FEN3 ,
+        	FEN4 ,
+        	FEN5 ,
+        	LISTEN ,
+        	LISTEN_MIDDLE ,
+        	BAK ,
+        	RECEIVE_NAME ,
+        	TRANSMIT_STATION_LISTENS ,
+        	RECEIVE_NAME_TOTAL_HOURS ,
+        	RECEIVE_LISTENS ,
+        	LANGUAGE_NAME_LISTENS ,
+        	STATE_NAME ,
+        	MONTH_LISTENS ,
+        	AVERAGE_LISTENS ,
+        	SUB_REPORT_TYPE ,
+        	REPORT_TYPE ,
+        	ALL_LISTENS ,
+        	RUNPLAN_ID 
+        ) VALUES (
+        	#{dataId} ,
+        	#{reportId} ,
+        	#{playTime} ,
+        	#{languageName} ,
+        	#{freq} ,
+        	#{transmitStation} ,
+        	#{transmitDirection} ,
+        	#{transmitPower} ,
+        	#{serviceArea} ,
+        	#{receiveCode} ,
+        	#{receiveCount} ,
+        	#{fen0} ,
+        	#{fen1} ,
+        	#{fen2} ,
+        	#{fen3} ,
+        	#{fen4} ,
+        	#{fen5} ,
+        	#{listen} ,
+        	#{listenMiddle} ,
+        	#{bak} ,
+        	#{receiveName} ,
+        	#{transmitStationListens} ,
+        	#{receiveNameTotalHours} ,
+        	#{receiveListens} ,
+        	#{languageNameListens} ,
+        	#{stateName} ,
+        	#{monthListens} ,
+        	#{averageListens} ,
+        	#{subReportType} ,
+        	#{reportType} ,
+        	#{allListens} ,
+        	#{runplanId} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE ZRST_REP_EFFECT_STATISTICS_TAB SET
+	        REPORT_ID = #{reportId} ,
+	        PLAY_TIME = #{playTime} ,
+	        LANGUAGE_NAME = #{languageName} ,
+	        FREQ = #{freq} ,
+	        TRANSMIT_STATION = #{transmitStation} ,
+	        TRANSMIT_DIRECTION = #{transmitDirection} ,
+	        TRANSMIT_POWER = #{transmitPower} ,
+	        SERVICE_AREA = #{serviceArea} ,
+	        RECEIVE_CODE = #{receiveCode} ,
+	        RECEIVE_COUNT = #{receiveCount} ,
+	        FEN0 = #{fen0} ,
+	        FEN1 = #{fen1} ,
+	        FEN2 = #{fen2} ,
+	        FEN3 = #{fen3} ,
+	        FEN4 = #{fen4} ,
+	        FEN5 = #{fen5} ,
+	        LISTEN = #{listen} ,
+	        LISTEN_MIDDLE = #{listenMiddle} ,
+	        BAK = #{bak} ,
+	        RECEIVE_NAME = #{receiveName} ,
+	        TRANSMIT_STATION_LISTENS = #{transmitStationListens} ,
+	        RECEIVE_NAME_TOTAL_HOURS = #{receiveNameTotalHours} ,
+	        RECEIVE_LISTENS = #{receiveListens} ,
+	        LANGUAGE_NAME_LISTENS = #{languageNameListens} ,
+	        STATE_NAME = #{stateName} ,
+	        MONTH_LISTENS = #{monthListens} ,
+	        AVERAGE_LISTENS = #{averageListens} ,
+	        SUB_REPORT_TYPE = #{subReportType} ,
+	        REPORT_TYPE = #{reportType} ,
+	        ALL_LISTENS = #{allListens} ,
+	        RUNPLAN_ID = #{runplanId} 
+        WHERE 
+	        DATA_ID = #{dataId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM ZRST_REP_EFFECT_STATISTICS_TAB WHERE
+        DATA_ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="ZrstRepEffectStatisticsTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM ZRST_REP_EFFECT_STATISTICS_TAB 
+	        WHERE 
+		        DATA_ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(dataId)">
+				AND DATA_ID = #{dataId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(reportId)">
+				AND REPORT_ID = #{reportId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(playTime)">
+				AND PLAY_TIME = #{playTime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(languageName)">
+				AND LANGUAGE_NAME = #{languageName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(freq)">
+				AND FREQ = #{freq}
+			</if>
+	       <if test="@Ognl@isNotEmpty(transmitStation)">
+				AND TRANSMIT_STATION = #{transmitStation}
+			</if>
+	       <if test="@Ognl@isNotEmpty(transmitDirection)">
+				AND TRANSMIT_DIRECTION = #{transmitDirection}
+			</if>
+	       <if test="@Ognl@isNotEmpty(transmitPower)">
+				AND TRANSMIT_POWER = #{transmitPower}
+			</if>
+	       <if test="@Ognl@isNotEmpty(serviceArea)">
+				AND SERVICE_AREA = #{serviceArea}
+			</if>
+	       <if test="@Ognl@isNotEmpty(receiveCode)">
+				AND RECEIVE_CODE = #{receiveCode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(receiveCount)">
+				AND RECEIVE_COUNT = #{receiveCount}
+			</if>
+	       <if test="@Ognl@isNotEmpty(fen0)">
+				AND FEN0 = #{fen0}
+			</if>
+	       <if test="@Ognl@isNotEmpty(fen1)">
+				AND FEN1 = #{fen1}
+			</if>
+	       <if test="@Ognl@isNotEmpty(fen2)">
+				AND FEN2 = #{fen2}
+			</if>
+	       <if test="@Ognl@isNotEmpty(fen3)">
+				AND FEN3 = #{fen3}
+			</if>
+	       <if test="@Ognl@isNotEmpty(fen4)">
+				AND FEN4 = #{fen4}
+			</if>
+	       <if test="@Ognl@isNotEmpty(fen5)">
+				AND FEN5 = #{fen5}
+			</if>
+	       <if test="@Ognl@isNotEmpty(listen)">
+				AND LISTEN = #{listen}
+			</if>
+	       <if test="@Ognl@isNotEmpty(listenMiddle)">
+				AND LISTEN_MIDDLE = #{listenMiddle}
+			</if>
+	       <if test="@Ognl@isNotEmpty(bak)">
+				AND BAK = #{bak}
+			</if>
+	       <if test="@Ognl@isNotEmpty(receiveName)">
+				AND RECEIVE_NAME = #{receiveName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(transmitStationListens)">
+				AND TRANSMIT_STATION_LISTENS = #{transmitStationListens}
+			</if>
+	       <if test="@Ognl@isNotEmpty(receiveNameTotalHours)">
+				AND RECEIVE_NAME_TOTAL_HOURS = #{receiveNameTotalHours}
+			</if>
+	       <if test="@Ognl@isNotEmpty(receiveListens)">
+				AND RECEIVE_LISTENS = #{receiveListens}
+			</if>
+	       <if test="@Ognl@isNotEmpty(languageNameListens)">
+				AND LANGUAGE_NAME_LISTENS = #{languageNameListens}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stateName)">
+				AND STATE_NAME = #{stateName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(monthListens)">
+				AND MONTH_LISTENS = #{monthListens}
+			</if>
+	       <if test="@Ognl@isNotEmpty(averageListens)">
+				AND AVERAGE_LISTENS = #{averageListens}
+			</if>
+	       <if test="@Ognl@isNotEmpty(subReportType)">
+				AND SUB_REPORT_TYPE = #{subReportType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(reportType)">
+				AND REPORT_TYPE = #{reportType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(allListens)">
+				AND ALL_LISTENS = #{allListens}
+			</if>
+	       <if test="@Ognl@isNotEmpty(runplanId)">
+				AND RUNPLAN_ID = #{runplanId}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM ZRST_REP_EFFECT_STATISTICS_TAB 
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="ZrstRepEffectStatisticsTab">
+    	SELECT <include refid="columns" />
+	    FROM ZRST_REP_EFFECT_STATISTICS_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

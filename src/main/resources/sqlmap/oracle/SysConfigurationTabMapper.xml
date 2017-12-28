@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.SysConfigurationTabMapper">
+
+	<resultMap id="SysConfigurationTab" type="com.hw.domain.po.SysConfigurationTab">
+        <result property="paramName" column="PARAM_NAME"/>
+        <result property="paramValue" column="PARAM_VALUE"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		PARAM_NAME,PARAM_VALUE
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="paramName">
+    <![CDATA[
+        INSERT INTO SYS_CONFIGURATION_TAB (
+        	PARAM_NAME ,
+        	PARAM_VALUE 
+        ) VALUES (
+        	#{paramName} ,
+        	#{paramValue} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE SYS_CONFIGURATION_TAB SET
+	        PARAM_VALUE = #{paramValue} 
+        WHERE 
+	        PARAM_NAME = #{paramName} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM SYS_CONFIGURATION_TAB WHERE
+        PARAM_NAME = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="SysConfigurationTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM SYS_CONFIGURATION_TAB 
+	        WHERE 
+		        PARAM_NAME = #{id} 
+	    ]]>
+	</select>
+
+	<select id="checkDB" resultType="int">
+		SELECT 1 from dual
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(paramName)">
+				AND PARAM_NAME = #{paramName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(paramValue)">
+				AND PARAM_VALUE = #{paramValue}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM SYS_CONFIGURATION_TAB 
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="SysConfigurationTab">
+    	SELECT <include refid="columns" />
+	    FROM SYS_CONFIGURATION_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

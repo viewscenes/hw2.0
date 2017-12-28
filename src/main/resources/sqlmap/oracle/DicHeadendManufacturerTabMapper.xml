@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.DicHeadendManufacturerTabMapper">
+
+	<resultMap id="DicHeadendManufacturerTab" type="com.hw.domain.po.DicHeadendManufacturerTab">
+        <result property="id" column="ID"/>
+        <result property="manufacturerName" column="MANUFACTURER_NAME"/>
+        <result property="version" column="VERSION"/>
+        <result property="headendType" column="HEADEND_TYPE"/>
+        <result property="receiverList" column="RECEIVER_LIST"/>
+        <result property="upsLowerPower" column="UPS_LOWER_POWER"/>
+        <result property="remark" column="REMARK"/>
+        <result property="receiverNameList" column="RECEIVER_NAME_LIST"/>
+        <result property="receiverCodeList" column="RECEIVER_CODE_LIST"/>
+        <result property="manufacturerId" column="MANUFACTURER_ID"/>
+        <result property="versionId" column="VERSION_ID"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		ID,MANUFACTURER_NAME,VERSION,HEADEND_TYPE,RECEIVER_LIST,UPS_LOWER_POWER,REMARK,RECEIVER_NAME_LIST,RECEIVER_CODE_LIST,MANUFACTURER_ID,VERSION_ID
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO DIC_HEADEND_MANUFACTURER_TAB (
+        	ID ,
+        	MANUFACTURER_NAME ,
+        	VERSION ,
+        	HEADEND_TYPE ,
+        	RECEIVER_LIST ,
+        	UPS_LOWER_POWER ,
+        	REMARK ,
+        	RECEIVER_NAME_LIST ,
+        	RECEIVER_CODE_LIST ,
+        	MANUFACTURER_ID ,
+        	VERSION_ID 
+        ) VALUES (
+        	#{id} ,
+        	#{manufacturerName} ,
+        	#{version} ,
+        	#{headendType} ,
+        	#{receiverList} ,
+        	#{upsLowerPower} ,
+        	#{remark} ,
+        	#{receiverNameList} ,
+        	#{receiverCodeList} ,
+        	#{manufacturerId} ,
+        	#{versionId} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE DIC_HEADEND_MANUFACTURER_TAB SET
+	        MANUFACTURER_NAME = #{manufacturerName} ,
+	        VERSION = #{version} ,
+	        HEADEND_TYPE = #{headendType} ,
+	        RECEIVER_LIST = #{receiverList} ,
+	        UPS_LOWER_POWER = #{upsLowerPower} ,
+	        REMARK = #{remark} ,
+	        RECEIVER_NAME_LIST = #{receiverNameList} ,
+	        RECEIVER_CODE_LIST = #{receiverCodeList} ,
+	        MANUFACTURER_ID = #{manufacturerId} ,
+	        VERSION_ID = #{versionId} 
+        WHERE 
+	        ID = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM DIC_HEADEND_MANUFACTURER_TAB WHERE
+        ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="DicHeadendManufacturerTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM DIC_HEADEND_MANUFACTURER_TAB 
+	        WHERE 
+		        ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND ID = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(manufacturerName)">
+				AND MANUFACTURER_NAME = #{manufacturerName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(version)">
+				AND VERSION = #{version}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headendType)">
+				AND HEADEND_TYPE = #{headendType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(receiverList)">
+				AND RECEIVER_LIST = #{receiverList}
+			</if>
+	       <if test="@Ognl@isNotEmpty(upsLowerPower)">
+				AND UPS_LOWER_POWER = #{upsLowerPower}
+			</if>
+	       <if test="@Ognl@isNotEmpty(remark)">
+				AND REMARK = #{remark}
+			</if>
+	       <if test="@Ognl@isNotEmpty(receiverNameList)">
+				AND RECEIVER_NAME_LIST = #{receiverNameList}
+			</if>
+	       <if test="@Ognl@isNotEmpty(receiverCodeList)">
+				AND RECEIVER_CODE_LIST = #{receiverCodeList}
+			</if>
+	       <if test="@Ognl@isNotEmpty(manufacturerId)">
+				AND MANUFACTURER_ID = #{manufacturerId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(versionId)">
+				AND VERSION_ID = #{versionId}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM DIC_HEADEND_MANUFACTURER_TAB 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="DicHeadendManufacturerTab">
+    	SELECT <include refid="columns" />
+	    FROM DIC_HEADEND_MANUFACTURER_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.RadioQualityAlarmParamTabMapper">
+
+	<resultMap id="RadioQualityAlarmParamTab" type="com.hw.domain.po.RadioQualityAlarmParamTab">
+        <result property="paramId" column="PARAM_ID"/>
+        <result property="equCode" column="EQU_CODE"/>
+        <result property="band" column="BAND"/>
+        <result property="frequency" column="FREQUENCY"/>
+        <result property="downthreshold1level" column="DOWNTHRESHOLD1LEVEL"/>
+        <result property="headId" column="HEAD_ID"/>
+        <result property="abnormitylength1level" column="ABNORMITYLENGTH1LEVEL"/>
+        <result property="samplelength2fm" column="SAMPLELENGTH2FM"/>
+        <result property="downthreshold2fm" column="DOWNTHRESHOLD2FM"/>
+        <result property="upthreshold2fm" column="UPTHRESHOLD2FM"/>
+        <result property="downabnormityrate2fm" column="DOWNABNORMITYRATE2FM"/>
+        <result property="upabnormityrate2fm" column="UPABNORMITYRATE2FM"/>
+        <result property="samplelength3am" column="SAMPLELENGTH3AM"/>
+        <result property="abnormitylength2fm" column="ABNORMITYLENGTH2FM"/>
+        <result property="downthreshold3am" column="DOWNTHRESHOLD3AM"/>
+        <result property="upthreshold3am" column="UPTHRESHOLD3AM"/>
+        <result property="upabnormityrate3am" column="UPABNORMITYRATE3AM"/>
+        <result property="downabnormityrate3am" column="DOWNABNORMITYRATE3AM"/>
+        <result property="abnormitylength3am" column="ABNORMITYLENGTH3AM"/>
+        <result property="attenuation4attenuation" column="ATTENUATION4ATTENUATION"/>
+        <result property="headTypeId" column="HEAD_TYPE_ID"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		PARAM_ID,EQU_CODE,BAND,FREQUENCY,DOWNTHRESHOLD1LEVEL,HEAD_ID,ABNORMITYLENGTH1LEVEL,SAMPLELENGTH2FM,DOWNTHRESHOLD2FM,UPTHRESHOLD2FM,DOWNABNORMITYRATE2FM,UPABNORMITYRATE2FM,SAMPLELENGTH3AM,ABNORMITYLENGTH2FM,DOWNTHRESHOLD3AM,UPTHRESHOLD3AM,UPABNORMITYRATE3AM,DOWNABNORMITYRATE3AM,ABNORMITYLENGTH3AM,ATTENUATION4ATTENUATION,HEAD_TYPE_ID
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="paramId">
+    <![CDATA[
+        INSERT INTO RADIO_QUALITY_ALARM_PARAM_TAB (
+        	PARAM_ID ,
+        	EQU_CODE ,
+        	BAND ,
+        	FREQUENCY ,
+        	DOWNTHRESHOLD1LEVEL ,
+        	HEAD_ID ,
+        	ABNORMITYLENGTH1LEVEL ,
+        	SAMPLELENGTH2FM ,
+        	DOWNTHRESHOLD2FM ,
+        	UPTHRESHOLD2FM ,
+        	DOWNABNORMITYRATE2FM ,
+        	UPABNORMITYRATE2FM ,
+        	SAMPLELENGTH3AM ,
+        	ABNORMITYLENGTH2FM ,
+        	DOWNTHRESHOLD3AM ,
+        	UPTHRESHOLD3AM ,
+        	UPABNORMITYRATE3AM ,
+        	DOWNABNORMITYRATE3AM ,
+        	ABNORMITYLENGTH3AM ,
+        	ATTENUATION4ATTENUATION ,
+        	HEAD_TYPE_ID 
+        ) VALUES (
+        	#{paramId} ,
+        	#{equCode} ,
+        	#{band} ,
+        	#{frequency} ,
+        	#{downthreshold1level} ,
+        	#{headId} ,
+        	#{abnormitylength1level} ,
+        	#{samplelength2fm} ,
+        	#{downthreshold2fm} ,
+        	#{upthreshold2fm} ,
+        	#{downabnormityrate2fm} ,
+        	#{upabnormityrate2fm} ,
+        	#{samplelength3am} ,
+        	#{abnormitylength2fm} ,
+        	#{downthreshold3am} ,
+        	#{upthreshold3am} ,
+        	#{upabnormityrate3am} ,
+        	#{downabnormityrate3am} ,
+        	#{abnormitylength3am} ,
+        	#{attenuation4attenuation} ,
+        	#{headTypeId} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE RADIO_QUALITY_ALARM_PARAM_TAB SET
+	        EQU_CODE = #{equCode} ,
+	        BAND = #{band} ,
+	        FREQUENCY = #{frequency} ,
+	        DOWNTHRESHOLD1LEVEL = #{downthreshold1level} ,
+	        HEAD_ID = #{headId} ,
+	        ABNORMITYLENGTH1LEVEL = #{abnormitylength1level} ,
+	        SAMPLELENGTH2FM = #{samplelength2fm} ,
+	        DOWNTHRESHOLD2FM = #{downthreshold2fm} ,
+	        UPTHRESHOLD2FM = #{upthreshold2fm} ,
+	        DOWNABNORMITYRATE2FM = #{downabnormityrate2fm} ,
+	        UPABNORMITYRATE2FM = #{upabnormityrate2fm} ,
+	        SAMPLELENGTH3AM = #{samplelength3am} ,
+	        ABNORMITYLENGTH2FM = #{abnormitylength2fm} ,
+	        DOWNTHRESHOLD3AM = #{downthreshold3am} ,
+	        UPTHRESHOLD3AM = #{upthreshold3am} ,
+	        UPABNORMITYRATE3AM = #{upabnormityrate3am} ,
+	        DOWNABNORMITYRATE3AM = #{downabnormityrate3am} ,
+	        ABNORMITYLENGTH3AM = #{abnormitylength3am} ,
+	        ATTENUATION4ATTENUATION = #{attenuation4attenuation} ,
+	        HEAD_TYPE_ID = #{headTypeId} 
+        WHERE 
+	        PARAM_ID = #{paramId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM RADIO_QUALITY_ALARM_PARAM_TAB WHERE
+        PARAM_ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RadioQualityAlarmParamTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM RADIO_QUALITY_ALARM_PARAM_TAB
+	        WHERE 
+		        PARAM_ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(paramId)">
+				AND PARAM_ID = #{paramId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(equCode)">
+				AND EQU_CODE = #{equCode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(band)">
+				AND BAND = #{band}
+			</if>
+	       <if test="@Ognl@isNotEmpty(frequency)">
+				AND FREQUENCY = #{frequency}
+			</if>
+	       <if test="@Ognl@isNotEmpty(downthreshold1level)">
+				AND DOWNTHRESHOLD1LEVEL = #{downthreshold1level}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headId)">
+				AND HEAD_ID = #{headId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(abnormitylength1level)">
+				AND ABNORMITYLENGTH1LEVEL = #{abnormitylength1level}
+			</if>
+	       <if test="@Ognl@isNotEmpty(samplelength2fm)">
+				AND SAMPLELENGTH2FM = #{samplelength2fm}
+			</if>
+	       <if test="@Ognl@isNotEmpty(downthreshold2fm)">
+				AND DOWNTHRESHOLD2FM = #{downthreshold2fm}
+			</if>
+	       <if test="@Ognl@isNotEmpty(upthreshold2fm)">
+				AND UPTHRESHOLD2FM = #{upthreshold2fm}
+			</if>
+	       <if test="@Ognl@isNotEmpty(downabnormityrate2fm)">
+				AND DOWNABNORMITYRATE2FM = #{downabnormityrate2fm}
+			</if>
+	       <if test="@Ognl@isNotEmpty(upabnormityrate2fm)">
+				AND UPABNORMITYRATE2FM = #{upabnormityrate2fm}
+			</if>
+	       <if test="@Ognl@isNotEmpty(samplelength3am)">
+				AND SAMPLELENGTH3AM = #{samplelength3am}
+			</if>
+	       <if test="@Ognl@isNotEmpty(abnormitylength2fm)">
+				AND ABNORMITYLENGTH2FM = #{abnormitylength2fm}
+			</if>
+	       <if test="@Ognl@isNotEmpty(downthreshold3am)">
+				AND DOWNTHRESHOLD3AM = #{downthreshold3am}
+			</if>
+	       <if test="@Ognl@isNotEmpty(upthreshold3am)">
+				AND UPTHRESHOLD3AM = #{upthreshold3am}
+			</if>
+	       <if test="@Ognl@isNotEmpty(upabnormityrate3am)">
+				AND UPABNORMITYRATE3AM = #{upabnormityrate3am}
+			</if>
+	       <if test="@Ognl@isNotEmpty(downabnormityrate3am)">
+				AND DOWNABNORMITYRATE3AM = #{downabnormityrate3am}
+			</if>
+	       <if test="@Ognl@isNotEmpty(abnormitylength3am)">
+				AND ABNORMITYLENGTH3AM = #{abnormitylength3am}
+			</if>
+	       <if test="@Ognl@isNotEmpty(attenuation4attenuation)">
+				AND ATTENUATION4ATTENUATION = #{attenuation4attenuation}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headTypeId)">
+				AND HEAD_TYPE_ID = #{headTypeId}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM RADIO_QUALITY_ALARM_PARAM_TAB
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RadioQualityAlarmParamTab">
+    	SELECT <include refid="columns" />
+	    FROM RADIO_QUALITY_ALARM_PARAM_TAB
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

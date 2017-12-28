@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.RadioTaskTimeSingleTabMapper">
+
+	<resultMap id="RadioTaskTimeSingleTab" type="com.hw.domain.po.RadioTaskTimeSingleTab">
+        <result property="timeId" column="TIME_ID"/>
+        <result property="reportmode" column="REPORTMODE"/>
+        <result property="reportinterval" column="REPORTINTERVAL"/>
+        <result property="reporttime" column="REPORTTIME"/>
+        <result property="startdatetime" column="STARTDATETIME"/>
+        <result property="enddatetime" column="ENDDATETIME"/>
+        <result property="expiredays" column="EXPIREDAYS"/>
+        <result property="subTaskId" column="SUB_TASK_ID"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		TIME_ID,REPORTMODE,REPORTINTERVAL,REPORTTIME,STARTDATETIME,ENDDATETIME,EXPIREDAYS,SUB_TASK_ID
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="timeId">
+    <![CDATA[
+        INSERT INTO RADIO_TASK_TIME_SINGLE_TAB (
+        	TIME_ID ,
+        	REPORTMODE ,
+        	REPORTINTERVAL ,
+        	REPORTTIME ,
+        	STARTDATETIME ,
+        	ENDDATETIME ,
+        	EXPIREDAYS ,
+        	SUB_TASK_ID 
+        ) VALUES (
+        	#{timeId} ,
+        	#{reportmode} ,
+        	#{reportinterval} ,
+        	#{reporttime} ,
+        	#{startdatetime} ,
+        	#{enddatetime} ,
+        	#{expiredays} ,
+        	#{subTaskId} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE RADIO_TASK_TIME_SINGLE_TAB SET
+	        REPORTMODE = #{reportmode} ,
+	        REPORTINTERVAL = #{reportinterval} ,
+	        REPORTTIME = #{reporttime} ,
+	        STARTDATETIME = #{startdatetime} ,
+	        ENDDATETIME = #{enddatetime} ,
+	        EXPIREDAYS = #{expiredays} ,
+	        SUB_TASK_ID = #{subTaskId} 
+        WHERE 
+	        TIME_ID = #{timeId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM RADIO_TASK_TIME_SINGLE_TAB WHERE
+        TIME_ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RadioTaskTimeSingleTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM RADIO_TASK_TIME_SINGLE_TAB 
+	        WHERE 
+		        TIME_ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(timeId)">
+				AND TIME_ID = #{timeId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(reportmode)">
+				AND REPORTMODE = #{reportmode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(reportinterval)">
+				AND REPORTINTERVAL = #{reportinterval}
+			</if>
+	       <if test="@Ognl@isNotEmpty(reporttime)">
+				AND REPORTTIME = #{reporttime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(startdatetimeBegin)">
+				AND STARTDATETIME >= #{startdatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(startdatetimeEnd)">
+				AND STARTDATETIME &lt;= #{startdatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(enddatetimeBegin)">
+				AND ENDDATETIME >= #{enddatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(enddatetimeEnd)">
+				AND ENDDATETIME &lt;= #{enddatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(expiredays)">
+				AND EXPIREDAYS = #{expiredays}
+			</if>
+	       <if test="@Ognl@isNotEmpty(subTaskId)">
+				AND SUB_TASK_ID = #{subTaskId}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM RADIO_TASK_TIME_SINGLE_TAB 
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RadioTaskTimeSingleTab">
+    	SELECT <include refid="columns" />
+	    FROM RADIO_TASK_TIME_SINGLE_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.DicReportTypeTabMapper">
+
+	<resultMap id="DicReportTypeTab" type="com.hw.domain.po.DicReportTypeTab">
+        <result property="id" column="ID"/>
+        <result property="name" column="NAME"/>
+        <result property="tabName" column="TAB_NAME"/>
+        <result property="tabName2" column="TAB_NAME2"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		ID,NAME,TAB_NAME,TAB_NAME2
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO DIC_REPORT_TYPE_TAB (
+        	ID ,
+        	NAME ,
+        	TAB_NAME ,
+        	TAB_NAME2 
+        ) VALUES (
+        	#{id} ,
+        	#{name} ,
+        	#{tabName} ,
+        	#{tabName2} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE DIC_REPORT_TYPE_TAB SET
+	        NAME = #{name} ,
+	        TAB_NAME = #{tabName} ,
+	        TAB_NAME2 = #{tabName2} 
+        WHERE 
+	        ID = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM DIC_REPORT_TYPE_TAB WHERE
+        ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="DicReportTypeTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM DIC_REPORT_TYPE_TAB 
+	        WHERE 
+		        ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND ID = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(name)">
+				AND NAME = #{name}
+			</if>
+	       <if test="@Ognl@isNotEmpty(tabName)">
+				AND TAB_NAME = #{tabName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(tabName2)">
+				AND TAB_NAME2 = #{tabName2}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM DIC_REPORT_TYPE_TAB 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="DicReportTypeTab">
+    	SELECT <include refid="columns" />
+	    FROM DIC_REPORT_TYPE_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

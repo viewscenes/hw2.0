@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.ZrstRepEffectViewTabMapper">
+
+	<resultMap id="ZrstRepEffectViewTab" type="com.hw.domain.po.ZrstRepEffectViewTab">
+        <result property="dataId" column="DATA_ID"/>
+        <result property="reportId" column="REPORT_ID"/>
+        <result property="stationName" column="STATION_NAME"/>
+        <result property="direction" column="DIRECTION"/>
+        <result property="serviceArea" column="SERVICE_AREA"/>
+        <result property="power" column="POWER"/>
+        <result property="frequency" column="FREQUENCY"/>
+        <result property="languageName" column="LANGUAGE_NAME"/>
+        <result property="datetime" column="DATETIME"/>
+        <result property="description" column="DESCRIPTION"/>
+        <result property="headname" column="HEADNAME"/>
+        <result property="playTime" column="PLAY_TIME"/>
+        <result property="remark" column="REMARK"/>
+        <result property="startTime" column="START_TIME"/>
+        <result property="endTime" column="END_TIME"/>
+        <result property="count" column="COUNT"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		DATA_ID,REPORT_ID,STATION_NAME,DIRECTION,SERVICE_AREA,POWER,FREQUENCY,LANGUAGE_NAME,DATETIME,DESCRIPTION,HEADNAME,PLAY_TIME,REMARK,START_TIME,END_TIME,COUNT
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="dataId">
+    <![CDATA[
+        INSERT INTO ZRST_REP_EFFECT_VIEW_TAB (
+        	DATA_ID ,
+        	REPORT_ID ,
+        	STATION_NAME ,
+        	DIRECTION ,
+        	SERVICE_AREA ,
+        	POWER ,
+        	FREQUENCY ,
+        	LANGUAGE_NAME ,
+        	DATETIME ,
+        	DESCRIPTION ,
+        	HEADNAME ,
+        	PLAY_TIME ,
+        	REMARK ,
+        	START_TIME ,
+        	END_TIME ,
+        	COUNT 
+        ) VALUES (
+        	#{dataId} ,
+        	#{reportId} ,
+        	#{stationName} ,
+        	#{direction} ,
+        	#{serviceArea} ,
+        	#{power} ,
+        	#{frequency} ,
+        	#{languageName} ,
+        	#{datetime} ,
+        	#{description} ,
+        	#{headname} ,
+        	#{playTime} ,
+        	#{remark} ,
+        	#{startTime} ,
+        	#{endTime} ,
+        	#{count} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE ZRST_REP_EFFECT_VIEW_TAB SET
+	        REPORT_ID = #{reportId} ,
+	        STATION_NAME = #{stationName} ,
+	        DIRECTION = #{direction} ,
+	        SERVICE_AREA = #{serviceArea} ,
+	        POWER = #{power} ,
+	        FREQUENCY = #{frequency} ,
+	        LANGUAGE_NAME = #{languageName} ,
+	        DATETIME = #{datetime} ,
+	        DESCRIPTION = #{description} ,
+	        HEADNAME = #{headname} ,
+	        PLAY_TIME = #{playTime} ,
+	        REMARK = #{remark} ,
+	        START_TIME = #{startTime} ,
+	        END_TIME = #{endTime} ,
+	        COUNT = #{count} 
+        WHERE 
+	        DATA_ID = #{dataId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM ZRST_REP_EFFECT_VIEW_TAB WHERE
+        DATA_ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="ZrstRepEffectViewTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM ZRST_REP_EFFECT_VIEW_TAB 
+	        WHERE 
+		        DATA_ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(dataId)">
+				AND DATA_ID = #{dataId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(reportId)">
+				AND REPORT_ID = #{reportId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stationName)">
+				AND STATION_NAME = #{stationName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(direction)">
+				AND DIRECTION = #{direction}
+			</if>
+	       <if test="@Ognl@isNotEmpty(serviceArea)">
+				AND SERVICE_AREA = #{serviceArea}
+			</if>
+	       <if test="@Ognl@isNotEmpty(power)">
+				AND POWER = #{power}
+			</if>
+	       <if test="@Ognl@isNotEmpty(frequency)">
+				AND FREQUENCY = #{frequency}
+			</if>
+	       <if test="@Ognl@isNotEmpty(languageName)">
+				AND LANGUAGE_NAME = #{languageName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(datetime)">
+				AND DATETIME = #{datetime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(description)">
+				AND DESCRIPTION = #{description}
+			</if>
+	       <if test="@Ognl@isNotEmpty(headname)">
+				AND HEADNAME = #{headname}
+			</if>
+	       <if test="@Ognl@isNotEmpty(playTime)">
+				AND PLAY_TIME = #{playTime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(remark)">
+				AND REMARK = #{remark}
+			</if>
+	       <if test="@Ognl@isNotEmpty(startTime)">
+				AND START_TIME = #{startTime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(endTime)">
+				AND END_TIME = #{endTime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(count)">
+				AND COUNT = #{count}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM ZRST_REP_EFFECT_VIEW_TAB 
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="ZrstRepEffectViewTab">
+    	SELECT <include refid="columns" />
+	    FROM ZRST_REP_EFFECT_VIEW_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.RadioEquAlarmTabLogMapper">
+
+	<resultMap id="RadioEquAlarmTabLog" type="com.hw.domain.po.RadioEquAlarmTabLog">
+        <result property="headCode" column="HEAD_CODE"/>
+        <result property="state00Count" column="STATE00_COUNT"/>
+        <result property="realRowCount" column="REAL_ROW_COUNT"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		HEAD_CODE,STATE00_COUNT,REAL_ROW_COUNT
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="headCode">
+    <![CDATA[
+        INSERT INTO RADIO_EQU_ALARM_TAB_LOG (
+        	HEAD_CODE ,
+        	STATE00_COUNT ,
+        	REAL_ROW_COUNT 
+        ) VALUES (
+        	#{headCode} ,
+        	#{state00Count} ,
+        	#{realRowCount} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE RADIO_EQU_ALARM_TAB_LOG SET
+	        STATE00_COUNT = #{state00Count} ,
+	        REAL_ROW_COUNT = #{realRowCount} 
+        WHERE 
+	        HEAD_CODE = #{headCode} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM RADIO_EQU_ALARM_TAB_LOG WHERE
+        HEAD_CODE = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RadioEquAlarmTabLog">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM RADIO_EQU_ALARM_TAB_LOG
+	        WHERE 
+		        HEAD_CODE = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(headCode)">
+				AND HEAD_CODE = #{headCode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(state00Count)">
+				AND STATE00_COUNT = #{state00Count}
+			</if>
+	       <if test="@Ognl@isNotEmpty(realRowCount)">
+				AND REAL_ROW_COUNT = #{realRowCount}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM RADIO_EQU_ALARM_TAB_LOG
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RadioEquAlarmTabLog">
+    	SELECT <include refid="columns" />
+	    FROM RADIO_EQU_ALARM_TAB_LOG
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

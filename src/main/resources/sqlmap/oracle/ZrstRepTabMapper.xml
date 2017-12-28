@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.ZrstRepTabMapper">
+
+	<resultMap id="ZrstRepTab" type="com.hw.domain.po.ZrstRepTab">
+        <result property="reportId" column="REPORT_ID"/>
+        <result property="reportDate" column="REPORT_DATE"/>
+        <result property="reportType" column="REPORT_TYPE"/>
+        <result property="periodType" column="PERIOD_TYPE"/>
+        <result property="startDatetime"  column="START_DATETIME" />
+        <result property="endDatetime"  column="END_DATETIME" />
+        <result property="character" column="CHARACTER"/>
+        <result property="dataNum" column="DATA_NUM"/>
+        <result property="modifyStatus" column="MODIFY_STATUS"/>
+        <result property="modifyUser" column="MODIFY_USER"/>
+        <result property="modifyDatetime" column="MODIFY_DATETIME"/>
+        <result property="importStatus" column="IMPORT_STATUS"/>
+        <result property="importUser" column="IMPORT_USER"/>
+        <result property="importDatetime" column="IMPORT_DATETIME"/>
+        <result property="verifyStatus" column="VERIFY_STATUS"/>
+        <result property="verifyUser" column="VERIFY_USER"/>
+        <result property="verifyDatetime" column="VERIFY_DATETIME"/>
+        <result property="authenticStatus" column="AUTHENTIC_STATUS"/>
+        <result property="authenticUser" column="AUTHENTIC_USER"/>
+        <result property="authenticDatetime" column="AUTHENTIC_DATETIME"/>
+        <result property="remark" column="REMARK"/>
+        <result property="tab_name" column="tabName"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		REPORT_ID,REPORT_DATE,REPORT_TYPE,PERIOD_TYPE,START_DATETIME,END_DATETIME,CHARACTER,
+		DATA_NUM,MODIFY_STATUS,MODIFY_USER,MODIFY_DATETIME,IMPORT_STATUS,IMPORT_USER,IMPORT_DATETIME,
+		VERIFY_STATUS,VERIFY_USER,VERIFY_DATETIME,AUTHENTIC_STATUS,AUTHENTIC_USER,AUTHENTIC_DATETIME,REMARK,
+		dic.tab_name
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="reportId">
+    <![CDATA[
+        INSERT INTO ZRST_REP_TAB (
+        	REPORT_ID ,
+        	REPORT_DATE ,
+        	REPORT_TYPE ,
+        	PERIOD_TYPE ,
+        	START_DATETIME ,
+        	END_DATETIME ,
+        	CHARACTER ,
+        	DATA_NUM ,
+        	MODIFY_STATUS ,
+        	MODIFY_USER ,
+        	MODIFY_DATETIME ,
+        	IMPORT_STATUS ,
+        	IMPORT_USER ,
+        	IMPORT_DATETIME ,
+        	VERIFY_STATUS ,
+        	VERIFY_USER ,
+        	VERIFY_DATETIME ,
+        	AUTHENTIC_STATUS ,
+        	AUTHENTIC_USER ,
+        	AUTHENTIC_DATETIME ,
+        	REMARK 
+        ) VALUES (
+        	#{reportId} ,
+        	#{reportDate} ,
+        	#{reportType} ,
+        	#{periodType} ,
+        	#{startDatetime} ,
+        	#{endDatetime} ,
+        	#{character} ,
+        	#{dataNum} ,
+        	#{modifyStatus} ,
+        	#{modifyUser} ,
+        	#{modifyDatetime} ,
+        	#{importStatus} ,
+        	#{importUser} ,
+        	#{importDatetime} ,
+        	#{verifyStatus} ,
+        	#{verifyUser} ,
+        	#{verifyDatetime} ,
+        	#{authenticStatus} ,
+        	#{authenticUser} ,
+        	#{authenticDatetime} ,
+        	#{remark} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE ZRST_REP_TAB SET
+	        REPORT_DATE = #{reportDate} ,
+	        REPORT_TYPE = #{reportType} ,
+	        PERIOD_TYPE = #{periodType} ,
+	        START_DATETIME = #{startDatetime} ,
+	        END_DATETIME = #{endDatetime} ,
+	        CHARACTER = #{character} ,
+	        DATA_NUM = #{dataNum} ,
+	        MODIFY_STATUS = #{modifyStatus} ,
+	        MODIFY_USER = #{modifyUser} ,
+	        MODIFY_DATETIME = #{modifyDatetime} ,
+	        IMPORT_STATUS = #{importStatus} ,
+	        IMPORT_USER = #{importUser} ,
+	        IMPORT_DATETIME = #{importDatetime} ,
+	        VERIFY_STATUS = #{verifyStatus} ,
+	        VERIFY_USER = #{verifyUser} ,
+	        VERIFY_DATETIME = #{verifyDatetime} ,
+	        AUTHENTIC_STATUS = #{authenticStatus} ,
+	        AUTHENTIC_USER = #{authenticUser} ,
+	        AUTHENTIC_DATETIME = #{authenticDatetime} ,
+	        REMARK = #{remark} 
+        WHERE 
+	        REPORT_ID = #{reportId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM ZRST_REP_TAB WHERE
+        REPORT_ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="ZrstRepTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM ZRST_REP_TAB 
+	        WHERE 
+		        REPORT_ID = #{id} 
+	    ]]>
+	</select>
+    <select id="getReportFromStarttimeEndtimeReportType" resultMap="ZrstRepTab">
+        SELECT <include refid="columns" />
+		    FROM ZRST_REP_TAB rep ,dic_report_type_tab dic
+	        WHERE rep.report_type=dic.id
+            and report_type = #{reportType}
+            and START_DATETIME = #{startDatetime}
+		    and END_DATETIME =  #{endDatetime}
+
+    </select>
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(reportId)">
+				AND REPORT_ID = #{reportId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(reportDateBegin)">
+				AND REPORT_DATE >= #{reportDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(reportDateEnd)">
+				AND REPORT_DATE &lt;= #{reportDateEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(reportType)">
+				AND REPORT_TYPE = #{reportType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(periodType)">
+				AND PERIOD_TYPE = #{periodType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(startDatetimeBegin)">
+				AND START_DATETIME >= #{startDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(startDatetimeEnd)">
+				AND START_DATETIME &lt;= #{startDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(endDatetimeBegin)">
+				AND END_DATETIME >= #{endDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endDatetimeEnd)">
+				AND END_DATETIME &lt;= #{endDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(character)">
+				AND CHARACTER = #{character}
+			</if>
+	       <if test="@Ognl@isNotEmpty(dataNum)">
+				AND DATA_NUM = #{dataNum}
+			</if>
+	       <if test="@Ognl@isNotEmpty(modifyStatus)">
+				AND MODIFY_STATUS = #{modifyStatus}
+			</if>
+	       <if test="@Ognl@isNotEmpty(modifyUser)">
+				AND MODIFY_USER = #{modifyUser}
+			</if>
+	       <if test="@Ognl@isNotEmpty(modifyDatetimeBegin)">
+				AND MODIFY_DATETIME >= #{modifyDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(modifyDatetimeEnd)">
+				AND MODIFY_DATETIME &lt;= #{modifyDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(importStatus)">
+				AND IMPORT_STATUS = #{importStatus}
+			</if>
+	       <if test="@Ognl@isNotEmpty(importUser)">
+				AND IMPORT_USER = #{importUser}
+			</if>
+	       <if test="@Ognl@isNotEmpty(importDatetimeBegin)">
+				AND IMPORT_DATETIME >= #{importDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(importDatetimeEnd)">
+				AND IMPORT_DATETIME &lt;= #{importDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(verifyStatus)">
+				AND VERIFY_STATUS = #{verifyStatus}
+			</if>
+	       <if test="@Ognl@isNotEmpty(verifyUser)">
+				AND VERIFY_USER = #{verifyUser}
+			</if>
+	       <if test="@Ognl@isNotEmpty(verifyDatetimeBegin)">
+				AND VERIFY_DATETIME >= #{verifyDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(verifyDatetimeEnd)">
+				AND VERIFY_DATETIME &lt;= #{verifyDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(authenticStatus)">
+				AND AUTHENTIC_STATUS = #{authenticStatus}
+			</if>
+	       <if test="@Ognl@isNotEmpty(authenticUser)">
+				AND AUTHENTIC_USER = #{authenticUser}
+			</if>
+	       <if test="@Ognl@isNotEmpty(authenticDatetimeBegin)">
+				AND AUTHENTIC_DATETIME >= #{authenticDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(authenticDatetimeEnd)">
+				AND AUTHENTIC_DATETIME &lt;= #{authenticDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(remark)">
+				AND REMARK = #{remark}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM ZRST_REP_TAB 
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="ZrstRepTab">
+    	SELECT <include refid="columns" />
+	    FROM ZRST_REP_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

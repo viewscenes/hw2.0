@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.RadioStreamResultTabMapper">
+
+	<resultMap id="RadioStreamResultTab" type="com.hw.domain.po.RadioStreamResultTab">
+        <result property="resultId" column="RESULT_ID"/>
+        <result property="band" column="BAND"/>
+        <result property="taskId" column="TASK_ID"/>
+        <result property="startDatetime" column="START_DATETIME"/>
+        <result property="endDatetime" column="END_DATETIME"/>
+        <result property="frequency" column="FREQUENCY"/>
+        <result property="filename" column="FILENAME"/>
+        <result property="filesize" column="FILESIZE"/>
+        <result property="headId" column="HEAD_ID"/>
+        <result property="url" column="URL"/>
+        <result property="reportType" column="REPORT_TYPE"/>
+        <result property="isStored" column="IS_STORED"/>
+        <result property="isDelete" column="IS_DELETE"/>
+        <result property="storeDatetime" column="STORE_DATETIME"/>
+        <result property="markFileName" column="MARK_FILE_NAME"/>
+        <result property="runplanId" column="RUNPLAN_ID"/>
+        <result property="equCode" column="EQU_CODE"/>
+        <result property="fmModulation" column="FM_MODULATION"/>
+        <result property="amModulation" column="AM_MODULATION"/>
+        <result property="offset" column="OFFSET"/>
+        <result property="levelValue" column="LEVEL_VALUE"/>
+        <result property="receiveType" column="RECEIVE_TYPE"/>
+        <result property="language" column="LANGUAGE"/>
+        <result property="stationName" column="STATION_NAME"/>
+
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		RESULT_ID,BAND,TASK_ID,START_DATETIME,END_DATETIME,FREQUENCY,FILENAME,FILESIZE,HEAD_ID,URL,REPORT_TYPE,IS_STORED,
+		IS_DELETE,STORE_DATETIME,MARK_FILE_NAME,RUNPLAN_ID,EQU_CODE,FM_MODULATION,AM_MODULATION,OFFSET,LEVEL_VALUE,RECEIVE_TYPE,
+		LANGUAGE,STATION_NAME
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="resultId">
+    <![CDATA[
+        INSERT INTO RADIO_STREAM_RESULT_TAB (
+        	RESULT_ID ,
+        	BAND ,
+        	TASK_ID ,
+        	START_DATETIME ,
+        	END_DATETIME ,
+        	FREQUENCY ,
+        	FILENAME ,
+        	FILESIZE ,
+        	HEAD_ID ,
+        	URL ,
+        	REPORT_TYPE ,
+        	IS_STORED ,
+        	IS_DELETE ,
+        	STORE_DATETIME ,
+        	MARK_FILE_NAME ,
+        	RUNPLAN_ID ,
+        	EQU_CODE ,
+        	FM_MODULATION ,
+        	AM_MODULATION ,
+        	OFFSET ,
+        	LEVEL_VALUE ,
+        	RECEIVE_TYPE ,
+        	LANGUAGE ,
+        	STATION_NAME 
+        ) VALUES (
+        	#{resultId} ,
+        	#{band} ,
+        	#{taskId} ,
+        	#{startDatetime} ,
+        	#{endDatetime} ,
+        	#{frequency} ,
+        	#{filename} ,
+        	#{filesize} ,
+        	#{headId} ,
+        	#{url} ,
+        	#{reportType} ,
+        	#{isStored} ,
+        	#{isDelete} ,
+        	#{storeDatetime} ,
+        	#{markFileName} ,
+        	#{runplanId} ,
+        	#{equCode} ,
+        	#{fmModulation} ,
+        	#{amModulation} ,
+        	#{offset} ,
+        	#{levelValue} ,
+        	#{receiveType} ,
+        	#{language} ,
+        	#{stationName} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+        UPDATE RADIO_STREAM_RESULT_TAB SET
+
+        <if test="@Ognl@isNotEmpty(isDelete)">
+            IS_DELETE = #{isDelete} ,
+        </if>
+        <if test="@Ognl@isNotEmpty(storeDatetime)">
+            STORE_DATETIME = #{storeDatetime} ,
+        </if>
+
+        <if test="@Ognl@isNotEmpty(runplanId)">
+            RUNPLAN_ID = #{runplanId} ,
+        </if>
+
+        <if test="@Ognl@isNotEmpty(language)">
+            LANGUAGE = #{language} ,
+        </if>
+        <if test="@Ognl@isNotEmpty(stationName)">
+            STATION_NAME = #{stationName} ,
+        </if>
+
+        WHERE 
+	        RESULT_ID = #{resultId}
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM RADIO_STREAM_RESULT_TAB WHERE
+        RESULT_ID = #{id}
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RadioStreamResultTab">
+		SELECT <include refid="columns" />
+
+		    FROM RADIO_STREAM_RESULT_TAB 
+	        WHERE 
+		        RESULT_ID = #{id}
+
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(resultId)">
+				AND RESULT_ID = #{resultId}
+			</if>
+	       <!--<if test="@Ognl@isNotEmpty(band)">-->
+				<!--AND BAND = #{band}-->
+			<!--</if>-->
+	       <if test="@Ognl@isNotEmpty(taskId)">
+				AND TASK_ID = #{taskId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(startDatetimeBegin)">
+				AND START_DATETIME >= #{startDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(startDatetimeEnd)">
+				AND START_DATETIME &lt;= #{startDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(endDatetimeBegin)">
+				AND END_DATETIME >= #{endDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endDatetimeEnd)">
+				AND END_DATETIME &lt;= #{endDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(frequency)">
+				AND FREQUENCY = #{frequency}
+			</if>
+	       <if test="@Ognl@isNotEmpty(filename)">
+				AND FILENAME = #{filename}
+			</if>
+
+	       <if test="@Ognl@isNotEmpty(headId)">
+				AND HEAD_ID = #{headId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(url)">
+				AND URL = #{url}
+			</if>
+	       <if test="@Ognl@isNotEmpty(reportType)">
+				AND REPORT_TYPE = #{reportType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isStored)">
+				AND IS_STORED = #{isStored}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isDelete)">
+				AND IS_DELETE = #{isDelete}
+			</if>
+	       <if test="@Ognl@isNotEmpty(storeDatetimeBegin)">
+				AND STORE_DATETIME >= #{storeDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(storeDatetimeEnd)">
+				AND STORE_DATETIME &lt;= #{storeDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(markFileName)">
+				AND MARK_FILE_NAME = #{markFileName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(runplanId)">
+				AND RUNPLAN_ID = #{runplanId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(equCode)">
+				AND EQU_CODE = #{equCode}
+			</if>
+
+	       <if test="@Ognl@isNotEmpty(receiveType)">
+				AND RECEIVE_TYPE = #{receiveType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(language)">
+				AND LANGUAGE = #{language}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stationName)">
+            AND STATION_NAME = #{stationName}
+            </if>
+
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM RADIO_STREAM_RESULT_TAB 
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RadioStreamResultTab">
+    	SELECT <include refid="columns" />
+	    FROM RADIO_STREAM_RESULT_TAB 
+		<include refid="findPage_where"/>
+		
+			ORDER BY  RESULT_ID desc
+    </select>
+
+    <select id="findNotExistsStreamMarkPage" resultMap="RadioStreamResultTab">
+        SELECT <include refid="columns" />
+        FROM RADIO_STREAM_RESULT_TAB
+        where RESULT_ID not in (select  STREAM_ID from  RADIO_STREAM_MARK_RESULT_TAB)
+        ORDER BY  RESULT_ID desc
+    </select>
+    <select id="findNotExistsStreamMarkPage_count" resultType="long">
+        SELECT count(RESULT_ID)
+       FROM RADIO_STREAM_RESULT_TAB
+        where RESULT_ID not in (select  STREAM_ID from  RADIO_STREAM_MARK_RESULT_TAB)
+    </select>
+</mapper>
+

@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.ZresRunplanHistoryTabMapper">
+
+	<resultMap id="ZresRunplanHistoryTab" type="com.hw.domain.po.ZresRunplanHistoryTab">
+        <result property="runplanId" column="RUNPLAN_ID"/>
+        <result property="runplanTypeId" column="RUNPLAN_TYPE_ID"/>
+        <result property="stationId" column="STATION_ID"/>
+        <result property="transmiterNo" column="TRANSMITER_NO"/>
+        <result property="freq" column="FREQ"/>
+        <result property="validStartTime" column="VALID_START_TIME"/>
+        <result property="validEndTime" column="VALID_END_TIME"/>
+        <result property="direction" column="DIRECTION"/>
+        <result property="power" column="POWER"/>
+        <result property="serviceArea" column="SERVICE_AREA"/>
+        <result property="antenna" column="ANTENNA"/>
+        <result property="antennatype" column="ANTENNATYPE"/>
+        <result property="restDatetime" column="REST_DATETIME"/>
+        <result property="restTime" column="REST_TIME"/>
+        <result property="sentcityId" column="SENTCITY_ID"/>
+        <result property="startTime" column="START_TIME"/>
+        <result property="endTime" column="END_TIME"/>
+        <result property="satelliteChannel" column="SATELLITE_CHANNEL"/>
+        <result property="storeDatetime" column="STORE_DATETIME"/>
+        <result property="programTypeId" column="PROGRAM_TYPE_ID"/>
+        <result property="languageId" column="LANGUAGE_ID"/>
+        <result property="weekday" column="WEEKDAY"/>
+        <result property="inputPersonId" column="INPUT_PERSON_ID"/>
+        <result property="revisePersonId" column="REVISE_PERSON_ID"/>
+        <result property="remark" column="REMARK"/>
+        <result property="programId" column="PROGRAM_ID"/>
+        <result property="monArea" column="MON_AREA"/>
+        <result property="isDelete" column="IS_DELETE"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		RUNPLAN_ID,RUNPLAN_TYPE_ID,STATION_ID,TRANSMITER_NO,FREQ,VALID_START_TIME,VALID_END_TIME,DIRECTION,POWER,SERVICE_AREA,ANTENNA,ANTENNATYPE,REST_DATETIME,REST_TIME,SENTCITY_ID,START_TIME,END_TIME,SATELLITE_CHANNEL,STORE_DATETIME,PROGRAM_TYPE_ID,LANGUAGE_ID,WEEKDAY,INPUT_PERSON_ID,REVISE_PERSON_ID,REMARK,PROGRAM_ID,MON_AREA,IS_DELETE
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="runplanId">
+    <![CDATA[
+        INSERT INTO ZRES_RUNPLAN_HISTORY_TAB (
+        	RUNPLAN_ID ,
+        	RUNPLAN_TYPE_ID ,
+        	STATION_ID ,
+        	TRANSMITER_NO ,
+        	FREQ ,
+        	VALID_START_TIME ,
+        	VALID_END_TIME ,
+        	DIRECTION ,
+        	POWER ,
+        	SERVICE_AREA ,
+        	ANTENNA ,
+        	ANTENNATYPE ,
+        	REST_DATETIME ,
+        	REST_TIME ,
+        	SENTCITY_ID ,
+        	START_TIME ,
+        	END_TIME ,
+        	SATELLITE_CHANNEL ,
+        	STORE_DATETIME ,
+        	PROGRAM_TYPE_ID ,
+        	LANGUAGE_ID ,
+        	WEEKDAY ,
+        	INPUT_PERSON_ID ,
+        	REVISE_PERSON_ID ,
+        	REMARK ,
+        	PROGRAM_ID ,
+        	MON_AREA ,
+        	IS_DELETE 
+        ) VALUES (
+        	#{runplanId} ,
+        	#{runplanTypeId} ,
+        	#{stationId} ,
+        	#{transmiterNo} ,
+        	#{freq} ,
+        	#{validStartTime} ,
+        	#{validEndTime} ,
+        	#{direction} ,
+        	#{power} ,
+        	#{serviceArea} ,
+        	#{antenna} ,
+        	#{antennatype} ,
+        	#{restDatetime} ,
+        	#{restTime} ,
+        	#{sentcityId} ,
+        	#{startTime} ,
+        	#{endTime} ,
+        	#{satelliteChannel} ,
+        	#{storeDatetime} ,
+        	#{programTypeId} ,
+        	#{languageId} ,
+        	#{weekday} ,
+        	#{inputPersonId} ,
+        	#{revisePersonId} ,
+        	#{remark} ,
+        	#{programId} ,
+        	#{monArea} ,
+        	#{isDelete} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE ZRES_RUNPLAN_HISTORY_TAB SET
+	        RUNPLAN_TYPE_ID = #{runplanTypeId} ,
+	        STATION_ID = #{stationId} ,
+	        TRANSMITER_NO = #{transmiterNo} ,
+	        FREQ = #{freq} ,
+	        VALID_START_TIME = #{validStartTime} ,
+	        VALID_END_TIME = #{validEndTime} ,
+	        DIRECTION = #{direction} ,
+	        POWER = #{power} ,
+	        SERVICE_AREA = #{serviceArea} ,
+	        ANTENNA = #{antenna} ,
+	        ANTENNATYPE = #{antennatype} ,
+	        REST_DATETIME = #{restDatetime} ,
+	        REST_TIME = #{restTime} ,
+	        SENTCITY_ID = #{sentcityId} ,
+	        START_TIME = #{startTime} ,
+	        END_TIME = #{endTime} ,
+	        SATELLITE_CHANNEL = #{satelliteChannel} ,
+	        STORE_DATETIME = #{storeDatetime} ,
+	        PROGRAM_TYPE_ID = #{programTypeId} ,
+	        LANGUAGE_ID = #{languageId} ,
+	        WEEKDAY = #{weekday} ,
+	        INPUT_PERSON_ID = #{inputPersonId} ,
+	        REVISE_PERSON_ID = #{revisePersonId} ,
+	        REMARK = #{remark} ,
+	        PROGRAM_ID = #{programId} ,
+	        MON_AREA = #{monArea} ,
+	        IS_DELETE = #{isDelete} 
+        WHERE 
+	        RUNPLAN_ID = #{runplanId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM ZRES_RUNPLAN_HISTORY_TAB WHERE
+        RUNPLAN_ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="ZresRunplanHistoryTab">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM ZRES_RUNPLAN_HISTORY_TAB 
+	        WHERE 
+		        RUNPLAN_ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(runplanId)">
+				AND RUNPLAN_ID = #{runplanId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(runplanTypeId)">
+				AND RUNPLAN_TYPE_ID = #{runplanTypeId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stationId)">
+				AND STATION_ID = #{stationId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(transmiterNo)">
+				AND TRANSMITER_NO = #{transmiterNo}
+			</if>
+	       <if test="@Ognl@isNotEmpty(freq)">
+				AND FREQ = #{freq}
+			</if>
+	       <if test="@Ognl@isNotEmpty(validStartTimeBegin)">
+				AND VALID_START_TIME >= #{validStartTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(validStartTimeEnd)">
+				AND VALID_START_TIME &lt;= #{validStartTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(validEndTimeBegin)">
+				AND VALID_END_TIME >= #{validEndTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(validEndTimeEnd)">
+				AND VALID_END_TIME &lt;= #{validEndTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(direction)">
+				AND DIRECTION = #{direction}
+			</if>
+	       <if test="@Ognl@isNotEmpty(power)">
+				AND POWER = #{power}
+			</if>
+	       <if test="@Ognl@isNotEmpty(serviceArea)">
+				AND SERVICE_AREA = #{serviceArea}
+			</if>
+	       <if test="@Ognl@isNotEmpty(antenna)">
+				AND ANTENNA = #{antenna}
+			</if>
+	       <if test="@Ognl@isNotEmpty(antennatype)">
+				AND ANTENNATYPE = #{antennatype}
+			</if>
+	       <if test="@Ognl@isNotEmpty(restDatetimeBegin)">
+				AND REST_DATETIME >= #{restDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(restDatetimeEnd)">
+				AND REST_DATETIME &lt;= #{restDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(restTime)">
+				AND REST_TIME = #{restTime}
+			</if>
+	       <if test="@Ognl@isNotEmpty(sentcityId)">
+				AND SENTCITY_ID = #{sentcityId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(startTimeBegin)">
+				AND START_TIME >= #{startTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(startTimeEnd)">
+				AND START_TIME &lt;= #{startTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(endTimeBegin)">
+				AND END_TIME >= #{endTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endTimeEnd)">
+				AND END_TIME &lt;= #{endTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(satelliteChannel)">
+				AND SATELLITE_CHANNEL = #{satelliteChannel}
+			</if>
+	       <if test="@Ognl@isNotEmpty(storeDatetimeBegin)">
+				AND STORE_DATETIME >= #{storeDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(storeDatetimeEnd)">
+				AND STORE_DATETIME &lt;= #{storeDatetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(programTypeId)">
+				AND PROGRAM_TYPE_ID = #{programTypeId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(languageId)">
+				AND LANGUAGE_ID = #{languageId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(weekday)">
+				AND WEEKDAY = #{weekday}
+			</if>
+	       <if test="@Ognl@isNotEmpty(inputPersonId)">
+				AND INPUT_PERSON_ID = #{inputPersonId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(revisePersonId)">
+				AND REVISE_PERSON_ID = #{revisePersonId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(remark)">
+				AND REMARK = #{remark}
+			</if>
+	       <if test="@Ognl@isNotEmpty(programId)">
+				AND PROGRAM_ID = #{programId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(monArea)">
+				AND MON_AREA = #{monArea}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isDelete)">
+				AND IS_DELETE = #{isDelete}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM ZRES_RUNPLAN_HISTORY_TAB 
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="ZresRunplanHistoryTab">
+    	SELECT <include refid="columns" />
+	    FROM ZRES_RUNPLAN_HISTORY_TAB 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

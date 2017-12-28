@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.hw.mapper.RadioMarkZstViewTabMapper">
+
+	<resultMap id="RadioMarkZstViewTab" type="com.hw.domain.po.RadioMarkZstViewTab">
+        <result property="markId" column="MARK_ID"/>
+        <result property="markUser" column="MARK_USER"/>
+        <result property="markDatetime" column="MARK_DATETIME"/>
+        <result property="headCode" column="HEAD_CODE"/>
+        <result property="equCode" column="EQU_CODE"/>
+        <result property="frequency" column="FREQUENCY"/>
+        <result property="runplanId" column="RUNPLAN_ID"/>
+        <result property="counti" column="COUNTI"/>
+        <result property="counto" column="COUNTO"/>
+        <result property="counts" column="COUNTS"/>
+        <result property="description" column="DESCRIPTION"/>
+        <result property="markType" column="MARK_TYPE"/>
+        <result property="editUser" column="EDIT_USER"/>
+        <result property="unit" column="UNIT"/>
+        <result property="markFileUrl" column="MARK_FILE_URL"/>
+        <result property="fileName" column="FILE_NAME"/>
+        <result property="fileLength" column="FILE_LENGTH"/>
+        <result property="recordStartTime" column="RECORD_START_TIME"/>
+        <result property="recordEndTime" column="RECORD_END_TIME"/>
+        <result property="stationId" column="STATION_ID"/>
+        <result property="stationName" column="STATION_NAME"/>
+        <result property="headname" column="HEADNAME"/>
+        <result property="playTime" column="PLAY_TIME"/>
+        <result property="taskId" column="TASK_ID"/>
+        <result property="taskName" column="TASK_NAME"/>
+        <result property="levelValue" column="LEVEL_VALUE"/>
+        <result property="fmValue" column="FM_VALUE"/>
+        <result property="amValue" column="AM_VALUE"/>
+        <result property="offsetValue" column="OFFSET_VALUE"/>
+        <result property="remark" column="REMARK"/>
+        <result property="asrType" column="ASR_TYPE"/>
+        <result property="resultType" column="RESULT_TYPE"/>
+        <result property="status" column="STATUS"/>
+        <result property="wavelen" column="WAVELEN"/>
+        <result property="musicratio" column="MUSICRATIO"/>
+        <result property="noiseratio" column="NOISERATIO"/>
+        <result property="speechlen" column="SPEECHLEN"/>
+        <result property="totalcm" column="TOTALCM"/>
+        <result property="audibilityscore" column="AUDIBILITYSCORE"/>
+        <result property="audibilityconfidence" column="AUDIBILITYCONFIDENCE"/>
+        <result property="channelname" column="CHANNELNAME"/>
+        <result property="channelnameconfidence" column="CHANNELNAMECONFIDENCE"/>
+        <result property="programname" column="PROGRAMNAME"/>
+        <result property="programnameconfidence" column="PROGRAMNAMECONFIDENCE"/>
+        <result property="languagename1" column="LANGUAGENAME1"/>
+        <result property="languagename2" column="LANGUAGENAME2"/>
+        <result property="languagename3" column="LANGUAGENAME3"/>
+        <result property="languagename4" column="LANGUAGENAME4"/>
+        <result property="languagename5" column="LANGUAGENAME5"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+      MARK_ID,MARK_USER,MARK_DATETIME,HEAD_CODE,EQU_CODE,FREQUENCY,RUNPLAN_ID,COUNTI,COUNTO,COUNTS,DESCRIPTION,MARK_TYPE,EDIT_USER,
+      UNIT,MARK_FILE_URL,FILE_NAME,FILE_LENGTH,RECORD_START_TIME,RECORD_END_TIME,STATION_ID,STATION_NAME,HEADNAME,PLAY_TIME,
+      TASK_ID,TASK_NAME,LEVEL_VALUE,FM_VALUE,AM_VALUE,OFFSET_VALUE,REMARK,ASR_TYPE,RESULT_TYPE,STATUS,WAVELEN,MUSICRATIO,NOISERATIO,
+      SPEECHLEN,TOTALCM,AUDIBILITYSCORE,AUDIBILITYCONFIDENCE,CHANNELNAME,CHANNELNAMECONFIDENCE,PROGRAMNAME,PROGRAMNAMECONFIDENCE,
+      LANGUAGENAME1,LANGUAGENAME2,LANGUAGENAME3,LANGUAGENAME4,LANGUAGENAME5
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and oracle -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="resultId">
+    <![CDATA[
+        INSERT INTO radio_mark_zst_view_tab (
+        	  MARK_ID,
+        	  MARK_USER,
+        	  MARK_DATETIME,
+        	  HEAD_CODE,
+        	  EQU_CODE,
+        	  FREQUENCY,
+        	  RUNPLAN_ID,
+        	  COUNTI,
+        	  COUNTO,
+        	  COUNTS,
+        	  DESCRIPTION,
+        	  MARK_TYPE,
+        	  EDIT_USER,
+              UNIT,
+              MARK_FILE_URL,
+              FILE_NAME,
+              FILE_LENGTH,
+              RECORD_START_TIME,
+              RECORD_END_TIME,
+              STATION_ID,
+              STATION_NAME,
+              HEADNAME,
+              PLAY_TIME,
+              TASK_ID,
+              TASK_NAME,
+              LEVEL_VALUE,
+              FM_VALUE,
+              AM_VALUE,
+              OFFSET_VALUE,
+              REMARK,
+              ASR_TYPE,
+              RESULT_TYPE,
+              STATUS,
+              WAVELEN,
+              MUSICRATIO,
+              NOISERATIO,
+              SPEECHLEN,
+              TOTALCM,
+              AUDIBILITYSCORE,
+              AUDIBILITYCONFIDENCE,
+              CHANNELNAME,
+              CHANNELNAMECONFIDENCE,
+              PROGRAMNAME,
+              PROGRAMNAMECONFIDENCE,
+              LANGUAGENAME1,
+              LANGUAGENAME2,
+              LANGUAGENAME3,
+              LANGUAGENAME4,
+              LANGUAGENAME5,
+              languageconfidence1,
+              languageconfidence2,
+              languageconfidence3,
+              languageconfidence4,
+              languageconfidence5
+        ) VALUES (
+        	#{markId} ,
+        	#{markUser} ,
+        	#{markDatetime} ,
+        	#{headCode} ,
+        	#{equCode} ,
+        	#{frequency} ,
+        	#{runplanId} ,
+        	#{counti} ,
+        	#{counto} ,
+        	#{counts} ,
+        	#{description} ,
+        	#{markType} ,
+        	#{editUser} ,
+        	#{unit} ,
+        	#{markFileUrl} ,
+        	#{fileName} ,
+        	#{fileLength} ,
+        	#{recordStartTime} ,
+        	#{recordEndTime} ,
+        	#{stationId} ,
+        	#{stationName} ,
+        	#{headname} ,
+        	#{playTime} ,
+        	#{taskId} ,
+        	#{taskName} ,
+        	#{levelValue} ,
+        	#{fmValue} ,
+        	#{amValue} ,
+        	#{offsetValue} ,
+        	#{remark} ,
+        	#{asrType} ,
+        	#{resultType} ,
+        	#{status} ,
+        	#{wavelen} ,
+        	#{musicratio} ,
+        	#{noiseratio} ,
+        	#{speechlen} ,
+        	#{totalcm} ,
+        	#{audibilityscore} ,
+        	#{audibilityconfidence} ,
+        	#{channelname} ,
+        	#{channelnameconfidence} ,
+        	#{programname} ,
+        	#{programnameconfidence} ,
+        	#{languagename1} ,
+        	#{languagename2} ,
+        	#{languagename3} ,
+        	#{languagename4} ,
+        	#{languagename5} ,
+        	#{languageconfidence1} ,
+        	#{languageconfidence2} ,
+        	#{languageconfidence3} ,
+        	#{languageconfidence4} ,
+        	#{languageconfidence5}
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+        UPDATE radio_mark_zst_view_tab SET
+
+        <if test="@Ognl@isNotEmpty(counti)">
+            COUNTI = #{counti} ,
+        </if>
+        <if test="@Ognl@isNotEmpty(counto)">
+            COUNTO = #{counto} ,
+        </if>
+
+        <if test="@Ognl@isNotEmpty(counts)">
+            COUNTS = #{counts} ,
+        </if>
+
+        <if test="@Ognl@isNotEmpty(editUser)">
+            EDIT_USER = #{editUser} ,
+        </if>
+        WHERE
+        mark_Id = #{markId}
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM radio_mark_zst_view_tab WHERE
+        mark_Id = #{markId}
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RadioMarkZstViewTab">
+		SELECT <include refid="columns" />
+
+		    FROM radio_mark_zst_view_tab 
+	        WHERE
+           mark_Id = #{markId}
+
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(markId)">
+				AND mark_Id = #{markId}
+			</if>
+
+	       <if test="@Ognl@isNotEmpty(fileName)">
+				AND FILE_NAME = #{fileName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(markDatetimeBegin)">
+				AND MARK_DATETIME >= #{markDatetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(markDatetimeEnd)">
+				AND MARK_DATETIME &lt;= #{markDatetimeEnd}
+		   </if>
+
+	       <if test="@Ognl@isNotEmpty(headname)">
+				AND HEADNAME = #{headname}
+			</if>
+            <if test="@Ognl@isNotEmpty(fileNameList)">
+                AND FILE_NAME in
+                <foreach item="item" index="index" collection="fileNameList" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+		</where>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM radio_mark_zst_view_tab 
+		<include refid="findPage_where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RadioMarkZstViewTab">
+    	SELECT <include refid="columns" />
+	    FROM radio_mark_zst_view_tab 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY  mark_Id desc
+		</if>
+    </select>
+
+	
+</mapper>
+
