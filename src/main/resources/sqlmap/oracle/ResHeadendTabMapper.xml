@@ -50,7 +50,11 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         <result property="summertime" column="SUMMERTIME"/>
         <result property="imgUrl" column="img_url"/>
 	</resultMap>
-	
+    <resultMap id="HeadendStateCount" type="com.hw.domain.po.HeadendStateCount">
+        <result property="count" column="count"/>
+        <result property="state" column="state"/>
+    </resultMap>
+
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="columns">
 	    <![CDATA[
@@ -265,21 +269,30 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     ]]>
     </delete>
     
-    <select id="getById" resultMap="ResHeadendTab">
+    <select id="selectById" resultMap="ResHeadendTab">
 		SELECT <include refid="columns" />
 	    <![CDATA[
 		    FROM RES_HEADEND_TAB 
 	        WHERE 
-		        HEAD_ID = #{id} 
+		        HEAD_ID = #{id}  and is_delete = 0
 	    ]]>
 	</select>
-	
-	<sql id="findPage_where">
+    <select id="queryHeadCountByState" resultMap="HeadendStateCount">
+        select count(t.head_id) count,state from RES_HEADEND_TAB t
+        where t.is_delete=0 group by t.state order by count desc
+    </select>
+    <sql id="findPage_where">
 		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
 		<where>	       IS_DELETE = 0
 	       <if test="@Ognl@isNotEmpty(headId)">
 				AND HEAD_ID = #{headId}
 			</if>
+            <if test="@Ognl@isNotEmpty(headIdList)">
+                AND HEAD_ID in
+                <foreach item="item" index="index" collection="headIdList" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
 	       <if test="@Ognl@isNotEmpty(code)">
 				AND CODE = #{code}
 			</if>
@@ -426,7 +439,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			ORDER BY ${sortColumns}
 		</if>
     </select>
-    <select id="selectList" resultMap="ResHeadendTab">
+    <select id="selectHeadendList" resultMap="ResHeadendTab">
         SELECT <include refid="columns" />
         FROM RES_HEADEND_TAB
         <include refid="findPage_where"/>

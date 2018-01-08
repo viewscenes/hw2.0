@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -22,6 +23,7 @@ public class ResHeadendTabQuery implements Serializable {
 
 	/** 前端id */
 	private Long headId;
+	private List<Long> headIdList;
 	/** 前端code */
 	private String code;
 	/** 前端简称 */
@@ -447,7 +449,14 @@ public class ResHeadendTabQuery implements Serializable {
 	public void setSummertime(String value) {
 		this.summertime = value;
 	}
-	
+
+	public List<Long> getHeadIdList() {
+		return headIdList;
+	}
+
+	public void setHeadIdList(List<Long> headIdList) {
+		this.headIdList = headIdList;
+	}
 
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this,ToStringStyle.MULTI_LINE_STYLE);

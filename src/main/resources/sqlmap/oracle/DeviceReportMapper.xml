@@ -45,7 +45,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     ]]>
     </delete>
     
-    <select id="getById" resultMap="DeviceReport">
+    <select id="selectById" resultMap="DeviceReport">
 		SELECT <include refid="columns" />
 	    <![CDATA[
 		    FROM REPORT_MSG_TAB

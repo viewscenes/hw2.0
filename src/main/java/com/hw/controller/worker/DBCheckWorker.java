@@ -18,9 +18,9 @@ public class DBCheckWorker {
     @Resource
     private SysConfigurationService configurationService;
     /**
-     * 每分钟执行一次数据库检查
+     * 每1分钟执行一次数据库检查
      */
-    @Scheduled(cron = "0 1-59 * * * ? ")
+    @Scheduled(initialDelay = 2000,  fixedDelay = 60*1000)
     public void execute() {
         try{
             configurationService.checkDB();

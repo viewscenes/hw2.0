@@ -21,9 +21,11 @@ mybatis:
     mapper-locations: classpath:sqlmap/oracle/*Mapper.xml
 #logging
 logging:
-  level:
-    root: info
+  config: classpath:logback-spring.xml
 server:
   session-timeout : 3600
   port: 8080
+#ftp多服务器配置
+ftp:
+    server: 114.251.47.196:21:user:user,10.0.1.21:21:user:user,10.0.1.23:21:user:user
 

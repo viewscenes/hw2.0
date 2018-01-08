@@ -4,17 +4,24 @@ package com.hw.mapper;
 import com.github.pagehelper.Page;
 import com.hw.domain.po.RadioEquInitParamTab;
 import com.hw.domain.po.query.RadioEquInitParamTabQuery;
+import com.hw.domain.vo.FtpServerVo;
+
+import java.util.List;
 
 
 public interface RadioEquInitParamTabMapper {
 
-    public Integer insert(RadioEquInitParamTab bean);
+     Integer insert(RadioEquInitParamTab bean);
 
-    public Integer update(RadioEquInitParamTab bean);
+     Integer update(RadioEquInitParamTab bean);
 
-    public Page selectList(RadioEquInitParamTabQuery query);
+     Integer batcheUpdateFtpServer(List<RadioEquInitParamTab> list);
 
-    public RadioEquInitParamTab selectById(Integer id);
+     Page selectList(RadioEquInitParamTabQuery query);
 
-    public Integer delete(RadioEquInitParamTab bean);
+     RadioEquInitParamTab selectById(Integer id);
+
+     Integer delete(RadioEquInitParamTab bean);
+
+     List<RadioEquInitParamTab> selectInvalidFtpList(List<FtpServerVo> list);
 }

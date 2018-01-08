@@ -6,6 +6,7 @@ import com.hw.common.enums.LogTypeEnum;
 import com.hw.domain.po.DeviceReport;
 import com.hw.service.deviceReport.DeviceReportService;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +18,11 @@ import javax.annotation.Resource;
 @Controller
 @RequestMapping("/device")
 public class DeviceReportController {
-    private static final Logger log  = LogTypeEnum.DEFAULT.getLog();
-    private static final Logger unLog  = LogTypeEnum.DEVICEUNTREATEDLOG.getLog();
-    private static final Logger deviceLog  = LogTypeEnum.DEVICELOG.getLog();
+    /**
+     * 这里日志分开存储，info记录正常交互，error记录数据库失败后储存日志。warn几率默认日志；
+     */
+    private final Logger log = LoggerFactory.getLogger(DeviceReportController.class);
+
 
     @Resource
     private DeviceReportService  deviceReportService;
@@ -36,16 +39,16 @@ public class DeviceReportController {
            {
                if(SystemConstants.DB_CONNECT_FLAG)
                {
-                   deviceLog.info(JSON.toJSONString(report));
+                   log.info(JSON.toJSONString(report));
                    deviceReportService.insert(report);
                }else
                {
-                   unLog.error(JSON.toJSONString(report));
+                   log.error(JSON.toJSONString(report));
                }
            }
         } catch (Exception e) {
-            log.error("数据库保存失败，转存日志中！",e);
-            unLog.error(JSON.toJSONString(report));
+            log.warn("数据库保存失败，转存日志中！",e);
+            log.error(JSON.toJSONString(report));
         }
     }
     /**
@@ -69,12 +72,12 @@ public class DeviceReportController {
     public DeviceReport getReport( Long  actId )  {
         DeviceReport report = null;
         try{
-            if(actId > 0 )
+            if(actId > 0 && SystemConstants.DB_CONNECT_FLAG)
             {
                 report   = deviceReportService.selectById(actId);
             }
         } catch (Exception e) {
-            log.error("获取上报信息失败:",e);
+            log.warn("获取上报信息失败:",e);
         }
         return report;
     }

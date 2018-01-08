@@ -16,49 +16,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class RadioEquInitParamTab   implements java.io.Serializable{
 	private static final long serialVersionUID = 5454155825314635342L;
-	
-	//alias
-	public static final String TABLE_ALIAS = "RadioEquInitParamTab";
-	public static final String ALIAS_PARAM_ID = "paramId";
-	public static final String ALIAS_HEAD_ID = "前端id";
-	public static final String ALIAS_HEAD_CODE = "前端code";
-	public static final String ALIAS_TYPE_ID = "设备类型";
-	public static final String ALIAS_SRCCODE = "控制系统code";
-	public static final String ALIAS_UPURL = "上报url";
-	public static final String ALIAS_FTP = "ftp地址";
-	public static final String ALIAS_FTPPORT = "ftp端口";
-	public static final String ALIAS_FTPUSER = "ftp用户名";
-	public static final String ALIAS_FTPPASSWORD = "ftp密码";
-	public static final String ALIAS_FTPPATH = "ftp路径";
-	public static final String ALIAS_PHONEMAIN = "上报电话";
-	public static final String ALIAS_LOGNAMEMAIN = "拨号用户名";
-	public static final String ALIAS_LOGPASSWORDMAIN = "拨号密码";
-	public static final String ALIAS_PHONESLAVE = "备用拨号电话";
-	public static final String ALIAS_LOGNAMESLAVE = "备用拨号用户名";
-	public static final String ALIAS_LOGPASSWORDSLAVE = "备用拨号密码";
-	public static final String ALIAS_NATIVELOGPASSWORD = "站点拨号密码";
-	public static final String ALIAS_TIMESERVER = "时间服务器";
-	public static final String ALIAS_BATTERYLEVELDOWNTHRESHOLD = "UPS电压下限";
-	public static final String ALIAS_SHUTDOWNDELAYTIME = "关机延时时间";
-	public static final String ALIAS_CHECKUPS = "是否进行UPS关机报警";
-	public static final String ALIAS_OFFLINETIME = "断线时间长度";
-	public static final String ALIAS_SPECTRUMSCANSAMPLELENGTH = "频谱扫描时频点采用时间";
-	public static final String ALIAS_R1 = "r1";
-	public static final String ALIAS_R2 = "r2";
-	public static final String ALIAS_R3 = "r3";
-	public static final String ALIAS_R4 = "r4";
-	public static final String ALIAS_R5 = "r5";
-	public static final String ALIAS_R6 = "r6";
-	public static final String ALIAS_R7 = "r7";
-	public static final String ALIAS_R8 = "r8";
-	public static final String ALIAS_R9 = "r9";
-	public static final String ALIAS_COMPRESSSIZE = "压缩大小";
-	public static final String ALIAS_LOGEXPIREDAYS = "设备日志过期时间";
-	public static final String ALIAS_STATIONSTATUSREPORTINTERVAL = "站点状态自动上报间隔";
-	
-	//date formats
-	
-	//可以直接使用: @Length(max=50,message="用户名长度不能大于50")显示错误消息
+
 	//columns START
     /**
      * paramId       db_column: PARAM_ID 

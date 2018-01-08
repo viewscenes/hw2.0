@@ -5,9 +5,13 @@ package com.hw.service.impl;
 import com.github.pagehelper.Page;
 import com.hw.domain.po.RadioEquInitParamTab;
 import com.hw.domain.po.query.RadioEquInitParamTabQuery;
+import com.hw.domain.vo.FtpServerVo;
 import com.hw.mapper.RadioEquInitParamTabMapper;
 import com.hw.service.RadioEquInitParamService;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 
 /**
@@ -19,6 +23,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RadioEquInitParamServiceImpl implements RadioEquInitParamService {
 
+    @Resource
 	private RadioEquInitParamTabMapper dao;
 
 	@Override
@@ -29,6 +34,10 @@ public class RadioEquInitParamServiceImpl implements RadioEquInitParamService {
 	@Override
 	public Integer update(RadioEquInitParamTab bean) {
 		return dao.update(bean);
+	}
+	@Override
+	public Integer batcheUpdateFtpServer(List<RadioEquInitParamTab> list) {
+		return dao.batcheUpdateFtpServer(list);
 	}
 
 	@Override
@@ -44,5 +53,10 @@ public class RadioEquInitParamServiceImpl implements RadioEquInitParamService {
 	@Override
 	public Integer delete(RadioEquInitParamTab bean) {
 		return dao.delete(bean);
+	}
+
+	@Override
+	public List<RadioEquInitParamTab> selectInvalidFtpList(List<FtpServerVo> list) {
+		return dao.selectInvalidFtpList(list);
 	}
 }

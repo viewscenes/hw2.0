@@ -2,12 +2,14 @@
 package com.hw.service.impl;
 
 
+import com.hw.domain.po.HeadendStateCount;
 import com.hw.domain.po.ResHeadendTab;
 import com.hw.domain.po.query.ResHeadendTabQuery;
 import com.hw.mapper.ResHeadendTabMapper;
 import com.hw.service.ResHeadendService;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 
@@ -19,7 +21,7 @@ import java.util.List;
 
 @Service
 public class ResHeadendServiceImpl implements ResHeadendService{
-
+    @Resource
 	private ResHeadendTabMapper dao;
 
 	@Override
@@ -52,7 +54,12 @@ public class ResHeadendServiceImpl implements ResHeadendService{
         return dao.selectHeadendList(query);
     }
 
-    @Override
+	@Override
+	public List<HeadendStateCount> queryHeadCountByState() {
+		return dao.queryHeadCountByState();
+	}
+
+	@Override
     public List<ResHeadendTab> selectDistinctHeadendList(ResHeadendTabQuery query) {
         return dao.selectDistinctHeadendList(query);
     }
