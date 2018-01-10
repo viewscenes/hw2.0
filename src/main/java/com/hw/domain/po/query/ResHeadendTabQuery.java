@@ -22,8 +22,8 @@ public class ResHeadendTabQuery implements Serializable {
     
 
 	/** 前端id */
-	private Long headId;
-	private List<Long> headIdList;
+	private Integer headId;
+	private List<Integer> headIdList;
 	/** 前端code */
 	private String code;
 	/** 前端简称 */
@@ -106,11 +106,11 @@ public class ResHeadendTabQuery implements Serializable {
 	/** 是否含有夏令时，0 无，1 有 */
 	private String summertime;
 
-	public Long getHeadId() {
+	public Integer getHeadId() {
 		return this.headId;
 	}
 	
-	public void setHeadId(Long value) {
+	public void setHeadId(Integer value) {
 		this.headId = value;
 	}
 	
@@ -450,11 +450,11 @@ public class ResHeadendTabQuery implements Serializable {
 		this.summertime = value;
 	}
 
-	public List<Long> getHeadIdList() {
+	public List<Integer> getHeadIdList() {
 		return headIdList;
 	}
 
-	public void setHeadIdList(List<Long> headIdList) {
+	public void setHeadIdList(List<Integer> headIdList) {
 		this.headIdList = headIdList;
 	}
 

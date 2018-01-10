@@ -99,9 +99,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	    FROM SEC_USER_ROLE_REL_TAB 
 		<include refid="findPage_where"/>
 		
-		<if test="@Ognl@isNotEmpty(sortColumns)">
-			ORDER BY ${sortColumns}
-		</if>
+
     </select>
 
 	

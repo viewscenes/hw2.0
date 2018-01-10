@@ -3,9 +3,15 @@ package com.hw.domain.vo;
 
 
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class FtpServerVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -17,51 +23,5 @@ public class FtpServerVo implements Serializable {
     private boolean canUsed =true;//是否可以使用
     private String states;//管理那些州
 
-    public String getIp() {
-        return ip;
-    }
 
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    public String getStates() {
-        return states;
-    }
-
-    public void setStates(String states) {
-        this.states = states;
-    }
-
-    public String getFtpUser() {
-        return ftpUser;
-    }
-
-    public void setFtpUser(String ftpUser) {
-        this.ftpUser = ftpUser;
-    }
-
-    public String getFtpPassword() {
-        return ftpPassword;
-    }
-
-    public void setFtpPassword(String ftpPassword) {
-        this.ftpPassword = ftpPassword;
-    }
-
-    public boolean isCanUsed() {
-        return canUsed;
-    }
-
-    public void setCanUsed(boolean canUsed) {
-        this.canUsed = canUsed;
-    }
 }

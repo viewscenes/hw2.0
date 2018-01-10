@@ -128,9 +128,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	    FROM SEC_OPERATION_LOG_TAB 
 		<include refid="findPage_where"/>
 		
-		<if test="@Ognl@isNotEmpty(sortColumns)">
-			ORDER BY ${sortColumns}
-		</if>
+
     </select>
 
 	

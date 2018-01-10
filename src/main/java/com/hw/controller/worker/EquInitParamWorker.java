@@ -40,7 +40,7 @@ public class EquInitParamWorker {
             List<RadioEquInitParamTab> equInitParamList = equInitParamService.selectInvalidFtpList(SystemConstants.validFtpServerList);
 
             if(equInitParamList!=null&&equInitParamList.size()>0){
-                List<Long> headIdList =new ArrayList<>();
+                List<Integer> headIdList =new ArrayList<>();
                 for(RadioEquInitParamTab equInitParamTab:equInitParamList){
                     headIdList.add(equInitParamTab.getHeadId());
                 }
@@ -64,7 +64,7 @@ public class EquInitParamWorker {
             }
         }catch (Exception e)
         {
-            log.info("数据库未连接上！");
+            log.info("检查设备初始化参数Ftp有效性失败！",e);
         }
 }
 
@@ -76,7 +76,7 @@ public class EquInitParamWorker {
                     ftpServer = ftpServerVo ;
                 }
             }
-            if(ftpServer == null){
+            if(ftpServer == null&&SystemConstants.validFtpServerList.size()>0){
                 ftpServer =  SystemConstants.validFtpServerList.get(0);
             }
         return  ftpServer;

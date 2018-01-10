@@ -96,10 +96,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     	SELECT <include refid="columns" />
 	    FROM DIC_EQU_LOG_TYPE_TAB 
 		<include refid="findPage_where"/>
-		
-		<if test="@Ognl@isNotEmpty(sortColumns)">
-			ORDER BY ${sortColumns}
-		</if>
+
     </select>
 
 	

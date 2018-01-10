@@ -219,9 +219,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	    FROM ZRST_REP_EFFECT_SUMMARY_TAB 
 		<include refid="findPage_where"/>
 		
-		<if test="@Ognl@isNotEmpty(sortColumns)">
-			ORDER BY ${sortColumns}
-		</if>
+
     </select>
 
 	

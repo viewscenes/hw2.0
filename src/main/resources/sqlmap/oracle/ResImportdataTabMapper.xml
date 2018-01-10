@@ -121,9 +121,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	    FROM RES_IMPORTDATA_TAB 
 		<include refid="findPage_where"/>
 		
-		<if test="@Ognl@isNotEmpty(sortColumns)">
-			ORDER BY ${sortColumns}
-		</if>
+
     </select>
 
 	

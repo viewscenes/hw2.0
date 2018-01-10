@@ -3,30 +3,21 @@ package com.hw.domain.vo;
 
 
 import com.hw.domain.po.ResHeadendTab;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
 
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ScreenSidesDataVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private List<AreaAlarmDataVo> areaAlarmDataVoList;
     private List<ResHeadendTab> headendList;
 
-    public List<ResHeadendTab> getHeadendList() {
-        return headendList;
-    }
 
-    public void setHeadendList(List<ResHeadendTab> headendList) {
-        this.headendList = headendList;
-    }
-
-    public List<AreaAlarmDataVo> getAreaAlarmDataVoList() {
-        return areaAlarmDataVoList;
-    }
-
-    public void setAreaAlarmDataVoList(List<AreaAlarmDataVo> areaAlarmDataVoList) {
-        this.areaAlarmDataVoList = areaAlarmDataVoList;
-    }
 }

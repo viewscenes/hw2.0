@@ -112,9 +112,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	    FROM DIC_SEASON_TAB 
 		<include refid="findPage_where"/>
 		
-		<if test="@Ognl@isNotEmpty(sortColumns)">
-			ORDER BY ${sortColumns}
-		</if>
+
     </select>
     <select id="selectList" resultMap="DicSeasonTab">
         SELECT <include refid="columns" />

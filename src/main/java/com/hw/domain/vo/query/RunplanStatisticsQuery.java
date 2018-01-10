@@ -1,6 +1,10 @@
 
 package com.hw.domain.vo.query;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,7 +15,9 @@ import java.util.Date;
  * @since 1.0
  */
 
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class RunplanStatisticsQuery  implements Serializable {
     private static final long serialVersionUID = 3148176768559230877L;
     
@@ -41,76 +47,6 @@ public class RunplanStatisticsQuery  implements Serializable {
      */
     private Integer runplanTypeId;
 
-    public Integer getStationId() {
-        return stationId;
-    }
 
-    public String getSeasonId() {
-        return seasonId;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public void setSeasonId(String seasonId) {
-        this.seasonId = seasonId;
-    }
-
-    public void setStationId(Integer stationId) {
-        this.stationId = stationId;
-    }
-
-    public Integer getRunplanTypeId() {
-        return runplanTypeId;
-    }
-
-    public void setRunplanTypeId(Integer runplanTypeId) {
-        this.runplanTypeId = runplanTypeId;
-    }
-
-    public Integer getLanguageId() {
-        return languageId;
-    }
-
-    public void setLanguageId(Integer languageId) {
-        this.languageId = languageId;
-    }
-
-    public String getServiceArea() {
-        return serviceArea;
-    }
-
-    public void setServiceArea(String serviceArea) {
-        this.serviceArea = serviceArea;
-    }
-
-    public String getPalyTime() {
-        return palyTime;
-    }
-
-    public void setPalyTime(String palyTime) {
-        this.palyTime = palyTime;
-    }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
 }
 

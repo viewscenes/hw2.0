@@ -190,9 +190,9 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			FTP = #{item.ftp} ,
 			FTPPORT = #{item.ftpport} ,
 			FTPUSER = #{item.ftpuser} ,
-			FTPPASSWORD = #{item.ftppassword},
+			FTPPASSWORD = #{item.ftppassword}
 			WHERE
-			PARAM_ID = #{paramId}
+			PARAM_ID = #{item.paramId}
 		</foreach>
 
 
@@ -217,7 +217,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
 		    FROM RADIO_EQU_INIT_PARAM_TAB
 	        WHERE
-		        FTP =  not in
+		        FTP  not in
 		        <foreach collection="list" item="item" open="(" separator="," close=")">
                  #{item.ip}
                 </foreach>
@@ -350,9 +350,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	    FROM RADIO_EQU_INIT_PARAM_TAB 
 		<include refid="findPage_where"/>
 		
-		<if test="@Ognl@isNotEmpty(sortColumns)">
-			ORDER BY ${sortColumns}
-		</if>
+
     </select>
 
 	

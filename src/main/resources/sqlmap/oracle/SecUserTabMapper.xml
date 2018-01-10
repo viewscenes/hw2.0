@@ -175,9 +175,7 @@
 	    FROM SEC_USER_TAB 
 		<include refid="where"/>
 		
-		<if test="@Ognl@isNotEmpty(sortColumns)">
-			ORDER BY ${sortColumns}
-		</if>
+
     </select>
 
 
