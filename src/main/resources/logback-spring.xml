@@ -1,130 +1,40 @@
-<!--scan:
-当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。
-scanPeriod:
-设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。
-debug:
-当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。-->
-<configuration scan="true" scanPeriod="60 seconds" debug="false">
-    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
-    <property name="LOG_HOME" value="/Logs/hw"/>
-    <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
-    <property name="logPatternLayout" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"/>
-    <property name="logDeviceErrorLayout" value="%msg%n"/>
-    <!-- 日志级别 -->
-    <property name="logLevel" value="info"/>
-    <!-- 日志保留天数 -->
-    <property name="MaxHistory" value="30"/>
-    <!--日志文件最大的大小-->
-    <property name="MaxFileSize" value="50"/>
+<configuration>
 
-    <!-- 控制台输出 -->
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>${logPatternLayout}</pattern>
-            <!-- 控制台也要使用UTF-8，不要使用GBK，否则会中文乱码 -->
-            <charset>UTF-8</charset>
-            <ImmediateFlush>false</ImmediateFlush>
-        </encoder>
-    </appender>
-    <!-- 默认日志 -->
-    <appender name="defaultAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${LOG_HOME}/default.log</File>
-        <append>true</append>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--日志文件输出的文件名-->
-            <FileNamePattern>${LOG_HOME}/default.log.%d{yyyy-MM-dd-HH}.log</FileNamePattern>
-            <MaxHistory>${MaxHistory}</MaxHistory>
-        </rollingPolicy>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern> ${logPatternLayout} </pattern>
-            <!-- 记录日志的编码 -->
-            <ImmediateFlush>true</ImmediateFlush>
-            <charset>UTF-8</charset> <!-- 此处设置字符集 -->
-        </encoder>
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>${MaxFileSize}</MaxFileSize>
-        </triggeringPolicy>
-    </appender>
-    <appender name="sqlAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${LOG_HOME}/sql.log</File>
-        <append>true</append>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--日志文件输出的文件名-->
-            <FileNamePattern>${LOG_HOME}/sql.log.%d{yyyy-MM-dd-HH}.log</FileNamePattern>
-            <MaxHistory>${MaxHistory}</MaxHistory>
-        </rollingPolicy>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern> ${logPatternLayout} </pattern>
-            <!-- 记录日志的编码 -->
-            <ImmediateFlush>true</ImmediateFlush>
-            <charset>UTF-8</charset> <!-- 此处设置字符集 -->
-        </encoder>
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>${MaxFileSize}</MaxFileSize>
-        </triggeringPolicy>
-    </appender>
-    <!-- 实时接口交互日志 -->
-    <appender name="deviceInfoAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${LOG_HOME}/deviceInfo.log</File>
-        <append>true</append>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${LOG_HOME}/deviceInfo.log.%d{yyyy-MM-dd-HH}.log</FileNamePattern>
-            <MaxHistory>${MaxHistory}</MaxHistory>
-        </rollingPolicy>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>${logPatternLayout}</pattern>
-            <!-- 记录日志的编码 -->
-            <charset>UTF-8</charset> <!-- 此处设置字符集 -->
-        </encoder>
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>${MaxFileSize}</MaxFileSize>
-        </triggeringPolicy>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>ERROR</level>
-            <onMatch>DENY</onMatch>
-            <onMismatch>ACCEPT</onMismatch>
-        </filter>
-    </appender>
+	<!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
+	<property name="LOG_HOME" value="/Log/hw" />
+	<!-- 控制台输出 -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<!-- 按照每天生成日志文件 -->
+	<appender name="FILE"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_HOME}/hw.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!--日志文件输出的文件名-->
+			<FileNamePattern>${LOG_HOME}/hw.log.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<!--日志文件保留天数-->
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+		</encoder>
+		<!--日志文件最大的大小-->
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>50MB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
 
-    <!-- 设备未处理上报日志 -->
-    <appender name="deviceErrorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${LOG_HOME}/deviceError.log</File>
-        <append>true</append>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${LOG_HOME}/deviceError.log.%d{yyyy-MM-dd-HH}.log</FileNamePattern>
-            <MaxHistory>${MaxHistory}</MaxHistory>
-        </rollingPolicy>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern> ${logDeviceErrorLayout} </pattern>
-            <!-- 记录日志的编码 -->
-            <charset>UTF-8</charset> <!-- 此处设置字符集 -->
-        </encoder>
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>${MaxFileSize}</MaxFileSize>
-        </triggeringPolicy>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->
-            <level>ERROR</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-    </appender>
-    <!--指定项目中某个包，当有日志操作行为时的日志记录级别
-      级别依次为【从高到低】：FATAL > ERROR > WARN > INFO > DEBUG > TRACE  -->
-    <logger name="DEFAULT-LOG" level="${logLevel}" additivity="false">
-        <appender-ref ref="defaultAppender"/>
-        <appender-ref ref="STDOUT" />
-    </logger>
-    <logger name="com.hw.mapper" level="DEBUG" additivity="false">
-        <appender-ref ref="sqlAppender"/>
-        <appender-ref ref="STDOUT" />
-    </logger>
-    <logger name="com.hw.controller.deviceReport" level="${logLevel}" additivity="false">
-        <appender-ref ref="deviceInfoAppender" />
-        <appender-ref ref="deviceErrorAppender" />
-        <appender-ref ref="STDOUT" />
-    </logger>
-    <root level="INFO">
-        <appender-ref ref="STDOUT" />
-    </root>
+	<logger name="com.hw.mapper" level="${logLevel}" additivity="false">
+		<appender-ref ref="FILE"/>
+		<appender-ref ref="STDOUT" />
+	</logger>
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</root>
 
 </configuration>

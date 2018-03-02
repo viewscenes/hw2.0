@@ -55,6 +55,11 @@ public class ResHeadendServiceImpl implements ResHeadendService{
     }
 
 	@Override
+	public List<ResHeadendTab> fuzzySearchHeand(ResHeadendTabQuery query) {
+		return dao.fuzzySearchHeand(query);
+	}
+
+	@Override
 	public List<HeadendStateCount> queryHeadCountByState() {
 		return dao.queryHeadCountByState();
 	}

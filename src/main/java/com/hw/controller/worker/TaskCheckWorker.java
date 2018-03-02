@@ -11,7 +11,7 @@ public class TaskCheckWorker {
     private static Log log = LogFactory.getLog(TaskCheckWorker.class);
 
 
-    @Scheduled(cron = "0 0 0/1 * * ? ")
+    //@Scheduled(cron = "0 0 0/1 * * ? ")
     public void execute() {
 
             log.info("任务检查！");

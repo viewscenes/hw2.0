@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 @Service
 public class DeviceReportServiceImpl implements DeviceReportService {
 
-    @Resource
+    //@Resource
 	private DeviceReportMapper dao;
 
 

@@ -13,6 +13,7 @@ import com.hw.domain.vo.ScreenMidDataVo;
 import com.hw.domain.vo.ScreenSidesDataVo;
 import com.hw.service.LargeScreenService;
 import com.hw.service.ResHeadendService;
+import org.apache.commons.logging.Log;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,7 +24,7 @@ import java.util.Map;
 
 @Service
 public class LargeScreenServiceImpl implements LargeScreenService {
-    private static final org.slf4j.Logger log  = LogTypeEnum.DEFAULT.getLog();
+    private static final Log log  = LogTypeEnum.DEFAULT.getLog();
     @Resource
     private ResHeadendService resHeadendService;
 

@@ -18,6 +18,4 @@ public class ScreenSidesDataVo implements Serializable {
 
     private List<AreaAlarmDataVo> areaAlarmDataVoList;
     private List<ResHeadendTab> headendList;
-
-
 }

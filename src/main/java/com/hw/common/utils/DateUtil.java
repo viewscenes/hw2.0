@@ -64,7 +64,27 @@ public class DateUtil {
         result= Integer.parseInt(f.format(quot));
         return result;
     }
-
+    /**
+     * 获取量时间间隔，单位秒
+     * @param beginDate
+     * @param endDate
+     * @return
+     */
+    public static Integer getTimeIntervalSeconds(Date beginDate, Date endDate) {
+        Integer result = 0;
+        double quot = 0D;
+        try {
+            quot = (double) (endDate.getTime() - beginDate.getTime());
+            quot = quot / 1000;       //1分钟=60000毫秒
+            BigDecimal b = new BigDecimal(quot);
+            quot =  b.setScale(1, BigDecimal.ROUND_HALF_DOWN ).doubleValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        DecimalFormat f = new DecimalFormat("#0");
+        result= Integer.parseInt(f.format(quot));
+        return result;
+    }
     public static String getDateString(Date date) {
         if(date == null){
             return null;
@@ -97,7 +117,10 @@ public class DateUtil {
         }
         return new Date();
     }
-    
+    public static String getDateToDayStr(Date date) {
+            SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+            return ft.format(date);
+    }
     public static Date getDateByHM(String date) {
         try {
             SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -259,6 +282,8 @@ public class DateUtil {
         Date date = ft.parse(str);
 
         System.out.println(checkNowDateHourToDate(date,1));
+        System.out.println(getStartOfDay(new Date()));
+        System.out.println(getEndOfDay(new Date()));
     }
 
     /**

@@ -33,7 +33,7 @@ public class EquInitParamWorker {
      * 设备ftp上报地址是否可用检查一小时执行一次
      */
     //@Scheduled(cron = "0 0 0/1 * * ? ")
-    @Scheduled(initialDelay = 60000,  fixedDelay = 60*60*1000)
+    //@Scheduled(initialDelay = 60000,  fixedDelay = 60*60*1000)
     public void execute() {
         try{
 

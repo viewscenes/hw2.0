@@ -7,6 +7,7 @@ import com.hw.common.utils.ResultFactory;
 import com.hw.domain.po.SecUserTab;
 import com.hw.domain.po.query.SecUserTabQuery;
 import com.hw.service.user.SecUserService;
+import org.apache.commons.logging.Log;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ import javax.annotation.Resource;
 @Controller
 @RequestMapping("/login")
 public class LoginController {
-    private static final org.slf4j.Logger log  = LogTypeEnum.DEFAULT.getLog();
+    private static final Log log  = LogTypeEnum.DEFAULT.getLog();
     @Resource
     private SecUserService secUserService;
 

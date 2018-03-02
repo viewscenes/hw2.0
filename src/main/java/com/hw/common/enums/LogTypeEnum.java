@@ -1,25 +1,27 @@
 package com.hw.common.enums;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Logger Enum
  */
 public enum LogTypeEnum {
-    DEFAULT(LoggerFactory.getLogger("DEFAULT-LOG"), "公共日志"),
-    DEVICELOG(LoggerFactory.getLogger("DEVICE-LOG"),"设备交互日志"),
-    AUTOREPORTLOG(LoggerFactory.getLogger("AUTOREPORT-LOG"),"设备自动上报日志"),
-    DEVICEUNTREATEDLOG(LoggerFactory.getLogger("DEVICE-UNTREATED-LOG"),"设备未处理日志"),;
+    DEFAULT(LogFactory.getLog("DEFAULT-LOG"), "公共日志"),
+    DEVICELOG(LogFactory.getLog("DEVICE-LOG"),"设备交互日志"),
+    AUTOREPORTLOG(LogFactory.getLog("AUTOREPORT-LOG"),"设备自动上报日志"),
+    DEVICEUNTREATEDLOG(LogFactory.getLog("DEVICE-UNTREATED-LOG"),"设备未处理日志"),
+    DATACLEARLOG(LogFactory.getLog("DATA-CLEAR-LOG"),"数据清理日志"),
+    ;
 
-    private Logger log;
+    private Log log;
     private String desc;
-    LogTypeEnum(Logger log, String desc) {
+    LogTypeEnum(Log log, String desc) {
         this.log = log;
         this.desc = desc;
     }
-    public Logger getLog(){
+    public Log getLog(){
         return log;
     }
 

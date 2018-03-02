@@ -22,6 +22,9 @@ public interface ResHeadendService{
 
      List<ResHeadendTab> selectHeadendList(ResHeadendTabQuery query);
 
+     List<ResHeadendTab> fuzzySearchHeand(ResHeadendTabQuery query);
+
+
      List<HeadendStateCount> queryHeadCountByState();
 
      List<ResHeadendTab> selectDistinctHeadendList(ResHeadendTabQuery query);

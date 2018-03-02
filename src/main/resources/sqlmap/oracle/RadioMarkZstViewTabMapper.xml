@@ -279,6 +279,16 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		</if>
     </select>
 
-	
+    <select id="findMinRadioDate" resultType="java.util.Date">
+        select min(mark_datetime) mark_datetime from radio_mark_zst_view_tab
+    </select>
+
+    <delete id="deleteMinRadioDateData">
+        <![CDATA[
+			delete from radio_mark_zst_view_tab
+			where  mark_datetime >= #{markDatetimeBegin}
+			and mark_datetime <= #{markDatetimeEnd}
+		 ]]>
+    </delete>
 </mapper>
 

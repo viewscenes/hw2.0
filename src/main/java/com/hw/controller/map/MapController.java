@@ -16,6 +16,7 @@ import com.hw.common.utils.ResultFactory;
 import com.hw.domain.po.ResHeadendTab;
 import com.hw.domain.po.StateStatistics;
 import com.hw.service.LargeScreenService;
+import org.apache.commons.logging.Log;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,8 +37,8 @@ import java.util.List;
 @RequestMapping("/map")
 public class MapController {
 
-    private static final Logger log  = LogTypeEnum.DEFAULT.getLog();
-    private static final Logger unLog  = LogTypeEnum.DEVICEUNTREATEDLOG.getLog();
+    private static final Log log  = LogTypeEnum.DEFAULT.getLog();
+    private static final Log unLog  = LogTypeEnum.DEVICEUNTREATEDLOG.getLog();
 
     @Resource
     private LargeScreenService largeScreenService;

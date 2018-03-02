@@ -161,17 +161,11 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	       <if test="@Ognl@isNotEmpty(taskId)">
 				AND TASK_ID = #{taskId}
 			</if>
-	       <if test="@Ognl@isNotEmpty(startDatetimeBegin)">
-				AND START_DATETIME >= #{startDatetimeBegin}
+	       <if test="@Ognl@isNotEmpty(startDatetime)">
+				AND START_DATETIME >= #{startDatetime}
 		   </if>
-		   <if test="@Ognl@isNotEmpty(startDatetimeEnd)">
-				AND START_DATETIME &lt;= #{startDatetimeEnd}
-		   </if>
-	       <if test="@Ognl@isNotEmpty(endDatetimeBegin)">
-				AND END_DATETIME >= #{endDatetimeBegin}
-		   </if>
-		   <if test="@Ognl@isNotEmpty(endDatetimeEnd)">
-				AND END_DATETIME &lt;= #{endDatetimeEnd}
+		   <if test="@Ognl@isNotEmpty(endDatetime)">
+				AND END_DATETIME &lt;= #{endDatetime}
 		   </if>
 	       <if test="@Ognl@isNotEmpty(frequency)">
 				AND FREQUENCY = #{frequency}
@@ -195,12 +189,6 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	       <if test="@Ognl@isNotEmpty(isDelete)">
 				AND IS_DELETE = #{isDelete}
 			</if>
-	       <if test="@Ognl@isNotEmpty(storeDatetimeBegin)">
-				AND STORE_DATETIME >= #{storeDatetimeBegin}
-		   </if>
-		   <if test="@Ognl@isNotEmpty(storeDatetimeEnd)">
-				AND STORE_DATETIME &lt;= #{storeDatetimeEnd}
-		   </if>
 	       <if test="@Ognl@isNotEmpty(markFileName)">
 				AND MARK_FILE_NAME = #{markFileName}
 			</if>
@@ -252,5 +240,19 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
        FROM RADIO_STREAM_RESULT_TAB
         where RESULT_ID not in (select  STREAM_ID from  RADIO_STREAM_MARK_RESULT_TAB)
     </select>
+
+	<select id="findMinRadioDate" resultType="java.util.Date">
+		select min(START_DATETIME) START_DATETIME from RADIO_STREAM_RESULT_TAB
+	</select>
+
+	<delete id="deleteMinRadioDateData">
+		<![CDATA[
+			delete from RADIO_STREAM_RESULT_TAB t
+			where  START_DATETIME >= #{startDatetime}
+			and START_DATETIME <= #{endDatetime}
+		 ]]>
+	</delete>
+
+
 </mapper>
 

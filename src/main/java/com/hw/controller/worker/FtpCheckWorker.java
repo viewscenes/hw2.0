@@ -35,7 +35,7 @@ public class FtpCheckWorker {
     /**
      * 每10分钟执行一次ftp检查
      */
-    @Scheduled(initialDelay = 1000,  fixedDelay = 10*60*1000)
+    //@Scheduled(initialDelay = 1000,  fixedDelay = 10*60*1000)
     public void execute() {
         if(SystemConstants.ftpServerList.size()==0) {
             SystemConstants.ftpServerList = getFtpServerList();

@@ -3,11 +3,14 @@ package com.hw.service.impl;
 
 
 import com.hw.domain.po.RadioMarkZstViewTab;
+import com.hw.domain.po.RadioStreamResultTab;
 import com.hw.domain.po.query.RadioMarkZstViewTabQuery;
 import com.hw.mapper.RadioMarkZstViewTabMapper;
 import com.hw.service.RadioMarkZstViewService;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 
@@ -20,7 +23,7 @@ import java.util.List;
 @Service
 public class RadioMarkZstViewServiceImpl implements RadioMarkZstViewService {
 
-
+    @Resource
     private RadioMarkZstViewTabMapper dao;
     @Override
     public Integer insert(RadioMarkZstViewTab bean) {
@@ -50,5 +53,15 @@ public class RadioMarkZstViewServiceImpl implements RadioMarkZstViewService {
     @Override
     public List<RadioMarkZstViewTab> queryList(RadioMarkZstViewTabQuery query) {
         return dao.queryList(query);
+    }
+
+    @Override
+    public Date findMinRadioDate() {
+        return dao.findMinRadioDate();
+    }
+
+    @Override
+    public Integer deleteMinRadioDateData(RadioMarkZstViewTabQuery bean) {
+        return dao.deleteMinRadioDateData(bean);
     }
 }

@@ -7,6 +7,7 @@ import com.github.pagehelper.Page;
 import com.hw.domain.po.RadioStreamResultTab;
 import com.hw.domain.po.query.RadioStreamResultTabQuery;
 
+import java.util.Date;
 import java.util.List;
 
 public interface RadioStreamResultService{
@@ -22,4 +23,8 @@ public interface RadioStreamResultService{
     public RadioStreamResultTab selectById(Integer id);
 
     public Integer delete(RadioStreamResultTab bean);
+
+    public Date findMinRadioDate( );
+
+    public Integer deleteMinRadioDateData(RadioStreamResultTab bean);
 }

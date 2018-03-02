@@ -2,6 +2,7 @@ package com.hw.controller;
 
 import com.hw.common.enums.LogTypeEnum;
 import com.hw.common.utils.WebCookieUtils;
+import org.apache.commons.logging.Log;
 
 
 import javax.annotation.Resource;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public  class BaseController {
 
-    private static final org.slf4j.Logger log  = LogTypeEnum.DEFAULT.getLog();
+    private static final Log log  = LogTypeEnum.DEFAULT.getLog();
 
 
     public

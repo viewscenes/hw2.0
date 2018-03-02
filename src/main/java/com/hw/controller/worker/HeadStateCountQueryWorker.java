@@ -26,7 +26,7 @@ public class HeadStateCountQueryWorker {
     /**
      * 每1小时执行一次站点总数检查
      */
-    @Scheduled(initialDelay = 500,fixedDelay = 60*60*1000)
+    //@Scheduled(initialDelay = 500,fixedDelay = 60*60*1000)
     public void execute() {
         SystemConstants.headendStateCountList = headendService.queryHeadCountByState();
         int numberCount = 0;

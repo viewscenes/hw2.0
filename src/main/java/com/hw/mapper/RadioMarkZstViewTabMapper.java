@@ -3,8 +3,10 @@ package com.hw.mapper;
 
 import com.github.pagehelper.Page;
 import com.hw.domain.po.RadioMarkZstViewTab;
+import com.hw.domain.po.RadioStreamResultTab;
 import com.hw.domain.po.query.RadioMarkZstViewTabQuery;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -21,4 +23,8 @@ public interface RadioMarkZstViewTabMapper {
     public Integer delete(RadioMarkZstViewTab bean);
 
     public List<RadioMarkZstViewTab> queryList(RadioMarkZstViewTabQuery query);
+
+    public Date findMinRadioDate( );
+
+    public Integer deleteMinRadioDateData(RadioMarkZstViewTabQuery bean);
 }

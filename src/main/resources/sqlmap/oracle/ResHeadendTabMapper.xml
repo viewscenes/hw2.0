@@ -443,6 +443,39 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         <include refid="findPage_where"/>
 
     </select>
+    <select id="fuzzySearchHeand" resultMap="ResHeadendTab">
+        SELECT <include refid="columns" />
+        FROM RES_HEADEND_TAB
+        where   IS_DELETE = 0
+        <if test="@Ognl@isNotEmpty(headId)">
+            or HEAD_ID = #{headId}
+        </if>
+        <if test="@Ognl@isNotEmpty(serviceName)">
+            or service_name like CONCAT('%',#{serviceName},'%')
+        </if>
+        <if test="@Ognl@isNotEmpty(code)">
+            or code like CONCAT('%',#{code},'%')
+        </if>
+        <if test="@Ognl@isNotEmpty(shortname)">
+            or SHORTNAME like CONCAT('%',#{shortname},'%')
+        </if>
+        <if test="@Ognl@isNotEmpty(country)">
+            or country like CONCAT('%',#{country},'%')
+        </if>
+        <if test="@Ognl@isNotEmpty(defaultLanguage)">
+            or DEFAULT_LANGUAGE like CONCAT('%',#{defaultLanguage},'%')
+        </if>
+        <if test="@Ognl@isNotEmpty(site)">
+            or site like CONCAT('%',#{site},'%')
+        </if>
+        <if test="@Ognl@isNotEmpty(stationName)">
+            or STATION_NAME like CONCAT('%',#{stationName},'%')
+        </if>
+        <if test="@Ognl@isNotEmpty(ip)">
+            or ip like CONCAT('%',#{ip},'%')
+        </if>
+
+    </select>
     <select id="selectDistinctHeadendList" resultMap="ResHeadendTab">
         SELECT  distinct site ,country ,
         decode(version,'V8',substr(code,0,LENGTH(code)-1),code) code,
