@@ -20,7 +20,7 @@ public class MarkDataCleaningWorker {
     /**
      * 每1分钟执行一次数据清理
      */
-    @Scheduled(initialDelay = 1000,  fixedDelay = 1*60*1000)
+    @Scheduled(initialDelay = 10000,  fixedDelay = 30*60*1000)
     public void execute() {
 
         try{
