@@ -2,7 +2,7 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    url:  jdbc:oracle:thin:@localhost:1521:orcl
+    url:  jdbc:oracle:thin:@10.0.1.16:1521:hw
     username:  hw
     password:  u3nfltd2
 #字符集和json格式工具

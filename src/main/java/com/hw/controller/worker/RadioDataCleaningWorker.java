@@ -20,7 +20,7 @@ public class RadioDataCleaningWorker {
     /**
      * 每1分钟执行一次数据清理
      */
-    @Scheduled(initialDelay = 3000,  fixedDelay = 30*60*1000)
+//    @Scheduled(initialDelay = 3000,  fixedDelay = 30*60*1000)
     public void execute() {
         try{
             Date minDate =  radioStreamResultService.findMinRadioDate();
@@ -30,7 +30,7 @@ public class RadioDataCleaningWorker {
                String deleteDate = DateUtil.getDateString(minDate);
                String nowDate =DateUtil.getDateString(startDate);
                int day =  DateUtil.getTimeIntervalDaysByDate(deleteDate,nowDate);
-               if(day>180){
+               if(day>90){
                    RadioStreamResultTab bean =new RadioStreamResultTab();
                    bean.setStartDatetime(DateUtil.getStartOfDay(minDate));
                    bean.setEndDatetime(DateUtil.getEndOfDay(minDate));

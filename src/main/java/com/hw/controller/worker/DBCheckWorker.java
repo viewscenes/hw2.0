@@ -30,7 +30,7 @@ public class DBCheckWorker {
             log.info("数据库未连接上！");
             SystemConstants.DB_CONNECT_FLAG = false;
         }
-}
+   }
 
 
 }
