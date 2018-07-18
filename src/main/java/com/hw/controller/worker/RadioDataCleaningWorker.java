@@ -18,9 +18,9 @@ public class RadioDataCleaningWorker {
     @Resource
     private RadioStreamResultService radioStreamResultService;
     /**
-     * 每1分钟执行一次数据清理
+     * 每30分钟执行一次数据清理
      */
-//    @Scheduled(initialDelay = 3000,  fixedDelay = 30*60*1000)
+   @Scheduled(initialDelay = 3000,  fixedDelay = 30*60*1000)
     public void execute() {
         try{
             Date minDate =  radioStreamResultService.findMinRadioDate();

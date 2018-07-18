@@ -20,7 +20,7 @@ public class DBCheckWorker {
     /**
      * 每1分钟执行一次数据库检查
      */
-    @Scheduled(initialDelay = 2000,  fixedDelay = 60*1000)
+    //@Scheduled(initialDelay = 2000,  fixedDelay = 60*1000)
     public void execute() {
         try{
             configurationService.checkDB();

@@ -28,7 +28,7 @@ public class AutoCreateFileWorker {
     /**
      * 每1分钟执行一次数据库检查
      */
-    @Scheduled(initialDelay = 2000,  fixedDelay = 60*1000)
+    //@Scheduled(initialDelay = 2000,  fixedDelay = 60*1000)
     public void execute() {
         try{
             Calendar calendar = Calendar.getInstance();
@@ -44,7 +44,7 @@ public class AutoCreateFileWorker {
      * @return String
      */
     public void createFolder(Calendar cal) {
-        String path= "smb://10.0.1.7/video_location";
+        String path= "/Users/liubin11/video_location";
 
         if(path!=null&&path!=""&&path.length()!=0)
         {
@@ -65,21 +65,21 @@ public class AutoCreateFileWorker {
                 File file=new File(path);
                 if(!file.exists())
                     file.mkdir();
-                path=path+"\\"+year;
+                path=path+"/"+year;
                 file=new File(path);
                 if(!file.exists())
                     file.mkdir();
-                path=path+"\\"+month;
+                path=path+"/"+month;
                 file=new File(path);
                 if(!file.exists())
                     file.mkdir();
-                path=path+"\\"+day;
+                path=path+"/"+day;
                 file=new File(path);
                 if(!file.exists())
                     file.mkdir();
                 for(int j=0;j<codelist.size();j++)
                 {
-                    file=new File(path+"\\"+codelist.get(j));
+                    file=new File(path+"/"+codelist.get(j));
                     if(!file.exists())
                         file.mkdir();
                 }
