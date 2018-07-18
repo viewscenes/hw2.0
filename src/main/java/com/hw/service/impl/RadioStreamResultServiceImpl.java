@@ -48,7 +48,7 @@ public class RadioStreamResultServiceImpl implements RadioStreamResultService {
     }
 
     @Override
-	public RadioStreamResultTab selectById(Integer id) {
+	public RadioStreamResultTab selectById(Long id) {
 		return dao.selectById(id);
 	}
 

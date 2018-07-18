@@ -1,12 +1,13 @@
 
-package com.hw.mapper;
+package com.hw.service;
 
 
 import com.hw.domain.po.RadioMarkRelTab;
+
 import java.util.List;
 
 
-public interface RadioMarkRelTabMapper {
+public interface RadioMarkRelService {
 
 
      Integer update(RadioMarkRelTab bean);

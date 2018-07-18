@@ -5,6 +5,7 @@ import com.github.pagehelper.Page;
 import com.hw.domain.po.RadioMarkZstViewTab;
 import com.hw.domain.po.RadioStreamResultTab;
 import com.hw.domain.po.query.RadioMarkZstViewTabQuery;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -27,4 +28,6 @@ public interface RadioMarkZstViewTabMapper {
     public Date findMinRadioDate( );
 
     public Integer deleteMinRadioDateData(RadioMarkZstViewTabQuery bean);
+
+    RadioMarkZstViewTab selectByFileName(@Param("fileName") String fileName);
 }

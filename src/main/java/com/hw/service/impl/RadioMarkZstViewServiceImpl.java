@@ -64,4 +64,9 @@ public class RadioMarkZstViewServiceImpl implements RadioMarkZstViewService {
     public Integer deleteMinRadioDateData(RadioMarkZstViewTabQuery bean) {
         return dao.deleteMinRadioDateData(bean);
     }
+
+    @Override
+    public RadioMarkZstViewTab selectByFileName(String fileName) {
+        return dao.selectByFileName(fileName);
+    }
 }

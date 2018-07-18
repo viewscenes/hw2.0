@@ -28,4 +28,6 @@ public interface RadioMarkZstViewService{
     public Date findMinRadioDate( );
 
     public Integer deleteMinRadioDateData(RadioMarkZstViewTabQuery bean);
+
+    RadioMarkZstViewTab selectByFileName(String fileName);
 }

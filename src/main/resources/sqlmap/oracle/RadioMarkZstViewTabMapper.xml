@@ -290,5 +290,11 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			and mark_datetime <= #{markDatetimeEnd}
 		 ]]>
     </delete>
+    <select id="selectByFileName" resultMap="RadioMarkZstViewTab">
+        select <include refid="columns" />
+        from radio_mark_zst_view_tab
+        where FILE_NAME = #{fileName}
+    </select>
+
 </mapper>
 

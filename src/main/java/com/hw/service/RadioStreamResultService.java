@@ -20,7 +20,7 @@ public interface RadioStreamResultService{
 
     public Page selectNotExistsStreamMark(RadioStreamResultTabQuery query);
 
-    public RadioStreamResultTab selectById(Integer id);
+    public RadioStreamResultTab selectById(Long id);
 
     public Integer delete(RadioStreamResultTab bean);
 
