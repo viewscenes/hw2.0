@@ -20,4 +20,8 @@ public interface SysConfigurationService{
      Integer delete(SysConfigurationTab bean);
 
      Integer checkDB();
+
+     String getLocVideoUrl();
+
+     String getLocVideoLocation();
 }

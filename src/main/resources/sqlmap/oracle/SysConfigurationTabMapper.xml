@@ -97,6 +97,21 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
     </select>
 
-	
+
+
+	<select id="getLocVideoUrl" resultType="java.lang.String">
+		SELECT PARAM_VALUE
+		    FROM SYS_CONFIGURATION_TAB
+	        WHERE
+		        PARAM_NAME = 'loc_video_url'
+	</select>
+
+	<select id="getLocVideoLocation" resultType="java.lang.String">
+		SELECT PARAM_VALUE
+		    FROM SYS_CONFIGURATION_TAB
+	        WHERE
+		        PARAM_NAME = 'loc_video_location'
+	</select>
+
 </mapper>
 

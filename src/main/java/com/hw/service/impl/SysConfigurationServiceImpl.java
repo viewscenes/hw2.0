@@ -19,7 +19,8 @@ import java.util.List;
  */
 
 @Service
-public class SysConfigurationServiceImpl implements SysConfigurationService{
+public class SysConfigurationServiceImpl
+		implements SysConfigurationService{
     @Resource
 	private SysConfigurationTabMapper dao;
 
@@ -51,5 +52,15 @@ public class SysConfigurationServiceImpl implements SysConfigurationService{
 	@Override
 	public Integer checkDB() {
 		return dao.checkDB();
+	}
+
+	@Override
+	public String getLocVideoUrl() {
+		return dao.getLocVideoUrl();
+	}
+
+	@Override
+	public String getLocVideoLocation() {
+		return dao.getLocVideoLocation();
 	}
 }

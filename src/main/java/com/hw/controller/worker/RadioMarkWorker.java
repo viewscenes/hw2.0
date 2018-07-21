@@ -1,6 +1,7 @@
 package com.hw.controller.worker;
 
 import cn.com.pattek.pesb.client.PESBClient;
+import com.alibaba.fastjson.JSON;
 import com.hw.common.enums.SequenceEnum;
 import com.hw.common.utils.DateUtil;
 import com.hw.common.utils.StringTool;
@@ -16,6 +17,7 @@ import com.hw.service.RadioMarkZstViewService;
 import com.hw.service.RadioStreamResultService;
 import com.hw.service.ResHeadendService;
 import com.hw.service.SequenceService;
+import com.hw.service.SysConfigurationService;
 import com.hw.service.ZresRunplanService;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -62,6 +64,9 @@ public class RadioMarkWorker {
     @Resource
     private SequenceService sequenceService;
 
+    @Resource
+    private SysConfigurationService sysConfigurationService;
+
 
     /**
      * 每5分钟执行一次打分
@@ -85,7 +90,9 @@ public class RadioMarkWorker {
                            ResHeadendTab headendTab = resHeadendService.selectById(radio.getHeadId());
                            ZresRunplanTab runBean = runplanService.getRunplanByTaskId(radio.getTaskId());
                            ASRResBean resBean = exucuteTask(getASRCmdBean(radio,headendTab,runBean));
-                           readyAsrResult2DB(resBean,headendTab,runBean,radio);
+                           if(resBean.getTaskStatus().equals("203")) {
+                             readyAsrResult2DB(resBean, headendTab, runBean, radio);
+                           }
                          } catch (IOException e) {
                            log.info("执行打分任务失败",e);
                          }
@@ -114,6 +121,8 @@ public class RadioMarkWorker {
         bean.setTaskStartTime(DateUtil.getDateString(radio.getStartDatetime()));
         bean.setFreq(radio.getFrequency().toString());
         bean.setLanguage(radio.getLanguage());
+        bean.setTaskId(radio.getResultId().toString());
+        log.info("请求ASRCmdBean对象："+JSON.toJSONString(bean));
         return  bean;
     }
 
@@ -147,10 +156,7 @@ public class RadioMarkWorker {
      */
     public ASRResBean exucuteTask(ASRCmdBean asrCmdBean) throws IOException {
         ASRResBean asrResBean = new ASRResBean();
-        String result = "";
         String xml = getCmdXml(asrCmdBean);
-
-        String taskId = "";
         PESBClient pesbClient = new PESBClient();
         try {
 
@@ -158,6 +164,7 @@ public class RadioMarkWorker {
             String taskXml = pesbClient.exucuteTask(xml);
             log.info("语音识别系统处理结果XML:\n"+taskXml);
             asrResBean = getResXml(taskXml);
+            log.info("打分xml转换为对象："+JSON.toJSONString(asrResBean));
         } catch (Exception e) {
             e.printStackTrace();
             asrResBean.setTaskStatus("0000");
@@ -190,17 +197,17 @@ public class RadioMarkWorker {
 
         Element task = new Element("task");
 
-        task.setAttribute(new Attribute("id", ""));
+        task.setAttribute(new Attribute("id", asrCmdBean.getTaskId()));
 
         String filepath = asrCmdBean.getFile();
-//        if(filepath.indexOf("114.251.47.196")!=-1)
-//        {
-//            filepath = filepath.replace("http://114.251.47.196:80/video/",SystemConfig.getLoc_Video_location());
-//
-//        }else
-//        {
-//            filepath = filepath.replace(SystemConfig.getLocVideoUrl(),SystemConfig.getLoc_Video_location());
-//        }
+        if(filepath.indexOf("114.251.47.196")!=-1)
+        {
+            filepath = filepath.replace("http://114.251.47.196:80/video/",sysConfigurationService.getLocVideoLocation());
+
+        }else
+        {
+            filepath = filepath.replace(sysConfigurationService.getLocVideoUrl(),sysConfigurationService.getLocVideoLocation());
+        }
         Element e_file = new Element("file");
         e_file.addContent(filepath);
 
