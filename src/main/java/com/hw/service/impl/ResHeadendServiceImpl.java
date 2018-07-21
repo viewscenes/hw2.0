@@ -21,7 +21,7 @@ import java.util.List;
 
 @Service
 public class ResHeadendServiceImpl implements ResHeadendService{
-    @Resource
+	@Resource
 	private ResHeadendTabMapper dao;
 
 	@Override

@@ -26,7 +26,7 @@ public class RadioMarkZstViewTab   implements java.io.Serializable{
     /**
      * 打分id       db_column: MARK_ID 
      */	
-	private Integer markId;
+	private Long markId;
     /**
      * 打分人       db_column: MARK_USER 
      */	

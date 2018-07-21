@@ -13,18 +13,21 @@ import java.util.List;
 
 public interface ZresRunplanService{
 
-    public Integer insert(ZresRunplanTab bean);
+     Integer insert(ZresRunplanTab bean);
 
-    public Integer update(ZresRunplanTab bean);
+     Integer update(ZresRunplanTab bean);
 
-    public Page selectPage(ZresRunplanTabQuery query);
-    public List<ZresRunplanTab> selectList(ZresRunplanTabQuery query);
-    public ZresRunplanTab selectById(Integer id);
+     Page selectPage(ZresRunplanTabQuery query);
+     List<ZresRunplanTab> selectList(ZresRunplanTabQuery query);
+     ZresRunplanTab selectById(Integer id);
 
-    public Integer delete(ZresRunplanTabQuery bean);
+     Integer delete(ZresRunplanTabQuery bean);
 
 
-    public List<RunpalnStatisticsVo> gjtStatistics(RunplanStatisticsQuery query);
+     List<RunpalnStatisticsVo> gjtStatistics(RunplanStatisticsQuery query);
 
-    public List<RunpalnStatisticsVo> hwldStatistics(RunplanStatisticsQuery query);
+     List<RunpalnStatisticsVo> hwldStatistics(RunplanStatisticsQuery query);
+
+
+     ZresRunplanTab getRunplanByTaskId(Integer taskId);
 }

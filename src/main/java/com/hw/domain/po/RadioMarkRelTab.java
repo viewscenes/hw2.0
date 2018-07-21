@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 public class RadioMarkRelTab implements java.io.Serializable{
     private static final long serialVersionUID = 5454155825314635342L;
     //主键
-    private Long id;
+    private Integer id;
     //录音id
-    private Long resultId;
+    private Integer resultId;
     //打分id
-    private Long markId;
+    private Integer markId;
     //是否消费过 1打过分 0 未打过分 2不再打分
     private int state;
 

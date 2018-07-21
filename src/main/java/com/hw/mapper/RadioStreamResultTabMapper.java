@@ -17,7 +17,7 @@ public interface RadioStreamResultTabMapper {
 
     public Page selectList(RadioStreamResultTabQuery query);
 
-    public RadioStreamResultTab selectById(Long id);
+    public RadioStreamResultTab selectById(Integer id);
 
     public Integer delete(RadioStreamResultTab bean);
 

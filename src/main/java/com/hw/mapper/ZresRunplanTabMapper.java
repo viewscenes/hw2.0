@@ -7,19 +7,22 @@ import com.hw.domain.po.ZresRunplanTab;
 import com.hw.domain.po.query.ZresRunplanTabQuery;
 
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 
 public interface ZresRunplanTabMapper {
 
-    public Integer insert(ZresRunplanTab bean);
+     Integer insert(ZresRunplanTab bean);
 
-    public Integer update(ZresRunplanTab bean);
+     Integer update(ZresRunplanTab bean);
 
-    public Page selectPage(ZresRunplanTabQuery query);
+     Page selectPage(ZresRunplanTabQuery query);
 
-    public List<ZresRunplanTab> selectList(ZresRunplanTabQuery query);
+     List<ZresRunplanTab> selectList(ZresRunplanTabQuery query);
 
-    public ZresRunplanTab selectById(Integer id);
+     ZresRunplanTab selectById(Integer id);
 
-    public Integer delete(ZresRunplanTabQuery bean);
+     Integer delete(ZresRunplanTabQuery bean);
+
+     ZresRunplanTab getRunplanByTaskId(@Param("taskId") Integer taskId);
 }

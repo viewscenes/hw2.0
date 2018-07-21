@@ -105,19 +105,19 @@ public class RadioStreamResultTab   implements java.io.Serializable{
     /**
      * 调幅度值       db_column: FM_MODULATION 
      */	
-	private String fmModulation;
+	private Float fmModulation;
     /**
      * 调制度值       db_column: AM_MODULATION 
      */	
-	private String amModulation;
+	private Float amModulation;
     /**
      * 频偏值       db_column: OFFSET 
      */	
-	private String offset;
+	private Float offset;
     /**
      * 电平值       db_column: LEVEL_VALUE 
      */	
-	private String levelValue;
+	private Float levelValue;
     /**
      * 接收机类型       db_column: RECEIVE_TYPE 
      */	
