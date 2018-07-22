@@ -1,8 +1,6 @@
 package com.hw.controller.worker;
 
 import cn.com.pattek.pesb.client.PESBClient;
-import com.alibaba.fastjson.JSON;
-import com.hw.common.enums.SequenceEnum;
 import com.hw.common.utils.DateUtil;
 import com.hw.common.utils.StringTool;
 import com.hw.domain.po.RadioMarkRelTab;
@@ -38,6 +36,9 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
@@ -67,6 +68,8 @@ public class RadioMarkWorker {
     @Resource
     private SysConfigurationService sysConfigurationService;
 
+    ExecutorService threadPool=	Executors.newFixedThreadPool(10);
+
 
     /**
      * 每5分钟执行一次打分
@@ -77,28 +80,47 @@ public class RadioMarkWorker {
         List<RadioMarkRelTab>  radioRelList =  radioMarkRelService.getNotMark();
         if(radioRelList!=null&&radioRelList.size()>0){
             for(RadioMarkRelTab rel:radioRelList){
-                Integer resultId = rel.getResultId();
-                RadioStreamResultTab radio = radioStreamResultService.selectById(resultId);
-                //文件存在才发送
-                if(radio.getUrl()!=null){
-                   if(existHttpPath(radio.getUrl())){
-                       //是否已经打过分了
-                       RadioMarkZstViewTab  mark = markZstViewService.selectByFileName(radio.getFilename());
-                       //未打分
-                       if(mark==null){
-                         try {
-                           ResHeadendTab headendTab = resHeadendService.selectById(radio.getHeadId());
-                           ZresRunplanTab runBean = runplanService.getRunplanByTaskId(radio.getTaskId());
-                           ASRResBean resBean = exucuteTask(getASRCmdBean(radio,headendTab,runBean));
-                           if(resBean.getTaskStatus().equals("203")) {
-                             readyAsrResult2DB(resBean, headendTab, runBean, radio);
-                           }
-                         } catch (IOException e) {
-                           log.info("执行打分任务失败",e);
-                         }
-                       }
-                   }
-                }
+                threadPool.execute(new Runnable(){
+                    @Override
+                    public void run() {
+
+                        Integer resultId = rel.getResultId();
+                        RadioStreamResultTab radio = radioStreamResultService.selectById(resultId);
+                        //文件存在才发送
+                        if(radio!=null&&radio.getUrl()!=null){
+                            if(existHttpPath(radio.getUrl())){
+                                //是否已经打过分了
+                                RadioMarkZstViewTab  mark = markZstViewService.selectByFileName(radio.getFilename());
+                                //未打分
+                                if(mark==null){
+                                    try {
+                                        ResHeadendTab headendTab = resHeadendService.selectById(radio.getHeadId());
+                                        ZresRunplanTab runBean = runplanService.getRunplanByTaskId(radio.getTaskId());
+                                        ASRResBean resBean = exucuteTask(getASRCmdBean(radio,headendTab,runBean));
+                                        if(resBean.getTaskStatus().equals("203")) {
+                                            readyAsrResult2DB(resBean, headendTab, runBean, radio);
+                                            /**
+                                             * 更新关系表
+                                             */
+                                            rel.setState(1);
+                                            radioMarkRelService.update(rel);
+                                        }
+                                    } catch (IOException e) {
+                                        log.info("执行打分任务失败",e);
+                                    }
+                                }
+                            }
+                        }else{
+                            /**
+                             * 更新关系表
+                             */
+                            rel.setState(2);
+                            radioMarkRelService.update(rel);
+                        }
+                    }
+
+                });
+
             }
         }
     }
@@ -122,7 +144,6 @@ public class RadioMarkWorker {
         bean.setFreq(radio.getFrequency().toString());
         bean.setLanguage(radio.getLanguage());
         bean.setTaskId(radio.getResultId().toString());
-        log.info("请求ASRCmdBean对象："+JSON.toJSONString(bean));
         return  bean;
     }
 
@@ -164,7 +185,6 @@ public class RadioMarkWorker {
             String taskXml = pesbClient.exucuteTask(xml);
             log.info("语音识别系统处理结果XML:\n"+taskXml);
             asrResBean = getResXml(taskXml);
-            log.info("打分xml转换为对象："+JSON.toJSONString(asrResBean));
         } catch (Exception e) {
             e.printStackTrace();
             asrResBean.setTaskStatus("0000");
@@ -428,7 +448,6 @@ public class RadioMarkWorker {
       }
     }
 
-    rmzvb.setDescription("");
     rmzvb.setMarkType("2");//打分类型：录音打分
 
 
@@ -461,46 +480,59 @@ public class RadioMarkWorker {
     rmzvb.setFmValue(raido.getFmModulation());
     rmzvb.setAmValue(raido.getAmModulation());
     rmzvb.setOffsetValue(raido.getOffset());
-
-    rmzvb.setAsrType(Integer.parseInt(asrResBean.getType()));
+    if(asrResBean.getType()!=null&&!"".equals(asrResBean.getType())){
+        rmzvb.setAsrType(Integer.parseInt(asrResBean.getType()));
+    }
     rmzvb.setResultType(asrResBean.getTimePeriodType());
     rmzvb.setStatus(asrResBean.getStatus());
-    rmzvb.setWavelen(Integer.parseInt(asrResBean.getWavelen()));
+      if(asrResBean.getWavelen()!=null&&!"".equals(asrResBean.getWavelen())){
+          rmzvb.setWavelen(Integer.parseInt(asrResBean.getWavelen()));
+      }
     rmzvb.setMusicratio(asrResBean.getMusicratio());
     rmzvb.setNoiseratio(asrResBean.getNoiseratio());
-    rmzvb.setSpeechlen(Integer.parseInt(asrResBean.getSpeechlen()));
-    rmzvb.setTotalcm(Integer.parseInt(asrResBean.getTotalcm()));
+      if(asrResBean.getSpeechlen()!=null&&!"".equals(asrResBean.getSpeechlen())){
+          rmzvb.setSpeechlen(Integer.parseInt(asrResBean.getSpeechlen()));
+      }
+      if(asrResBean.getTotalcm()!=null&&!"".equals(asrResBean.getTotalcm())){
+          rmzvb.setTotalcm(Integer.parseInt(asrResBean.getTotalcm()));
+      }
     rmzvb.setAudibilityscore(asrResBean.getAudibilityScore());
-    rmzvb.setAudibilityconfidence(Integer.parseInt(asrResBean.getAudibilityConfidence()));
+      if(asrResBean.getAudibilityConfidence()!=null&&!"".equals(asrResBean.getAudibilityConfidence())){
+          rmzvb.setAudibilityconfidence(Integer.parseInt(asrResBean.getAudibilityConfidence()));
+      }
     rmzvb.setChannelname(asrResBean.getChannelName());
-    rmzvb.setChannelnameconfidence(Integer.parseInt(asrResBean.getChannelNameConfidence()));
+      if(asrResBean.getChannelNameConfidence()!=null&&!"".equals(asrResBean.getChannelNameConfidence())){
+          rmzvb.setChannelnameconfidence(Integer.parseInt(asrResBean.getChannelNameConfidence()));
+      }
     rmzvb.setProgramname(asrResBean.getProgramName());
-    rmzvb.setProgramnameconfidence(Integer.parseInt(asrResBean.getProgramNameConfidence()));
+      if(asrResBean.getProgramNameConfidence()!=null&&!"".equals(asrResBean.getProgramNameConfidence())){
+          rmzvb.setProgramnameconfidence(Integer.parseInt(asrResBean.getProgramNameConfidence()));
+      }
     rmzvb.setLanguagename1(asrResBean.getLanguageName1());
     rmzvb.setLanguagename2(asrResBean.getLanguageName2());
     rmzvb.setLanguagename3(asrResBean.getLanguageName3());
     rmzvb.setLanguagename4(asrResBean.getLanguageName4());
     rmzvb.setLanguagename5(asrResBean.getLanguageName5());
-    rmzvb.setLanguageconfidence1(asrResBean.getLanguageConfidence1()==null?null:Integer.parseInt((asrResBean.getLanguageConfidence1())));
-    rmzvb.setLanguageconfidence2(asrResBean.getLanguageConfidence2()==null?null:Integer.parseInt((asrResBean.getLanguageConfidence2())));
-    rmzvb.setLanguageconfidence3(asrResBean.getLanguageConfidence3()==null?null:Integer.parseInt((asrResBean.getLanguageConfidence3())));
-    rmzvb.setLanguageconfidence4(asrResBean.getLanguageConfidence4()==null?null:Integer.parseInt((asrResBean.getLanguageConfidence4())));
-    rmzvb.setLanguageconfidence5(asrResBean.getLanguageConfidence5()==null?null:Integer.parseInt((asrResBean.getLanguageConfidence5())));
-    Long markId = sequenceService.getNextSequence(SequenceEnum.getFullSequenceKey(SequenceEnum.MARK_ID.getKey()));
-    if(markId!=null){
-      rmzvb.setMarkId(markId);
+      if(asrResBean.getLanguageConfidence1()!=null&&!"".equals(asrResBean.getLanguageConfidence1())){
+          rmzvb.setLanguageconfidence1(Integer.parseInt(asrResBean.getLanguageConfidence1()));
+      }
+      if(asrResBean.getLanguageConfidence2()!=null&&!"".equals(asrResBean.getLanguageConfidence2())){
+          rmzvb.setLanguageconfidence2(Integer.parseInt(asrResBean.getLanguageConfidence2()));
+      }
+      if(asrResBean.getLanguageConfidence3()!=null&&!"".equals(asrResBean.getLanguageConfidence3())){
+          rmzvb.setLanguageconfidence3(Integer.parseInt(asrResBean.getLanguageConfidence3()));
+      }
+      if(asrResBean.getLanguageConfidence4()!=null&&!"".equals(asrResBean.getLanguageConfidence4())){
+          rmzvb.setLanguageconfidence4(Integer.parseInt(asrResBean.getLanguageConfidence4()));
+      }
+      if(asrResBean.getLanguageConfidence5()!=null&&!"".equals(asrResBean.getLanguageConfidence5())){
+          rmzvb.setLanguageconfidence5(Integer.parseInt(asrResBean.getLanguageConfidence5()));
+      }
       /**
        * 打分入库
        */
       markZstViewService.insert(rmzvb);
-      /**
-       * 更新关系表
-       */
-      RadioMarkRelTab rel=new RadioMarkRelTab();
-      rel.setResultId(raido.getResultId());
-      rel.setState(1);
-      radioMarkRelService.update(rel);
-    }
+
   }
 
 

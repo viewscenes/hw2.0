@@ -39,7 +39,6 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         <result property="band" column="BAND"/>
         <result property="programType" column="PROGRAM_TYPE"/>
         <result property="redisseminators" column="REDISSEMINATORS"/>
-        <result property="localStartTime" column="LOCAL_START_TIME"/>
         <result property="summer" column="SUMMER"/>
         <result property="summerStarttime" column="SUMMER_STARTTIME"/>
         <result property="summerEndtime" column="SUMMER_ENDTIME"/>
@@ -52,7 +51,6 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         <result property="broadcastStation" column="BROADCAST_STATION"/>
         <result property="xgMonArea" column="XG_MON_AREA"/>
         <result property="disturb" column="DISTURB"/>
-        <result property="localEndTime" column="LOCAL_END_TIME"/>
 	</resultMap>
 	
 	<!-- 用于select查询公用抽取的列 -->
@@ -62,9 +60,9 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		zrt.DIRECTION,zrt.POWER,zrt.SERVICE_AREA,zrt.ANTENNATYPE,zrt.REST_DATETIME,zrt.REST_TIME,zrt.SENTCITY_ID,
 		zrt.START_TIME,zrt.END_TIME,zrt.SATELLITE_CHANNEL,zrt.STORE_DATETIME,zrt.PROGRAM_TYPE_ID,
 		zrt.LANGUAGE_ID,zrt.WEEKDAY,zrt.INPUT_PERSON,zrt.REVISE_PERSON,zrt.REMARK,zrt.PROGRAM_ID,
-		zrt.MON_AREA,zrt.IS_DELETE,zrt.BAND,zrt.PROGRAM_TYPE,zrt.REDISSEMINATORS,zrt.LOCAL_START_TIME,
+		zrt.MON_AREA,zrt.IS_DELETE,zrt.BAND,zrt.PROGRAM_TYPE,zrt.REDISSEMINATORS,
 		zrt.SUMMER,zrt.SUMMER_STARTTIME,zrt.SUMMER_ENDTIME,zrt.SEASON_ID,zrt.ANTENNA,zrt.STATION_NAME,
-		zrt.CIRAF,zrt.LAUNCH_COUNTRY,zrt.BROADCAST_COUNTRY,zrt.BROADCAST_STATION,zrt.XG_MON_AREA,zrt.DISTURB,zrt.LOCAL_END_TIME,
+		zrt.CIRAF,zrt.LAUNCH_COUNTRY,zrt.BROADCAST_COUNTRY,zrt.BROADCAST_STATION,zrt.XG_MON_AREA,zrt.DISTURB,
 		zlt.LANGUAGE_NAME
 	    ]]>
 	</sql>
@@ -242,9 +240,10 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	</select>
 	<select id="getRunplanByTaskId" resultMap="ZresRunplanTab">
 		SELECT <include refid="columns" />
-		     FROM zres_runplan_tab runplan,radio_unify_task_tab task
+		     FROM zres_runplan_tab zrt,radio_unify_task_tab task,zdic_language_tab zlt
 	        WHERE
-		      runplan.runplan_id = task.runplan_id  and   task.task_id = #{taskId}
+		      zrt.runplan_id = task.runplan_id  and   task.task_id = #{taskId}
+		      and zrt.language_id =zlt.language_id
 	</select>
 
 	

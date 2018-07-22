@@ -28,7 +28,7 @@ public class SequenceServiceImpl implements SequenceService {
 
 
     @Override
-    public Long getNextSequence(String sequence) {
+    public Integer getNextSequence(String sequence) {
         return sequenceMapper.getNextSequence(sequence);
     }
 }

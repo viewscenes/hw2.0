@@ -5,6 +5,7 @@ package com.hw.mapper;
 import com.github.pagehelper.Page;
 import com.hw.domain.po.RadioStreamResultTab;
 import com.hw.domain.po.query.RadioStreamResultTabQuery;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 
@@ -17,7 +18,7 @@ public interface RadioStreamResultTabMapper {
 
     public Page selectList(RadioStreamResultTabQuery query);
 
-    public RadioStreamResultTab selectById(Integer id);
+    public RadioStreamResultTab selectById(@Param("id") Integer id);
 
     public Integer delete(RadioStreamResultTab bean);
 

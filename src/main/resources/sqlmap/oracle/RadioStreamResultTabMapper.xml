@@ -140,7 +140,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     ]]>
     </delete>
     
-    <select id="getById" resultMap="RadioStreamResultTab">
+    <select id="selectById" resultMap="RadioStreamResultTab">
 		SELECT <include refid="columns" />
 
 		    FROM RADIO_STREAM_RESULT_TAB 

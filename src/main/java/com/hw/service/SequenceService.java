@@ -7,5 +7,5 @@ package com.hw.service;
  */
 public interface SequenceService {
 
-    Long  getNextSequence(String  sequence);
+    Integer  getNextSequence(String  sequence);
 }

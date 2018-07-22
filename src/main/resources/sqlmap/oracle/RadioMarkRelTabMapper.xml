@@ -36,7 +36,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         FROM radio_mark_rel_tab where
 			   state = 0
 			   ORDER BY id asc
-			   LIMIT #{startIndex} , #{endIndex}
+
     </select>
 
 </mapper>

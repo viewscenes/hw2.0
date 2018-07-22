@@ -7,7 +7,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 <!-- 不使用namespace的话sql搜索定位会比较方便 -->
 <mapper namespace="com.hw.mapper.SequenceMapper">
 
-    <select id="getNextSequence" resultType="java.lang.Long">
+    <select id="getNextSequence" resultType="java.lang.Integer">
 	    select #{sequence} from dual
 	  </select>
 
