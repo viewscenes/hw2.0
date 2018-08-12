@@ -74,7 +74,7 @@ public class RadioMarkWorker {
     /**
      * 每5分钟执行一次打分
      */
-    @Scheduled(initialDelay = 10000,  fixedDelay = 5*60*1000)
+    @Scheduled(initialDelay = 10000,  fixedDelay = 2*60*1000)
     public void execute() {
             log.info("任务检查！");
         List<RadioMarkRelTab>  radioRelList =  radioMarkRelService.getNotMark();
@@ -109,12 +109,18 @@ public class RadioMarkWorker {
                                         log.info("执行打分任务失败",e);
                                     }
                                 }
+                            }else{
+                              /**
+                               * 更新关系表
+                               */
+                              rel.setState(3);//文件不存在
+                              radioMarkRelService.update(rel);
                             }
                         }else{
                             /**
                              * 更新关系表
                              */
-                            rel.setState(2);
+                            rel.setState(2);//数据不完整
                             radioMarkRelService.update(rel);
                         }
                     }
