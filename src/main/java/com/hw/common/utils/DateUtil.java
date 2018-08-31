@@ -275,15 +275,32 @@ public class DateUtil {
         return days;
     }
 
+    /**
+     * 获取量时间间隔，计算自然天
+     * @param beginDate
+     * @param endDate
+     * 参数是Date
+     * @return
+     */
+    public static Integer getTimeIntervalDaysByDate(Date beginDate, Date endDate) {
+
+        int days = 0;
+        try {
+            days = (int) (endDate.getTime() / 86400000 - beginDate.getTime() / 86400000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return days;
+    }
+
     public static void main(String[] args) throws Exception {
 
-        String str = "2014-09-30 10:20";
+        String str = "2018-08-20 10:20:00";
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm");
         Date date = ft.parse(str);
 
-        System.out.println(checkNowDateHourToDate(date,1));
-        System.out.println(getStartOfDay(new Date()));
-        System.out.println(getEndOfDay(new Date()));
+        System.out.println(getTimeIntervalDaysByDate(date,new Date()));
+
     }
 
     /**

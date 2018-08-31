@@ -33,9 +33,11 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
     <select id="getNotMark" resultMap="RadioMarkRelTab">
         SELECT <include refid="columns" />
+		<![CDATA[
         FROM radio_mark_rel_tab where
 			   state = 0
-			   ORDER BY id asc
+		      and ROWNUM < 1000
+			   ]]>
 
     </select>
 
