@@ -28,6 +28,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -69,77 +70,67 @@ public class RadioMarkWorker {
     private SysConfigurationService sysConfigurationService;
 
     ExecutorService threadPool=	Executors.newFixedThreadPool(10);
-
+    @Value("${worker.switch}")
+    private String workerSwith= "off";
 
     /**
      * 每5分钟执行一次打分
      */
-    @Scheduled(initialDelay = 10000,  fixedDelay = 1*60*1000)
+    @Scheduled(initialDelay = 10000,  fixedDelay = 2*60*1000)
     public void execute() {
+        if("on".equals(workerSwith)) {
             log.info("任务检查！");
-        List<RadioMarkRelTab>  radioRelList =  radioMarkRelService.getNotMark();
-        if(radioRelList!=null&&radioRelList.size()>0){
-            for(RadioMarkRelTab rel:radioRelList){
-                threadPool.execute(new Runnable(){
-                    @Override
-                    public void run() {
+            List<RadioMarkRelTab> radioRelList = radioMarkRelService.getNotMark();
+            if (radioRelList != null && radioRelList.size() > 0) {
+                for (RadioMarkRelTab rel : radioRelList) {
+                    threadPool.execute(new Runnable() {
+                        @Override
+                        public void run() {
 
-                        Integer resultId = rel.getResultId();
-                        RadioStreamResultTab radio = radioStreamResultService.selectById(resultId);
-                        //文件存在才发送
-                        if(radio!=null&&radio.getUrl()!=null&&radio.getReportType().intValue()==1){
-                            log.info("判断录音文件是否存在："+radio.getUrl());
-//                            if(existHttpPath(radio.getUrl())){
-                                //是否已经打过分了
-                                RadioMarkZstViewTab  mark = markZstViewService.selectByFileName(radio.getFilename());
-                                //未打分
-                                if(mark==null){
-                                    try {
-                                        ResHeadendTab headendTab = resHeadendService.selectById(radio.getHeadId());
-                                        ZresRunplanTab runBean = runplanService.getRunplanByTaskId(radio.getTaskId());
-                                        ASRResBean resBean = exucuteTask(getASRCmdBean(radio,headendTab,runBean));
-                                        if(resBean.getTaskStatus().equals("203")) {
-                                            readyAsrResult2DB(resBean, headendTab, runBean, radio);
-                                            /**
-                                             * 更新关系表
-                                             */
-                                            rel.setState(1);
-                                            radioMarkRelService.update(rel);
-                                        }else {
-                                            log.info("打分失败");
-                                            if(DateUtil.getTimeIntervalDaysByDate(radio.getStartDatetime(),new Date())>10){
-                                                rel.setState(3);//文件不存在
+                            Integer resultId = rel.getResultId();
+                            RadioStreamResultTab radio = radioStreamResultService.selectById(resultId);
+                            //文件存在才发送
+                            if (radio != null && radio.getUrl() != null) {
+                                if (existHttpPath(radio.getUrl())) {
+                                    //是否已经打过分了
+                                    RadioMarkZstViewTab mark = markZstViewService.selectByFileName(radio.getFilename());
+                                    //未打分
+                                    if (mark == null) {
+                                        try {
+                                            ResHeadendTab headendTab = resHeadendService.selectById(radio.getHeadId());
+                                            ZresRunplanTab runBean = runplanService.getRunplanByTaskId(radio.getTaskId());
+                                            ASRResBean resBean = exucuteTask(getASRCmdBean(radio, headendTab, runBean));
+                                            if (resBean.getTaskStatus().equals("203")) {
+                                                readyAsrResult2DB(resBean, headendTab, runBean, radio);
+                                                /**
+                                                 * 更新关系表
+                                                 */
+                                                rel.setState(1);
                                                 radioMarkRelService.update(rel);
                                             }
+                                        } catch (IOException e) {
+                                            log.info("执行打分任务失败", e);
                                         }
-                                    } catch (IOException e) {
-                                        log.info("执行打分任务失败",e);
                                     }
-                                }else {
+                                } else {
                                     /**
                                      * 更新关系表
                                      */
-                                    rel.setState(1);
+                                    rel.setState(3);//文件不存在
                                     radioMarkRelService.update(rel);
                                 }
-//                            }else{
-//                              /**
-//                               * 更新关系表
-//                               */
-//                              rel.setState(3);//文件不存在
-//                              radioMarkRelService.update(rel);
-//                            }
-                        }else{
-                            /**
-                             * 更新关系表
-                             */
-                            rel.setState(2);//数据不完整
-                            radioMarkRelService.update(rel);
+                            } else {
+                                /**
+                                 * 更新关系表
+                                 */
+                                rel.setState(2);//数据不完整
+                                radioMarkRelService.update(rel);
+                            }
                         }
-                    }
 
-                });
+                    });
 
+                }
             }
         }
     }
@@ -148,13 +139,14 @@ public class RadioMarkWorker {
         ASRCmdBean bean = new ASRCmdBean();
 
         if (radio.getTaskId()!=null){
-                if (runplanTab != null)
+                if (runplanTab != null) {
                     bean.setCollectChannel(runplanTab.getSatelliteChannel());
+                }
         }
         if(radio.getHeadId()!=null){
             bean.setCollectMethod(headendTab.getTypeId()==101?"4":"2");
+            bean.setReceiverType(radio.getReceiveType());
         }
-        bean.setReceiverType(radio.getReceiveType());
         bean.setFile(radio.getUrl());
         bean.setFileEndTime(DateUtil.getDateString(radio.getEndDatetime()));
         bean.setFileStartTime(DateUtil.getDateString(radio.getStartDatetime()));
@@ -304,22 +296,7 @@ public class RadioMarkWorker {
 
                 receiverType.addContent("SF-RM");
 
-            }else if(asrCmdBean.getReceiverType().indexOf("VS201")!=-1)
-            {
-
-                receiverType.addContent("VS201");
-            }
-            else if(asrCmdBean.getReceiverType().indexOf("AMFT")!=-1)
-            {
-
-                receiverType.addContent("AMFT");
-            }
-            else if(asrCmdBean.getReceiverType().indexOf("TS")!=-1)
-            {
-
-                receiverType.addContent("ST-GBJC2C");
-            }
-            else
+            }else
             {
                 receiverType.addContent("NRD545");
             }

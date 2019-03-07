@@ -170,4 +170,9 @@ public class ZresRunplanServiceImpl implements ZresRunplanService {
   public ZresRunplanTab getRunplanByTaskId(Integer taskId) {
     return dao.getRunplanByTaskId(taskId);
   }
+
+    @Override
+    public List<ZresRunplanTab> queryTodayRunplan() {
+        return dao.queryTodayRunplan();
+    }
 }

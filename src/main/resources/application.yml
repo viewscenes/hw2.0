@@ -1,8 +1,21 @@
 spring:
+  mvc:
+    static-path-pattern: /static/**
+  thymeleaf:
+    check-template-location: true
+    prefix=classpath: /templates/
+    suffix: .html
+    mode: LEGACYHTML5
+    encoding: UTF-8
+    content-type: text/html
+    cache: false
+  output:
+    ansi:
+      enabled: DETECT
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    url:  jdbc:oracle:thin:@10.1.1.12:1521:hw
+    url:  jdbc:oracle:thin:@10.0.1.16:1521:hw
     username:  hw
     password:  u3nfltd2
 #字符集和json格式工具
@@ -29,4 +42,6 @@ server:
 #ftp多服务器配置
 ftp:
     server: 114.251.47.196:21:user:user,10.0.1.21:21:user:user,10.0.1.23:21:user:user
+worker:
+    switch: off
 

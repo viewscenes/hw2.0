@@ -6,6 +6,7 @@ import com.hw.service.ResHeadendService;
 import com.hw.service.SysConfigurationService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -25,17 +26,21 @@ public class AutoCreateFileWorker {
 
     @Resource
     private ResHeadendService headendService;
+
+    @Value("${worker.switch}")
+    private String workerSwith= "off";
     /**
      * 每1分钟执行一次数据库检查
      */
-    //@Scheduled(initialDelay = 2000,  fixedDelay = 60*1000)
+    @Scheduled(initialDelay = 2000,  fixedDelay = 60*1000)
     public void execute() {
-        try{
-            Calendar calendar = Calendar.getInstance();
-            this.createFolder(calendar);
-        }catch (Exception e)
-        {
-            log.info("自动创建文件夹异常！",e);
+        if("on".equals(workerSwith)) {
+            try {
+                Calendar calendar = Calendar.getInstance();
+                this.createFolder(calendar);
+            } catch (Exception e) {
+                log.info("自动创建文件夹异常！", e);
+            }
         }
    }
     /**

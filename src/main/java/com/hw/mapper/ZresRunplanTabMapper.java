@@ -25,4 +25,6 @@ public interface ZresRunplanTabMapper {
      Integer delete(ZresRunplanTabQuery bean);
 
      ZresRunplanTab getRunplanByTaskId(@Param("taskId") Integer taskId);
+
+     List<ZresRunplanTab> queryTodayRunplan();
 }
