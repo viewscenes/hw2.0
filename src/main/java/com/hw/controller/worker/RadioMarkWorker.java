@@ -107,7 +107,7 @@ public class RadioMarkWorker {
                                             radioMarkRelService.update(rel);
                                         }else {
                                             log.info("打分失败");
-                                            if(DateUtil.getTimeIntervalDaysByDate(radio.getStartDatetime(),new Date())>10){
+                                            if(DateUtil.getTimeIntervalDaysByDate(radio.getStartDatetime(),new Date())>3){
                                                 rel.setState(3);//文件不存在
                                                 radioMarkRelService.update(rel);
                                             }
