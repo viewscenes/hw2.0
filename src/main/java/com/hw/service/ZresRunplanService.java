@@ -18,7 +18,9 @@ public interface ZresRunplanService{
      Integer update(ZresRunplanTab bean);
 
      Page selectPage(ZresRunplanTabQuery query);
+
      List<ZresRunplanTab> selectList(ZresRunplanTabQuery query);
+
      ZresRunplanTab selectById(Integer id);
 
      Integer delete(ZresRunplanTabQuery bean);
@@ -30,4 +32,6 @@ public interface ZresRunplanService{
 
 
      ZresRunplanTab getRunplanByTaskId(Integer taskId);
+
+     List<ZresRunplanTab> queryTodayRunplan();
 }

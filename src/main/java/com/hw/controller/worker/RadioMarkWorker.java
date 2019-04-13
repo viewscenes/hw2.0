@@ -28,6 +28,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -69,7 +70,8 @@ public class RadioMarkWorker {
     private SysConfigurationService sysConfigurationService;
 
     ExecutorService threadPool=	Executors.newFixedThreadPool(10);
-
+    @Value("${worker.switch}")
+    private String workerSwith= "off";
 
     /**
      * 每5分钟执行一次打分

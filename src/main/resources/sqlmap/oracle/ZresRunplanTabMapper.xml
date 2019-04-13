@@ -417,7 +417,15 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			ORDER BY  zrt.station_name asc
 
     </select>
+	<select id="queryTodayRunplan" resultMap="ZresRunplanTab">
+		SELECT <include refid="columns" />
+		<![CDATA[
+		FROM ZRES_RUNPLAN_TAB  zrt,zdic_language_tab zlt
+		where  zrt.IS_DELETE =0 and zrt.language_id =zlt.language_id and zrt.VALID_START_TIME<sysdate and zrt.VALID_END_TIME>sysdate
+		and (('2000-01-01 '||to_char(sysdate,'hh24:mi:ss') between '2000-01-01 ' || zrt.start_time || ':00' and '2000-01-01 ' || zrt.end_time || ':00')
+		or  (  '2000-01-01 ' || to_char(sysdate, 'hh24:mi:ss') between  '2000-01-01 ' || zrt.start_time || ':00'  and '2000-01-02 ' || zrt.end_time || ':00' and zrt.end_time<zrt.start_time  ))
+    ]]>
+	</select>
 
-	
 </mapper>
 
