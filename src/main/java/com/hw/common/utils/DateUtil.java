@@ -274,6 +274,24 @@ public class DateUtil {
         }
         return days;
     }
+    /**
+     * 获取量时间间隔，计算自然天
+     * @param beginDate
+     * @param endDate
+     * 参数是Date
+     * @return
+     */
+    public static Integer getTimeIntervalDaysByDate(Date beginDate, Date endDate) {
+
+        int days = 0;
+        try {
+            days = (int) (endDate.getTime() / 86400000 - beginDate.getTime() / 86400000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return days;
+    }
+
 
     public static void main(String[] args) throws Exception {
 
