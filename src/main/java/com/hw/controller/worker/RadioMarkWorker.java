@@ -496,7 +496,7 @@ public class RadioMarkWorker {
     rmzvb.setUnit(sUnit + "-" + eUnit);
     rmzvb.setMarkFileUrl(raido.getUrl());
     rmzvb.setFileName(raido.getFilename());
-    rmzvb.setRecordStartTime(StringTool.time2String(raido.getStartDatetime()));
+    rmzvb.setRecordStartTime(StringTool.time2String(StringTool.addHours(raido.getStartDatetime(),-1)));
     rmzvb.setRecordEndTime(StringTool.time2String(raido.getEndDatetime()));
     rmzvb.setTaskId(raido.getTaskId());
     //储存站点名称的时候不带ab，方便内网统计。
