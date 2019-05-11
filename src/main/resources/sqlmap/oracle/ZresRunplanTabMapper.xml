@@ -243,7 +243,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		     FROM zres_runplan_tab zrt,radio_unify_task_tab task,zdic_language_tab zlt
 	        WHERE
 		      zrt.runplan_id = task.runplan_id  and   task.task_id = #{taskId}
-		      and zrt.language_id =zlt.language_id
+		      and zrt.language_id =zlt.language_id(+)
 	</select>
 
 	

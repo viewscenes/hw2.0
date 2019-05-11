@@ -471,6 +471,10 @@ public class RadioMarkWorker {
         rmzvb.setStationName(runplanTab.getStationName());
         rmzvb.setPlayTime(runplanTab.getStartTime()+"-"+runplanTab.getEndTime());
       }
+      if(rmzvb.getRunplanId()==null){
+          rmzvb.setRunplanId(raido.getRunplanId());
+          rmzvb.setStationName(raido.getStationName());
+      }
 
     if(asrResBean.getAudibilityScore().length()>0)
     {
