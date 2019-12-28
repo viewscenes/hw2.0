@@ -33,7 +33,7 @@ public class RadioDataCleaningWorker {
                    String deleteDate = DateUtil.getDateString(minDate);
                    String nowDate = DateUtil.getDateString(startDate);
                    int day = DateUtil.getTimeIntervalDaysByDate(deleteDate, nowDate);
-                   if (day > 90) {
+                   if (day > 45) {
                        RadioStreamResultTab bean = new RadioStreamResultTab();
                        bean.setStartDatetime(DateUtil.getStartOfDay(minDate));
                        bean.setEndDatetime(DateUtil.getEndOfDay(minDate));

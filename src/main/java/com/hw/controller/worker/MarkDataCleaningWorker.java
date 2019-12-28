@@ -32,7 +32,7 @@ public class MarkDataCleaningWorker {
                    String deleteDate = DateUtil.getDateString(minDate);
                    String nowDate = DateUtil.getDateString(startDate);
                    int day = DateUtil.getTimeIntervalDaysByDate(deleteDate, nowDate);
-                   if (day > 90) {
+                   if (day > 45) {
                        RadioMarkZstViewTabQuery bean = new RadioMarkZstViewTabQuery();
                        bean.setMarkDatetimeBegin(DateUtil.getStartOfDay(minDate));
                        bean.setMarkDatetimeEnd(DateUtil.getEndOfDay(minDate));
