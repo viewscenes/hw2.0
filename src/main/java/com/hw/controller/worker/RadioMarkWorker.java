@@ -459,7 +459,7 @@ public class RadioMarkWorker {
 
     RadioMarkZstViewTab rmzvb = new RadioMarkZstViewTab();
 
-    rmzvb.setMarkUser("语音所");//用户为语音所
+    rmzvb.setMarkUser("自动");//用户为语音所
     rmzvb.setHeadCode(headendTab.getCode());
     rmzvb.setEquCode(raido.getEquCode());
     rmzvb.setFrequency(raido.getFrequency());

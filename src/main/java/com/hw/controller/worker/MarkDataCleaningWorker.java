@@ -24,7 +24,7 @@ public class MarkDataCleaningWorker {
      */
    @Scheduled(initialDelay = 10000,  fixedDelay = 30*60*1000)
     public void execute() {
-       if("on".equals(workerSwith)) {
+       //if("on".equals(workerSwith)) {
            try {
                Date minDate = radioMarkZstViewService.findMinRadioDate();
                Date startDate = new Date();
@@ -44,7 +44,7 @@ public class MarkDataCleaningWorker {
            } catch (Exception e) {
                log.error("清理打分数据失败！", e);
            }
-       }
+       //}
     }
 
 

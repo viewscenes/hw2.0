@@ -25,7 +25,7 @@ public class RadioDataCleaningWorker {
      */
    @Scheduled(initialDelay = 3000,  fixedDelay = 30*60*1000)
     public void execute() {
-       if("on".equals(workerSwith)) {
+       //if("on".equals(workerSwith)) {
            try {
                Date minDate = radioStreamResultService.findMinRadioDate();
                Date startDate = new Date();
@@ -45,7 +45,7 @@ public class RadioDataCleaningWorker {
            } catch (Exception e) {
                log.error("录音数据清理失败！", e);
            }
-       }
+       //}
     }
 
 
